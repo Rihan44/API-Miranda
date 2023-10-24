@@ -1,7 +1,7 @@
-import { UsersInterface } from "../interfaces/usersInterface";
-
-
-export const usersData: UsersInterface[] = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.usersData = void 0;
+exports.usersData = [
     {
         "id": "121dfeifnIF",
         "name": "John Smith",
@@ -122,4 +122,4 @@ export const usersData: UsersInterface[] = [
         "status": false,
         "password_hash": "s9t8u7v6w5x4y3z2"
     }
-]
+];

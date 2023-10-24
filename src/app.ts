@@ -1,13 +1,17 @@
+
 import express, {Express, Request, Response} from 'express';
-import 'dotenv/config';
+import cors from 'cors';
 
-const app: Express = express()
-const port = process.env.PORT;
+import { bookingsController } from './controllers/bookings';
 
-app.get('/', ( req: Request,res: Response) => {
-  res.send('Hello World!')
-})
+export const app: Express = express()
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+// middlewares
+app.use(cors())
+app.use(express.json())
+
+// public routes
+/* app.use('/login', loginController) */
+
+// private routes
+app.use('/bookings', bookingsController)

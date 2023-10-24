@@ -1,6 +1,7 @@
-import {IBookings} from '../models/Ibookings';
-
-export const bookingData: IBookings[]= [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.bookingData = void 0;
+exports.bookingData = [
     {
         "id": "1232CEFE",
         "guest": "John Smith",
@@ -131,4 +132,4 @@ export const bookingData: IBookings[]= [
         "status": "check_out",
         "price": "738.20"
     }
-]
+];
