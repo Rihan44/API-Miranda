@@ -45,9 +45,9 @@ bookingsController.put('/:id', async(req: Request, res: Response) => {
     }
 });
 
-bookingsController.delete('/:id', async(req: Request<{id: number}>, res: Response) => { 
+bookingsController.delete('/:id', async(req: Request, res: Response) => { 
     try {
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
         const result = await bookingService.delete(id);
         res.send(result);
     } catch(error) {

@@ -3,6 +3,7 @@ import express, {Express, Request, Response, NextFunction} from 'express';
 import cors from 'cors';
 
 import { bookingsController } from './controllers/bookings';
+import { roomController } from './controllers/rooms';
 
 export const app: Express = express()
 
@@ -16,7 +17,7 @@ app.use(express.json())
 // private routes
 app.use('/bookings', bookingsController);
 app.use('/users', bookingsController);
-app.use('/rooms', bookingsController);
+app.use('/rooms', roomController);
 app.use('/contact', bookingsController);
 
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

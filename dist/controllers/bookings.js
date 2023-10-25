@@ -55,7 +55,7 @@ exports.bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, v
 }));
 exports.bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
         const result = yield bookings_1.bookingService.delete(id);
         res.send(result);
     }
