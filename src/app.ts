@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import { bookingsController } from './controllers/bookings';
 import { roomController } from './controllers/rooms';
+import { contactController } from './controllers/contact';
 
 export const app: Express = express()
 
@@ -18,7 +19,7 @@ app.use(express.json())
 app.use('/bookings', bookingsController);
 app.use('/users', bookingsController);
 app.use('/rooms', roomController);
-app.use('/contact', bookingsController);
+app.use('/contact', contactController);
 
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     console.error(err);
