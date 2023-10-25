@@ -15,3 +15,10 @@ exports.app.use(express_1.default.json());
 /* app.use('/login', loginController) */
 // private routes
 exports.app.use('/bookings', bookings_1.bookingsController);
+exports.app.use('/users', bookings_1.bookingsController);
+exports.app.use('/rooms', bookings_1.bookingsController);
+exports.app.use('/contact', bookings_1.bookingsController);
+exports.app.use((err, _req, res, _next) => {
+    console.error(err);
+    return res.status(500).json({ error: true, message: 'Application error' });
+});

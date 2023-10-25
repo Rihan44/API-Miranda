@@ -15,21 +15,29 @@ exports.bookings = bookingData_1.bookingData;
 function getAllBookings() {
     return __awaiter(this, void 0, void 0, function* () {
         const result = yield exports.bookings;
-        return exports.bookings;
+        return result;
     });
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield exports.bookings.filter(data => data.id === id.toString());
+        const booking = yield exports.bookings.find(data => data.id === id.toString());
         return booking;
     });
 }
-function post(booking) {
+function createBooking(booking) {
     return __awaiter(this, void 0, void 0, function* () {
+        yield exports.bookings.push(booking);
+        return exports.bookings;
     });
 }
-function put(id, updateData) {
+function updateBooking(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
+        exports.bookings.map((data) => {
+            if (data.id == id.toString()) {
+                return Object.assign(Object.assign({}, data), updateData);
+            }
+            return data;
+        });
     });
 }
 function _delete(id) {
@@ -41,7 +49,7 @@ function _delete(id) {
 exports.bookingService = {
     getAllBookings,
     getById,
-    post,
-    put,
+    createBooking,
+    updateBooking,
     delete: _delete,
 };

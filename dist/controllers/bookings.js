@@ -14,29 +14,44 @@ const express_1 = require("express");
 const bookingData_1 = require("../data/bookingData");
 const bookings_1 = require("../services/bookings");
 exports.bookingsController = (0, express_1.Router)();
-exports.bookingsController.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send(bookingData_1.bookingData);
     try {
         const result = bookings_1.bookingService.getAllBookings();
-        res.send(result);
+        res.json(result);
     }
     catch (error) {
-        res.status(500).send(`Error ${error}`);
+        res.status(500).send(`Error al recoger todos los bookings ${error}`);
     }
 }));
 exports.bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
         const result = yield bookings_1.bookingService.getById(id);
-        res.send(result);
+        res.json(result);
     }
     catch (error) {
-        res.status(500).send(`Error ${error}`);
+        res.status(500).send(`Error al recoger un booking ${error}`);
+    }
+}));
+exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const bookingCreate = req.body;
+        const result = yield bookings_1.bookingService.createBooking(bookingCreate);
+        res.json(result);
+    }
+    catch (error) {
     }
 }));
 exports.bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200);
-    /* res.status(se ha actualizado) */
+    try {
+        const booking = yield bookings_1.bookingService.getById(parseInt(req.params.id));
+        yield bookings_1.bookingService.updateBooking(parseInt(req.params.id), req.body);
+        res.json(booking);
+    }
+    catch (error) {
+        res.status(500).send(`Error al actualizar el booking ${error}`);
+    }
 }));
 exports.bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -45,6 +60,6 @@ exports.bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0
         res.send(result);
     }
     catch (error) {
-        res.status(500).send(`Error ${error}`);
+        res.status(500).send(`Error al borrar el booking ${error}`);
     }
 }));

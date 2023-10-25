@@ -1,33 +1,48 @@
 import {Router, Request, Response} from 'express';
 import { bookingData } from '../data/bookingData';
-import { IBookings } from '../models/Ibookings';
 import { bookingService } from '../services/bookings';
+import { IBookings } from '../models/Ibookings';
 
 export const bookingsController = Router();
 
-bookingsController.get('/', async(req: Request, res: Response) => {
+bookingsController.get('/', async(_req: Request, res: Response) => {
     res.send(bookingData)
     try {
         const result = bookingService.getAllBookings();
-        res.send(result);
+        res.json(result);
     } catch(error) {
-        res.status(500).send(`Error ${error}`)
+        res.status(500).send(`Error al recoger todos los bookings ${error}`)
     }
 });
 
-bookingsController.get('/:id', async(req: Request<{id: number}>, res: Response) => {
+bookingsController.get('/:id', async(req: Request, res: Response) => {
     try{
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
         const result =  await bookingService.getById(id);
-        res.send(result);
+        res.json(result);
     } catch(error) {
-        res.status(500).send(`Error ${error}`)
+        res.status(500).send(`Error al recoger un booking ${error}`)
     }   
 });
 
+bookingsController.post('/', async(req: Request, res: Response) => {
+    try {
+        const bookingCreate: IBookings = req.body;
+        const result = await bookingService.createBooking(bookingCreate);
+        res.json(result)
+    } catch (error) {
+        
+    }
+});
+
 bookingsController.put('/:id', async(req: Request, res: Response) => {
-    res.status(200);
-    /* res.status(se ha actualizado) */
+    try {
+        const booking = await bookingService.getById(parseInt(req.params.id));
+        await bookingService.updateBooking(parseInt(req.params.id), req.body);
+        res.json(booking);
+    } catch (error) {
+        res.status(500).send(`Error al actualizar el booking ${error}`)
+    }
 });
 
 bookingsController.delete('/:id', async(req: Request<{id: number}>, res: Response) => { 
@@ -36,7 +51,7 @@ bookingsController.delete('/:id', async(req: Request<{id: number}>, res: Respons
         const result = await bookingService.delete(id);
         res.send(result);
     } catch(error) {
-        res.status(500).send(`Error ${error}`)
+        res.status(500).send(`Error al borrar el booking ${error}`)
     }
 });
 

@@ -5,20 +5,29 @@ export const bookings = bookingData as IBookings[];
 
 async function getAllBookings() {
     const result = await bookings;
-    return bookings;
+    return result;
 }
 
 async function getById(id: number) {
-    const booking = await bookings.filter(data => data.id === id.toString());
+    const booking = await bookings.find(data => data.id === id.toString());
     return booking;
 }
 
-async function post(booking: IBookings) {
-
+async function createBooking(booking: IBookings) {
+    await bookings.push(booking);
+    return bookings;
 }
 
-async function put(id: number, updateData: Partial<IBookings>) {
-
+async function updateBooking(id: number, updateData: Partial<IBookings>) {
+    bookings.map((data) => {
+        if (data.id == id.toString()) {
+            return {
+                ...data,
+                ...updateData
+            }
+        }
+        return data;
+    })
 }
 
 async function _delete(id: number) {
@@ -29,7 +38,7 @@ async function _delete(id: number) {
 export const bookingService = {
     getAllBookings,
     getById,
-    post,
-    put,
+    createBooking,
+    updateBooking,
     delete: _delete,
 };
