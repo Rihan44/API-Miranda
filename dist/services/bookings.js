@@ -21,6 +21,8 @@ function getAllBookings() {
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const booking = yield exports.bookings.find(data => data.id === id.toString());
+        if (booking === undefined)
+            throw new Error('El id no existe');
         return booking;
     });
 }

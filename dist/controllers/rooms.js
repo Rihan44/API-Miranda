@@ -26,7 +26,7 @@ exports.roomController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0,
 }));
 exports.roomController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const result = yield rooms_1.roomsService.getById(id);
         res.json(result);
     }
@@ -56,7 +56,7 @@ exports.roomController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 
 }));
 exports.roomController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const result = yield rooms_1.roomsService.delete(id);
         res.send(result);
     }

@@ -10,6 +10,7 @@ async function getAllBookings() {
 
 async function getById(id: number) {
     const booking = await bookings.find(data => data.id === id.toString());
+	if (booking === undefined) throw new Error('El id no existe')
     return booking;
 }
 

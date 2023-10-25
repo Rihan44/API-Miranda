@@ -21,6 +21,8 @@ function getAllRooms() {
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const room = yield exports.rooms.find(data => data.id === id.toString());
+        if (room === undefined)
+            throw new Error('El id no existe');
         return room;
     });
 }

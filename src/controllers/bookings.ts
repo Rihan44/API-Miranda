@@ -15,9 +15,10 @@ bookingsController.get('/', async(_req: Request, res: Response) => {
     }
 });
 
-bookingsController.get('/:id', async(req: Request, res: Response) => {
+bookingsController.get('/:id', async(req: Request<{id: number}>, res: Response) => {
     try{
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
+        console.log(id)
         const result =  await bookingService.getById(id);
         res.json(result);
     } catch(error) {
@@ -45,9 +46,9 @@ bookingsController.put('/:id', async(req: Request, res: Response) => {
     }
 });
 
-bookingsController.delete('/:id', async(req: Request, res: Response) => { 
+bookingsController.delete('/:id', async(req: Request<{id: number}>, res: Response) => { 
     try {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const result = await bookingService.delete(id);
         res.send(result);
     } catch(error) {

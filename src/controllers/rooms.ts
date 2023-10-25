@@ -15,9 +15,9 @@ roomController.get('/', async(_req: Request, res: Response) => {
     }
 });
 
-roomController.get('/:id', async(req: Request, res: Response) => {
+roomController.get('/:id', async(req: Request<{id: number}>, res: Response) => {
     try{
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const result =  await roomsService.getById(id);
         res.json(result);
     } catch(error) {
@@ -45,9 +45,9 @@ roomController.put('/:id', async(req: Request, res: Response) => {
     }
 });
 
-roomController.delete('/:id', async(req: Request, res: Response) => { 
+roomController.delete('/:id', async(req: Request<{id: number}>, res: Response) => { 
     try {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const result = await roomsService.delete(id);
         res.send(result);
     } catch(error) {

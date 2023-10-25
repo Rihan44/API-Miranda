@@ -10,6 +10,7 @@ async function getAllRooms() {
 
 async function getById(id: number) {
     const room = await rooms.find(data => data.id === id.toString());
+	if (room === undefined) throw new Error('El id no existe')
     return room;
 }
 
