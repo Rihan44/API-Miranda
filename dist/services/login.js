@@ -34,7 +34,7 @@ function signJWT(payload) {
     return { payload, token };
 }
 function verifyJWT(token) {
-    const tokenVerify = jsonwebtoken_1.default.verify(token, secret_key, (err, token) => {
+    jsonwebtoken_1.default.verify(token, secret_key, (err, token) => {
         if (err)
             throw new Error(`El token no es el mismo, espabila`);
         return token;

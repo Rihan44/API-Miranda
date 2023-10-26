@@ -20,7 +20,7 @@ function signJWT(payload: { user: string }) {
     return {payload, token};
 }
 function verifyJWT(token: string) {
-    const tokenVerify = jwt.verify(token, secret_key, (err, token) => {
+    jwt.verify(token, secret_key, (err, token) => {
         if(err) 
             throw new Error(`El token no es el mismo, espabila`);
         return token;
