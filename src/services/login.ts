@@ -1,21 +1,29 @@
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
+
 const defaultUser = {
-    user: "admin",
-    password: "admin",
+    user: "asmuela.dev@gmail.com",
+    password: "12345",
 };
 
+const secret_key: string = process.env.SECRET_KEY || '';
+
 async function login(user: string, pass: string) {
-    // Check if the user and password are correct
+    if(user === defaultUser.user && pass === defaultUser.password)
+        signJWT({user})
+    throw new Error('Error al logear');
 }
 
-function signJWT(payload: { userId: number }) {
-    // Sign the jwt token
+function signJWT(payload: { user: string }) {
+    const token = jwt.sign(payload, secret_key, {expiresIn: '1h'});
+    return token;
 }
 
 function verifyJWT(token: string) {
     // Verify the jwt token
 }
 
-const authService = {
+export const authService = {
     login,
     signJWT,
     verifyJWT,

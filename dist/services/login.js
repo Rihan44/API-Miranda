@@ -8,25 +8,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const defaultUser = {
-    user: "admin",
-    password: "admin",
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.authService = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+require("dotenv/config");
+const defaultUser = {
+    user: "asmuela.dev@gmail.com",
+    password: "12345",
+};
+const secret_key = process.env.SECRET_KEY || '';
 function login(user, pass) {
     return __awaiter(this, void 0, void 0, function* () {
-        // Check if the user and password are correct
+        if (user === defaultUser.user && pass === defaultUser.password)
+            signJWT({ user });
+        throw new Error('Error al logear');
     });
 }
 function signJWT(payload) {
-    // Sign the jwt token
+    const token = jsonwebtoken_1.default.sign(payload, secret_key, { expiresIn: '1h' });
+    return token;
 }
 function verifyJWT(token) {
     // Verify the jwt token
 }
-const authService = {
+exports.authService = {
     login,
     signJWT,
     verifyJWT,
 };
-exports.default = authService;
+exports.default = exports.authService;
