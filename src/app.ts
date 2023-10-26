@@ -1,5 +1,6 @@
 
 import express, {Express, Request, Response, NextFunction} from 'express';
+import authMiddleware from './middlewares/auth';
 import cors from 'cors';
 
 import { bookingsController } from './controllers/bookings';
@@ -7,7 +8,8 @@ import { roomController } from './controllers/rooms';
 import { contactController } from './controllers/contact';
 import { usersController } from './controllers/users';
 import { loginController } from './controllers/login';
-import authMiddleware from './middlewares/auth';
+
+import publicJSON from './data/public.json';
 
 export const app: Express = express();
 
@@ -16,6 +18,7 @@ app.use(cors())
 app.use(express.json())
 
 // public routes
+app.use('/public', (_req: Request, res: Response) =>res.send(publicJSON));
 app.use('/login', loginController)
 app.use(authMiddleware);
 

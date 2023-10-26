@@ -1,0 +1,79 @@
+{
+    "hotelName": "Miranda",
+    "endsPoints": {
+        "public": {
+            "GET": "/public",
+            "POST": "/login"
+        },
+        "private": {
+            "/bookings" : {
+                "methods": {
+                    "GET": [
+                        "/",
+                        "/:id"
+                    ],
+                    "POST": [
+                        "/"
+                    ],
+                    "PUT": [
+                        "/:id"
+                    ],
+                    "DELETE": [
+                        "/:id"
+                    ]
+                }
+            },
+            "/rooms": {
+                "methods": {
+                    "GET": [
+                        "/",
+                        "/:id"
+                    ],
+                    "POST": [
+                        "/"
+                    ],
+                    "PUT": [
+                        "/:id"
+                    ],
+                    "DELETE": [
+                        "/:id"
+                    ]
+                }
+            },
+            "/contacts": {
+            "methods": {
+                "GET": [
+                    "/",
+                    "/:id"
+                ],
+                "POST": [
+                    "/"
+                ],
+                "PUT": [
+                    "/:id"
+                ],
+                "DELETE": [
+                    "/:id"
+                ]
+            }
+        },
+            "/users": {
+                "methods": {
+                    "GET": [
+                        "/",
+                        "/:id"
+                    ],
+                    "POST": [
+                        "/"
+                    ],
+                    "PUT": [
+                        "/:id"
+                    ],
+                    "DELETE": [
+                        "/:id"
+                    ]
+                }
+            }
+        }
+    }
+}
