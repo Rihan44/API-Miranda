@@ -16,27 +16,33 @@ exports.authService = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
 const defaultUser = {
-    user: "asmuela.dev@gmail.com",
+    user: "ASdev",
     password: "12345",
 };
 const secret_key = process.env.SECRET_KEY || '';
-function login(user, pass) {
+function login(user, password) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (user === defaultUser.user && pass === defaultUser.password)
-            signJWT({ user });
+        if (user === defaultUser.user && password === defaultUser.password) {
+            const result = yield signJWT({ user });
+            return result;
+        }
         throw new Error('Error al logear');
     });
 }
 function signJWT(payload) {
     const token = jsonwebtoken_1.default.sign(payload, secret_key, { expiresIn: '1h' });
-    return token;
+    return { payload, token };
 }
 function verifyJWT(token) {
-    // Verify the jwt token
+    const tokenVerify = jsonwebtoken_1.default.verify(token, secret_key, (err, token) => {
+        if (err)
+            throw new Error(`El token no es el mismo, espabila`);
+        return token;
+    });
 }
 exports.authService = {
     login,
     signJWT,
-    verifyJWT,
+    verifyJWT
 };
 exports.default = exports.authService;

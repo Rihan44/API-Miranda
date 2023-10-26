@@ -10,12 +10,15 @@ const bookings_1 = require("./controllers/bookings");
 const rooms_1 = require("./controllers/rooms");
 const contact_1 = require("./controllers/contact");
 const users_1 = require("./controllers/users");
+const login_1 = require("./controllers/login");
+const auth_1 = __importDefault(require("./middlewares/auth"));
 exports.app = (0, express_1.default)();
 // middlewares
 exports.app.use((0, cors_1.default)());
 exports.app.use(express_1.default.json());
 // public routes
-/* app.use('/login', loginController) */
+exports.app.use('/login', login_1.loginController);
+exports.app.use(auth_1.default);
 // private routes
 exports.app.use('/bookings', bookings_1.bookingsController);
 exports.app.use('/users', users_1.usersController);

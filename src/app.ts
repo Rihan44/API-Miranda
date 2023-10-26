@@ -6,15 +6,18 @@ import { bookingsController } from './controllers/bookings';
 import { roomController } from './controllers/rooms';
 import { contactController } from './controllers/contact';
 import { usersController } from './controllers/users';
+import { loginController } from './controllers/login';
+import authMiddleware from './middlewares/auth';
 
-export const app: Express = express()
+export const app: Express = express();
 
 // middlewares
 app.use(cors())
 app.use(express.json())
 
 // public routes
-/* app.use('/login', loginController) */
+app.use('/login', loginController)
+app.use(authMiddleware);
 
 // private routes
 app.use('/bookings', bookingsController);
