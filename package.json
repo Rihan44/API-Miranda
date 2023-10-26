@@ -1,12 +1,19 @@
 {
-  "name": "nodeapi-miranda",
+  "name": "nodeApi-miranda",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "jest", 
     "start": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
-    "build": "rimraf dist && tsc"
+    "build": "rimraf dist && tsc",
+    "deploy": "npm run build && serverless deploy --force"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -22,8 +29,7 @@
     "nodemon": "^3.0.1",
     "rimraf": "^5.0.5",
     "serverless": "^3.36.0",
-    "serverless-http": "^3.2.0",
-    "typescript": "^5.2.2"
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.15",
@@ -31,6 +37,12 @@
     "@types/jest": "^29.5.6",
     "@types/jsonwebtoken": "^9.0.4",
     "@types/mocha": "^10.0.3",
-    "@types/node": "^20.8.8"
+    "@types/node": "^20.8.8",
+    "@types/supertest": "^2.0.15",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "typescript": "^5.2.2",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1"
   }
 }
