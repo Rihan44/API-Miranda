@@ -27,7 +27,6 @@ exports.bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, voi
 exports.bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
-        console.log(id);
         const result = yield bookings_1.bookingService.getById(id);
         res.json(result);
     }

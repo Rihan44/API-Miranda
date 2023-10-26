@@ -18,7 +18,6 @@ bookingsController.get('/', async(_req: Request, res: Response) => {
 bookingsController.get('/:id', async(req: Request<{id: number}>, res: Response) => {
     try{
         const id = req.params.id;
-        console.log(id)
         const result =  await bookingService.getById(id);
         res.json(result);
     } catch(error) {
