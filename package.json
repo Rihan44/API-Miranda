@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage --verbose",
     "start": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
     "build": "rimraf dist && tsc",
     "deploy": "npm run build && serverless deploy --force"

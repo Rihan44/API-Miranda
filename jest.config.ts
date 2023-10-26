@@ -1,5 +1,10 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
 	preset: 'ts-jest',
-	testEnvironment: 'node'
+	testEnvironment: 'node',
+	coveragePathIgnorePatterns: [
+		"/node_modules/",
+		"/dist/"
+	  ],
+	  testPathIgnorePatterns: ['/node_modules/', '/dist/tests']
 }
