@@ -8,6 +8,6 @@ export default function authMiddleware(req: Request & {headers: Partial<IRequest
     authService.verifyJWT(token);
     next();
   } catch (error) {
-    res.status(500).send(`${error}`)
+    res.status(404).json(`${error}`)
   }
 }

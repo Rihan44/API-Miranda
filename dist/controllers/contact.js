@@ -11,13 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactController = void 0;
 const express_1 = require("express");
-const contactData_1 = require("../data/contactData");
 const contact_1 = require("../services/contact");
 exports.contactController = (0, express_1.Router)();
 exports.contactController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send(contactData_1.contactData);
     try {
-        const result = contact_1.contactService.getAllContact();
+        const result = yield contact_1.contactService.getAllContact();
         res.json(result);
     }
     catch (error) {

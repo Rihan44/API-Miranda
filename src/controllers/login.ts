@@ -11,7 +11,7 @@ loginController.post('/',async(req: Request<{ user: string; password: string }>,
       const loged = await authService.login(user, password);
       res.json(loged);
     } catch (error) {
-      res.status(500).send(`${error}`)
+      res.status(500).json(`${error}`)
     }
   }
 );

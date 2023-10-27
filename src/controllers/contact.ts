@@ -1,14 +1,12 @@
 import {Router, Request, Response} from 'express';
-import { contactData } from '../data/contactData';
 import { contactService } from '../services/contact';
 import { IContact } from '../models/Icontact';
 
 export const contactController = Router();
 
 contactController.get('/', async(_req: Request, res: Response) => {
-    res.send(contactData)
     try {
-        const result = contactService.getAllContact();
+        const result = await contactService.getAllContact();
         res.json(result);
     } catch(error) {
         res.status(500).send(`Error al recoger todas los contact message ${error}`)

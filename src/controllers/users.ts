@@ -1,14 +1,12 @@
 import {Router, Request, Response} from 'express';
-import { usersData } from '../data/usersData';
 import { IUsers } from '../models/Iusers';
 import { usersServices } from '../services/users';
 
 export const usersController = Router();
 
 usersController.get('/', async(_req: Request, res: Response) => {
-    res.send(usersData)
     try {
-        const result = usersServices.getAllUsers();
+        const result = await usersServices.getAllUsers();
         res.json(result);
     } catch(error) {
         res.status(500).send(`Error al recoger todos los users ${error}`)

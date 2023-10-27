@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.68% </span>
+                <span class="strong">61.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/38</span>
+                <span class='fraction'>22/36</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>6/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.27% </span>
+                <span class="strong">61.29% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/33</span>
+                <span class='fraction'>19/31</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -118,40 +118,36 @@
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -178,37 +174,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {Router, Request, Response} from 'express';
-import { bookingData } from '../data/bookingData';
 import { bookingService } from '../services/bookings';
 import { IBookings } from '../models/Ibookings';
 &nbsp;
 export const bookingsController = Router();
 &nbsp;
-bookingsController.get('/', <span class="fstat-no" title="function not covered" >async(_</span>req: Request, res: Response) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-<span class="cstat-no" title="statement not covered" >    res.send(bookingData)</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-        const result = <span class="cstat-no" title="statement not covered" >bookingService.getAllBookings();</span>
-<span class="cstat-no" title="statement not covered" >        res.json(result);</span>
+bookingsController.get('/', async(_req: Request, res: Response) =&gt; {
+    try {
+        const result = await bookingService.getAllBookings();
+        res.json(result);
     } catch(error) {
-<span class="cstat-no" title="statement not covered" >        res.status(500).send(`Error al recoger todos los bookings ${error}`)</span>
+<span class="cstat-no" title="statement not covered" >        res.status(500).json(`Error al recoger todos los bookings ${error}`)</span>
     }
 });
 &nbsp;
-bookingsController.get('/:id', <span class="fstat-no" title="function not covered" >async(r</span>eq: Request&lt;{id: number}&gt;, res: Response) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-<span class="cstat-no" title="statement not covered" >    try{</span>
-        const id = <span class="cstat-no" title="statement not covered" >req.params.id;</span>
-        const result =  <span class="cstat-no" title="statement not covered" >await bookingService.getById(id);</span>
-<span class="cstat-no" title="statement not covered" >        res.json(result);</span>
+bookingsController.get('/:id', async(req: Request&lt;{id: number}&gt;, res: Response) =&gt; {
+    try{
+        const id = req.params.id;
+        const result =  await bookingService.getById(id);
+        res.json(result);
     } catch(error) {
-<span class="cstat-no" title="statement not covered" >        res.status(500).send(`Error al recoger un booking ${error}`)</span>
+<span class="cstat-no" title="statement not covered" >        res.status(500).json(`Error al recoger un booking ${error}`)</span>
     }   
 });
 &nbsp;
-bookingsController.post('/', <span class="fstat-no" title="function not covered" >async(r</span>eq: Request, res: Response) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-        const bookingCreate: IBookings = <span class="cstat-no" title="statement not covered" >req.body;</span>
-        const result = <span class="cstat-no" title="statement not covered" >await bookingService.createBooking(bookingCreate);</span>
-<span class="cstat-no" title="statement not covered" >        res.json(result)</span>
+bookingsController.post('/', async(req: Request, res: Response) =&gt; {
+    try {
+        const bookingCreate: IBookings = req.body;
+        const result = await bookingService.createBooking(bookingCreate);
+        res.json(result)
     } catch (error) {
         
     }
@@ -220,7 +214,7 @@ bookingsController.put('/:id', <span class="fstat-no" title="function not covere
 <span class="cstat-no" title="statement not covered" >        await bookingService.updateBooking(parseInt(req.params.id), req.body);</span>
 <span class="cstat-no" title="statement not covered" >        res.json(booking);</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >        res.status(500).send(`Error al actualizar el booking ${error}`)</span>
+<span class="cstat-no" title="statement not covered" >        res.status(500).json(`Error al actualizar el booking ${error}`)</span>
     }
 });
 &nbsp;
@@ -228,9 +222,9 @@ bookingsController.delete('/:id', <span class="fstat-no" title="function not cov
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const id = <span class="cstat-no" title="statement not covered" >req.params.id;</span>
         const result = <span class="cstat-no" title="statement not covered" >await bookingService.delete(id);</span>
-<span class="cstat-no" title="statement not covered" >        res.send(result);</span>
+<span class="cstat-no" title="statement not covered" >        res.json(result);</span>
     } catch(error) {
-<span class="cstat-no" title="statement not covered" >        res.status(500).send(`Error al borrar el booking ${error}`)</span>
+<span class="cstat-no" title="statement not covered" >        res.status(500).json(`Error al borrar el booking ${error}`)</span>
     }
 });
 &nbsp;
@@ -241,7 +235,7 @@ bookingsController.delete('/:id', <span class="fstat-no" title="function not cov
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-26T15:57:08.416Z
+                at 2023-10-26T18:15:34.414Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

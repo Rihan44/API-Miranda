@@ -1,14 +1,12 @@
 import {Router, Request, Response} from 'express';
 import { roomsService } from '../services/rooms';
 import { IRooms } from '../models/Irooms';
-import { roomsData } from '../data/roomsData';
 
 export const roomController = Router();
 
 roomController.get('/', async(_req: Request, res: Response) => {
-    res.send(roomsData)
     try {
-        const result = roomsService.getAllRooms();
+        const result = await roomsService.getAllRooms();
         res.json(result);
     } catch(error) {
         res.status(500).send(`Error al recoger todas las rooms ${error}`)

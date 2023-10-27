@@ -12,12 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.roomController = void 0;
 const express_1 = require("express");
 const rooms_1 = require("../services/rooms");
-const roomsData_1 = require("../data/roomsData");
 exports.roomController = (0, express_1.Router)();
 exports.roomController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send(roomsData_1.roomsData);
     try {
-        const result = rooms_1.roomsService.getAllRooms();
+        const result = yield rooms_1.roomsService.getAllRooms();
         res.json(result);
     }
     catch (error) {
