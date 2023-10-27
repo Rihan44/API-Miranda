@@ -28,24 +28,21 @@ function getById(id) {
 }
 function createContact(contact) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield exports.contacts.push(contact);
-        return exports.contacts;
+        return contact;
     });
 }
 function updateContact(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
-        exports.contacts.map((data) => {
-            if (data.id == id.toString()) {
-                return Object.assign(Object.assign({}, data), updateData);
-            }
-            return data;
-        });
+        if (!id)
+            throw new Error('No existe el id');
+        return updateData;
     });
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const contactUpdated = yield exports.contacts.filter(data => data.id !== id.toString());
-        return contactUpdated;
+        if (!id)
+            throw new Error('No existe el id');
+        return 'Contact eliminado';
     });
 }
 exports.contactService = {

@@ -13,52 +13,51 @@ exports.contactController = void 0;
 const express_1 = require("express");
 const contact_1 = require("../services/contact");
 exports.contactController = (0, express_1.Router)();
-exports.contactController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.contactController.get('/', (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield contact_1.contactService.getAllContact();
-        res.json(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al recoger todas los contact message ${error}`);
+        next(error);
     }
 }));
-exports.contactController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.contactController.get('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
         const result = yield contact_1.contactService.getById(id);
-        res.json(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al recoger un contact message ${error}`);
+        next(error);
     }
 }));
-exports.contactController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.contactController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const createdContact = req.body;
         const result = yield contact_1.contactService.createContact(createdContact);
-        res.json(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al crear un contact message ${error}`);
+        next(error);
     }
 }));
-exports.contactController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.contactController.put('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const contact = yield contact_1.contactService.getById(parseInt(req.params.id));
-        yield contact_1.contactService.updateContact(parseInt(req.params.id), req.body);
-        res.json(contact);
+        const contactUpdated = yield contact_1.contactService.updateContact(req.params.id, req.body);
+        res.json({ contactUpdated, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al actualizar un contact message ${error}`);
+        next(error);
     }
 }));
-exports.contactController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.contactController.delete('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
         const result = yield contact_1.contactService.delete(id);
-        res.json(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al borrar el contact message ${error}`);
+        next(error);
     }
 }));

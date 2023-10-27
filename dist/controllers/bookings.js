@@ -44,7 +44,6 @@ exports.bookingsController.post('/', (req, res, next) => __awaiter(void 0, void 
 }));
 exports.bookingsController.put('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        /* const booking = await bookingService.getById(req.params.id); */
         const bookingUpdated = yield bookings_1.bookingService.updateBooking(req.params.id, req.body);
         res.json({ bookingUpdated, success: true });
     }

@@ -44,7 +44,6 @@ exports.roomController.post('/', (req, res, next) => __awaiter(void 0, void 0, v
 }));
 exports.roomController.put('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        /* const room = await roomsService.getById(parseInt(req.params.id)); */
         const roomUpdated = yield rooms_1.roomsService.updateRoom(req.params.id, req.body);
         res.json({ roomUpdated, success: true });
     }

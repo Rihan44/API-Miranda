@@ -1,9 +1,9 @@
 import authService from "../services/login";
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 
 export const loginController = Router();
 
-loginController.post('/',async(req: Request<{ user: string; password: string }>, res: Response) => {
+loginController.post('/',async(req: Request, res: Response, next: NextFunction) => {
     try {
       const user: string = req.body.user;
       const password: string = req.body.password;
@@ -11,7 +11,7 @@ loginController.post('/',async(req: Request<{ user: string; password: string }>,
       const loged = await authService.login(user, password);
       res.json(loged);
     } catch (error) {
-      res.status(500).json(`${error}`)
+      next(error)
     }
   }
 );

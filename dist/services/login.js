@@ -34,11 +34,6 @@ function signJWT(payload) {
     return { payload, token };
 }
 function verifyJWT(token) {
-    /* jwt.verify(token, secret_key, (err, token) => {
-        if(err)
-            throw new Error('El token no es el mismo, espabila');
-        return token;
-    }) */
     const payload = jsonwebtoken_1.default.verify(token, secret_key);
     return payload;
 }

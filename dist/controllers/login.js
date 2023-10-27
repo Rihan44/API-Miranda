@@ -16,7 +16,7 @@ exports.loginController = void 0;
 const login_1 = __importDefault(require("../services/login"));
 const express_1 = require("express");
 exports.loginController = (0, express_1.Router)();
-exports.loginController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.loginController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = req.body.user;
         const password = req.body.password;
@@ -24,6 +24,6 @@ exports.loginController.post('/', (req, res) => __awaiter(void 0, void 0, void 0
         res.json(loged);
     }
     catch (error) {
-        res.status(500).json(`${error}`);
+        next(error);
     }
 }));

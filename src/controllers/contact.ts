@@ -1,55 +1,54 @@
-import {Router, Request, Response} from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
 import { contactService } from '../services/contact';
 import { IContact } from '../models/Icontact';
 
 export const contactController = Router();
 
-contactController.get('/', async(_req: Request, res: Response) => {
+contactController.get('/', async(_req: Request, res: Response, next: NextFunction) => {
     try {
         const result = await contactService.getAllContact();
-        res.json(result);
+        res.json({result, success: true});
     } catch(error) {
-        res.status(500).send(`Error al recoger todas los contact message ${error}`)
+        next(error);
     }
 });
 
-contactController.get('/:id', async(req: Request<{id: number}>, res: Response) => {
+contactController.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try{
         const id = req.params.id;
         const result =  await contactService.getById(id);
-        res.json(result);
+        res.json({result, success: true});
     } catch(error) {
-        res.status(500).send(`Error al recoger un contact message ${error}`)
+        next(error);
     }   
 });
 
-contactController.post('/', async(req: Request, res: Response) => {
+contactController.post('/', async(req: Request, res: Response, next: NextFunction) => {
     try {
         const createdContact: IContact = req.body;
         const result = await contactService.createContact(createdContact);
-        res.json(result)
+        res.json({result, success: true})
     } catch (error) {
-        res.status(500).send(`Error al crear un contact message ${error}`)
+        next(error);
     }
 });
 
-contactController.put('/:id', async(req: Request, res: Response) => {
+contactController.put('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const contact = await contactService.getById(parseInt(req.params.id));
-        await contactService.updateContact(parseInt(req.params.id), req.body);
-        res.json(contact);
+        const contactUpdated = await contactService.updateContact(req.params.id, req.body);
+        res.json({contactUpdated, success: true});
     } catch (error) {
-        res.status(500).send(`Error al actualizar un contact message ${error}`)
+        next(error);
     }
 });
 
-contactController.delete('/:id', async(req: Request<{id: number}>, res: Response) => { 
+contactController.delete('/:id', async(req: Request, res: Response, next: NextFunction) => { 
     try {
         const id = req.params.id;
         const result = await contactService.delete(id);
-        res.json(result);
+        res.json({result, success: true});
     } catch(error) {
-        res.status(500).send(`Error al borrar el contact message ${error}`)
+        next(error);
     }
 });
 

@@ -35,7 +35,6 @@ bookingsController.post('/', async(req: Request, res: Response, next: NextFuncti
 
 bookingsController.put('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        /* const booking = await bookingService.getById(req.params.id); */
         const bookingUpdated = await bookingService.updateBooking(req.params.id, req.body);
         res.json({bookingUpdated, success: true});
     } catch (error) {

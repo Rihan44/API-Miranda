@@ -15,7 +15,6 @@ async function getById(id: string) {
 }
 
 async function createRoom(room: IRooms) {
-    await rooms.push(room);
     return rooms;
 }
 

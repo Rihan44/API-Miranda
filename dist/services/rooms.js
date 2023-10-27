@@ -28,7 +28,6 @@ function getById(id) {
 }
 function createRoom(room) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield exports.rooms.push(room);
         return exports.rooms;
     });
 }

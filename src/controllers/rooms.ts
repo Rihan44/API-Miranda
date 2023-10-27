@@ -35,7 +35,6 @@ roomController.post('/', async(req: Request, res: Response, next: NextFunction) 
 
 roomController.put('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        /* const room = await roomsService.getById(parseInt(req.params.id)); */
         const roomUpdated = await roomsService.updateRoom(req.params.id, req.body);
         res.json({roomUpdated, success: true});
     } catch (error) {
