@@ -28,7 +28,7 @@ function getById(id) {
 }
 function createRoom(room) {
     return __awaiter(this, void 0, void 0, function* () {
-        return exports.rooms;
+        return room;
     });
 }
 function updateRoom(id, updateData) {
