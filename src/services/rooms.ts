@@ -15,7 +15,7 @@ async function getById(id: string) {
 }
 
 async function createRoom(room: IRooms) {
-    return rooms;
+    return room;
 }
 
 async function updateRoom(id: string, updateData: Partial<IRooms>) {
