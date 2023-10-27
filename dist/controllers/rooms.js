@@ -55,7 +55,7 @@ exports.roomController.delete('/:id', (req, res, next) => __awaiter(void 0, void
     try {
         const id = req.params.id;
         const result = yield rooms_1.roomsService.delete(id);
-        res.send({ result, success: true });
+        res.json({ result, success: true });
     }
     catch (error) {
         next(error);

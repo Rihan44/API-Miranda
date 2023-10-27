@@ -28,24 +28,21 @@ function getById(id) {
 }
 function createUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield usersData_1.usersData.push(user);
-        return usersData_1.usersData;
+        return user;
     });
 }
 function updateUser(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
-        usersData_1.usersData.map((data) => {
-            if (data.id == id.toString()) {
-                return Object.assign(Object.assign({}, data), updateData);
-            }
-            return data;
-        });
+        if (!id)
+            throw new Error('No existe el id');
+        return updateData;
     });
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const userUpdated = yield usersData_1.usersData.filter(data => data.id !== id.toString());
-        return userUpdated;
+        if (!id)
+            throw new Error('No existe el id');
+        return 'User eliminado';
     });
 }
 exports.usersServices = {

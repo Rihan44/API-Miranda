@@ -46,7 +46,7 @@ roomController.delete('/:id', async(req: Request, res: Response, next: NextFunct
     try {
         const id = req.params.id;
         const result = await roomsService.delete(id);
-        res.send({result, success: true});
+        res.json({result, success: true});
     } catch(error) {
         next(error);
     }

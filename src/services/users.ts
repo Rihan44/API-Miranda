@@ -8,32 +8,24 @@ async function getAllUsers() {
     return result;
 }
 
-async function getById(id: number) {
+async function getById(id: string) {
     const user = await usersData.find(data => data.id === id.toString());
 	if (user === undefined) throw new Error('El id no existe')
     return user;
 }
 
 async function createUser(user: IUsers) {
-    await usersData.push(user);
-    return usersData;
+    return user;
 }
 
-async function updateUser(id: number, updateData: Partial<IUsers>) {
-    usersData.map((data) => {
-        if (data.id == id.toString()) {
-            return {
-                ...data,
-                ...updateData
-            }
-        }
-        return data;
-    })
+async function updateUser(id: string, updateData: Partial<IUsers>) {
+    if(!id) throw new Error('No existe el id')
+    return updateData;
 }
 
-async function _delete(id: number) {
-    const userUpdated: IUsers[] = await usersData.filter(data => data.id !== id.toString());
-    return userUpdated;
+async function _delete(id: string) {
+    if(!id) throw new Error('No existe el id')
+    return 'User eliminado';
 }
 
 export const usersServices = {

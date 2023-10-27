@@ -13,52 +13,51 @@ exports.usersController = void 0;
 const express_1 = require("express");
 const users_1 = require("../services/users");
 exports.usersController = (0, express_1.Router)();
-exports.usersController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.get('/', (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield users_1.usersServices.getAllUsers();
-        res.json(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al recoger todos los users ${error}`);
+        next(error);
     }
 }));
-exports.usersController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.get('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
         const result = yield users_1.usersServices.getById(id);
-        res.json(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al recoger un user ${error}`);
+        next(error);
     }
 }));
-exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const createdUser = req.body;
         const result = yield users_1.usersServices.createUser(createdUser);
-        res.json(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al crear un user ${error}`);
+        next(error);
     }
 }));
-exports.usersController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.put('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield users_1.usersServices.getById(parseInt(req.params.id));
-        yield users_1.usersServices.updateUser(parseInt(req.params.id), req.body);
-        res.json(user);
+        const userUpdated = yield users_1.usersServices.updateUser(req.params.id, req.body);
+        res.json({ userUpdated, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al actualizar un user ${error}`);
+        next(error);
     }
 }));
-exports.usersController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.delete('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
         const result = yield users_1.usersServices.delete(id);
-        res.send(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al borrar el user ${error}`);
+        next(error);
     }
 }));
