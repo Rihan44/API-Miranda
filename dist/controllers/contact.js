@@ -56,7 +56,7 @@ exports.contactController.delete('/:id', (req, res) => __awaiter(void 0, void 0,
     try {
         const id = req.params.id;
         const result = yield contact_1.contactService.delete(id);
-        res.send(result);
+        res.json(result);
     }
     catch (error) {
         res.status(500).send(`Error al borrar el contact message ${error}`);

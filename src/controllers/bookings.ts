@@ -1,55 +1,55 @@
-import {Router, Request, Response} from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
 import { bookingService } from '../services/bookings';
 import { IBookings } from '../models/Ibookings';
 
 export const bookingsController = Router();
 
-bookingsController.get('/', async(_req: Request, res: Response) => {
+bookingsController.get('/', async(_req: Request, res: Response, next: NextFunction) => {
     try {
         const result = await bookingService.getAllBookings();
-        res.json(result);
+        res.json({result, success: true});
     } catch(error) {
-        res.status(500).json(`Error al recoger todos los bookings ${error}`)
+        next(error);
     }
 });
 
-bookingsController.get('/:id', async(req: Request<{id: number}>, res: Response) => {
+bookingsController.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try{
         const id = req.params.id;
         const result =  await bookingService.getById(id);
-        res.json(result);
+        res.json({result, success: true});
     } catch(error) {
-        res.status(500).json(`Error al recoger un booking ${error}`)
+        next(error);
     }   
 });
 
-bookingsController.post('/', async(req: Request, res: Response) => {
+bookingsController.post('/', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const bookingCreate: IBookings = req.body;
-        const result = await bookingService.createBooking(bookingCreate);
-        res.json(result)
+        const bookingCreated: IBookings = req.body;
+        const result = await bookingService.createBooking(bookingCreated);
+        res.json({result, success: true})
     } catch (error) {
-        
+        next(error);
     }
 });
 
-bookingsController.put('/:id', async(req: Request, res: Response) => {
+bookingsController.put('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const booking = await bookingService.getById(parseInt(req.params.id));
-        await bookingService.updateBooking(parseInt(req.params.id), req.body);
-        res.json(booking);
+        /* const booking = await bookingService.getById(req.params.id); */
+        const bookingUpdated = await bookingService.updateBooking(req.params.id, req.body);
+        res.json({bookingUpdated, success: true});
     } catch (error) {
-        res.status(500).json(`Error al actualizar el booking ${error}`)
+        next(error);
     }
 });
 
-bookingsController.delete('/:id', async(req: Request<{id: number}>, res: Response) => { 
+bookingsController.delete('/:id', async(req: Request, res: Response, next: NextFunction) => { 
     try {
         const id = req.params.id;
         const result = await bookingService.delete(id);
-        res.json(result);
+        res.json({result, success: true});
     } catch(error) {
-        res.status(500).json(`Error al borrar el booking ${error}`)
+        next(error);
     }
 });
 

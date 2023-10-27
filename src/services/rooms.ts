@@ -8,9 +8,9 @@ async function getAllRooms() {
     return result;
 }
 
-async function getById(id: number) {
+async function getById(id: string) {
     const room = await rooms.find(data => data.id === id.toString());
-	if (room === undefined) throw new Error('El id no existe')
+	if (room === undefined || id.length === 0) throw new Error('El id no existe')
     return room;
 }
 
@@ -19,21 +19,14 @@ async function createRoom(room: IRooms) {
     return rooms;
 }
 
-async function updateRoom(id: number, updateData: Partial<IRooms>) {
-    rooms.map((data) => {
-        if (data.id == id.toString()) {
-            return {
-                ...data,
-                ...updateData
-            }
-        }
-        return data;
-    })
+async function updateRoom(id: string, updateData: Partial<IRooms>) {
+    if(!id) throw new Error('No existe el id')
+    return updateData;
 }
 
-async function _delete(id: number) {
-    const roomsUpdated: IRooms[] = await rooms.filter(data => data.id !== id.toString());
-    return roomsUpdated;
+async function _delete(id: string) {
+    if(!id) throw new Error('No existe el id')
+    return 'Room eliminada';
 }
 
 export const roomsService = {

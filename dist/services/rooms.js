@@ -21,7 +21,7 @@ function getAllRooms() {
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const room = yield exports.rooms.find(data => data.id === id.toString());
-        if (room === undefined)
+        if (room === undefined || id.length === 0)
             throw new Error('El id no existe');
         return room;
     });
@@ -34,18 +34,16 @@ function createRoom(room) {
 }
 function updateRoom(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
-        exports.rooms.map((data) => {
-            if (data.id == id.toString()) {
-                return Object.assign(Object.assign({}, data), updateData);
-            }
-            return data;
-        });
+        if (!id)
+            throw new Error('No existe el id');
+        return updateData;
     });
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const roomsUpdated = yield exports.rooms.filter(data => data.id !== id.toString());
-        return roomsUpdated;
+        if (!id)
+            throw new Error('No existe el id');
+        return 'Room eliminada';
     });
 }
 exports.roomsService = {

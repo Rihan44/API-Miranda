@@ -1,55 +1,55 @@
-import {Router, Request, Response} from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
 import { roomsService } from '../services/rooms';
 import { IRooms } from '../models/Irooms';
 
 export const roomController = Router();
 
-roomController.get('/', async(_req: Request, res: Response) => {
+roomController.get('/', async(_req: Request, res: Response, next: NextFunction) => {
     try {
         const result = await roomsService.getAllRooms();
-        res.json(result);
+        res.json({result, success: true});
     } catch(error) {
-        res.status(500).send(`Error al recoger todas las rooms ${error}`)
+        next(error);
     }
 });
 
-roomController.get('/:id', async(req: Request<{id: number}>, res: Response) => {
+roomController.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try{
         const id = req.params.id;
         const result =  await roomsService.getById(id);
-        res.json(result);
+        res.json({result, success: true});
     } catch(error) {
-        res.status(500).send(`Error al recoger una room ${error}`)
+        next(error);
     }   
 });
 
-roomController.post('/', async(req: Request, res: Response) => {
+roomController.post('/', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const roomCreate: IRooms = req.body;
-        const result = await roomsService.createRoom(roomCreate);
-        res.json(result)
+        const roomCreated: IRooms = req.body;
+        const result = await roomsService.createRoom(roomCreated);
+        res.json({result, success: true})
     } catch (error) {
-        res.status(500).send(`Error al crear una room ${error}`)
+        next(error);
     }
 });
 
-roomController.put('/:id', async(req: Request, res: Response) => {
+roomController.put('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const room = await roomsService.getById(parseInt(req.params.id));
-        await roomsService.updateRoom(parseInt(req.params.id), req.body);
-        res.json(room);
+        /* const room = await roomsService.getById(parseInt(req.params.id)); */
+        const roomUpdated = await roomsService.updateRoom(req.params.id, req.body);
+        res.json({roomUpdated, success: true});
     } catch (error) {
-        res.status(500).send(`Error al actualizar la room ${error}`)
+        next(error);
     }
 });
 
-roomController.delete('/:id', async(req: Request<{id: number}>, res: Response) => { 
+roomController.delete('/:id', async(req: Request, res: Response, next: NextFunction) => { 
     try {
         const id = req.params.id;
         const result = await roomsService.delete(id);
-        res.send(result);
+        res.send({result, success: true});
     } catch(error) {
-        res.status(500).send(`Error al borrar la room ${error}`)
+        next(error);
     }
 });
 

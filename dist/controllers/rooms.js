@@ -13,52 +13,52 @@ exports.roomController = void 0;
 const express_1 = require("express");
 const rooms_1 = require("../services/rooms");
 exports.roomController = (0, express_1.Router)();
-exports.roomController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.roomController.get('/', (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield rooms_1.roomsService.getAllRooms();
-        res.json(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al recoger todas las rooms ${error}`);
+        next(error);
     }
 }));
-exports.roomController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.roomController.get('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
         const result = yield rooms_1.roomsService.getById(id);
-        res.json(result);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al recoger una room ${error}`);
+        next(error);
     }
 }));
-exports.roomController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.roomController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const roomCreate = req.body;
-        const result = yield rooms_1.roomsService.createRoom(roomCreate);
-        res.json(result);
+        const roomCreated = req.body;
+        const result = yield rooms_1.roomsService.createRoom(roomCreated);
+        res.json({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al crear una room ${error}`);
+        next(error);
     }
 }));
-exports.roomController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.roomController.put('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const room = yield rooms_1.roomsService.getById(parseInt(req.params.id));
-        yield rooms_1.roomsService.updateRoom(parseInt(req.params.id), req.body);
-        res.json(room);
+        /* const room = await roomsService.getById(parseInt(req.params.id)); */
+        const roomUpdated = yield rooms_1.roomsService.updateRoom(req.params.id, req.body);
+        res.json({ roomUpdated, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al actualizar la room ${error}`);
+        next(error);
     }
 }));
-exports.roomController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.roomController.delete('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
         const result = yield rooms_1.roomsService.delete(id);
-        res.send(result);
+        res.send({ result, success: true });
     }
     catch (error) {
-        res.status(500).send(`Error al borrar la room ${error}`);
+        next(error);
     }
 }));

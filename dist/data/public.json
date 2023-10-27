@@ -1,8 +1,8 @@
 {
     "hotelName": "Miranda",
     "endsPoints": {
-        "public": {
-            "GET": "/public",
+        "info": {
+            "GET": "/info",
             "POST": "/login"
         },
         "private": {

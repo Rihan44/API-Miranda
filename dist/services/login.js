@@ -23,22 +23,24 @@ const secret_key = process.env.SECRET_KEY || '';
 function login(user, password) {
     return __awaiter(this, void 0, void 0, function* () {
         if (user === defaultUser.user && password === defaultUser.password) {
-            const result = yield signJWT({ user });
+            const result = signJWT({ user });
             return result;
         }
         throw new Error('Error al logear');
     });
 }
 function signJWT(payload) {
-    const token = jsonwebtoken_1.default.sign(payload, secret_key, { expiresIn: '1h' });
+    const token = jsonwebtoken_1.default.sign(payload, secret_key, { expiresIn: '10y' });
     return { payload, token };
 }
 function verifyJWT(token) {
-    jsonwebtoken_1.default.verify(token, secret_key, (err, token) => {
-        if (err)
+    /* jwt.verify(token, secret_key, (err, token) => {
+        if(err)
             throw new Error('El token no es el mismo, espabila');
         return token;
-    });
+    }) */
+    const payload = jsonwebtoken_1.default.verify(token, secret_key);
+    return payload;
 }
 exports.authService = {
     login,

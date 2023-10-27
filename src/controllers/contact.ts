@@ -47,7 +47,7 @@ contactController.delete('/:id', async(req: Request<{id: number}>, res: Response
     try {
         const id = req.params.id;
         const result = await contactService.delete(id);
-        res.send(result);
+        res.json(result);
     } catch(error) {
         res.status(500).send(`Error al borrar el contact message ${error}`)
     }

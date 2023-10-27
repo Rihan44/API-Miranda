@@ -8,32 +8,24 @@ async function getAllBookings() {
     return result;
 }
 
-async function getById(id: number) {
+async function getById(id: string) {
     const booking = await bookings.find(data => data.id === id.toString());
-	if (booking === undefined) throw new Error('El id no existe')
+	if (booking === undefined || id.length === 0) throw new Error('El id no existe')
     return booking;
 }
 
 async function createBooking(booking: IBookings) {
-    await bookings.push(booking);
-    return bookings;
+    return booking;
 }
 
-async function updateBooking(id: number, updateData: Partial<IBookings>) {
-    bookings.map((data) => {
-        if (data.id == id.toString()) {
-            return {
-                ...data,
-                ...updateData
-            }
-        }
-        return data;
-    })
+async function updateBooking(id: string, updateData: Partial<IBookings>) {
+    if(!id) throw new Error('No existe el id')
+    return updateData;
 }
 
-async function _delete(id: number) {
-    const bookingsUpdated: IBookings[] = await bookings.filter(data => data.id !== id.toString());
-    return bookingsUpdated;
+async function _delete(id: string) {
+    if(!id) throw new Error('No existe el id')
+    return 'Booking eliminado';
 }
 
 export const bookingService = {

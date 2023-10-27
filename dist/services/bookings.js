@@ -21,31 +21,28 @@ function getAllBookings() {
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const booking = yield exports.bookings.find(data => data.id === id.toString());
-        if (booking === undefined)
+        if (booking === undefined || id.length === 0)
             throw new Error('El id no existe');
         return booking;
     });
 }
 function createBooking(booking) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield exports.bookings.push(booking);
-        return exports.bookings;
+        return booking;
     });
 }
 function updateBooking(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
-        exports.bookings.map((data) => {
-            if (data.id == id.toString()) {
-                return Object.assign(Object.assign({}, data), updateData);
-            }
-            return data;
-        });
+        if (!id)
+            throw new Error('No existe el id');
+        return updateData;
     });
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const bookingsUpdated = yield exports.bookings.filter(data => data.id !== id.toString());
-        return bookingsUpdated;
+        if (!id)
+            throw new Error('No existe el id');
+        return 'Booking eliminado';
     });
 }
 exports.bookingService = {
