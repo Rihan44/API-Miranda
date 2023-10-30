@@ -20,7 +20,6 @@ async function createRooms() {
 
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomInput = {
-            // "https://example.com/room1.jpg"
             "room_photo": faker.image.url(),
             "room_type": roomType[faker.number.int({ min: 0, max: 5 })],
             "room_number": faker.number.int({ min: 1, max: 599 }),
@@ -114,3 +113,4 @@ async function createMessages() {
 }
 
 createMessages();
+

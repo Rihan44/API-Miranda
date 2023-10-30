@@ -29,7 +29,6 @@ function createRooms() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < NUM_ROOMS; i++) {
             const roomInput = {
-                // "https://example.com/room1.jpg"
                 "room_photo": faker_1.faker.image.url(),
                 "room_type": roomType[faker_1.faker.number.int({ min: 0, max: 5 })],
                 "room_number": faker_1.faker.number.int({ min: 1, max: 599 }),
