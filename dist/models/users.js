@@ -9,31 +9,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookingService = exports.bookings = void 0;
-const bookingData_1 = require("../data/bookingData");
-const bookings_model_1 = require("../models/bookings.model");
-exports.bookings = bookingData_1.bookingData;
-function getAllBookings() {
+exports.usersServices = exports.users = void 0;
+const usersData_1 = require("../data/usersData");
+exports.users = usersData_1.usersData;
+function getAllUsers() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield bookings_model_1.BookingsModel.find();
+        const result = yield usersData_1.usersData;
         return result;
     });
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield exports.bookings.find(data => data.id === id.toString());
-        if (booking === undefined || id.length === 0)
+        const user = yield usersData_1.usersData.find(data => data.id === id.toString());
+        if (user === undefined)
             throw new Error('El id no existe');
-        return booking;
+        return user;
     });
 }
-function createBooking(booking) {
+function createUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield bookings_model_1.BookingsModel.create(booking);
-        return result;
+        return user;
     });
 }
-function updateBooking(id, updateData) {
+function updateUser(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
@@ -44,13 +42,13 @@ function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
-        return 'Booking eliminado';
+        return 'User eliminado';
     });
 }
-exports.bookingService = {
-    getAllBookings,
+exports.usersServices = {
+    getAllUsers,
     getById,
-    createBooking,
-    updateBooking,
+    createUser,
+    updateUser,
     delete: _delete,
 };

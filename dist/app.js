@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
+const conection_1 = __importDefault(require("./util/conection"));
 const express_1 = __importDefault(require("express"));
 const auth_1 = require("./middlewares/auth");
 const cors_1 = __importDefault(require("cors"));
@@ -13,6 +14,7 @@ const contact_1 = require("./controllers/contact");
 const users_1 = require("./controllers/users");
 const login_1 = require("./controllers/login");
 const public_json_1 = __importDefault(require("./data/public.json"));
+(0, conection_1.default)();
 exports.app = (0, express_1.default)();
 // middlewares
 exports.app.use((0, cors_1.default)());

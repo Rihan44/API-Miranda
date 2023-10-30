@@ -9,31 +9,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookingService = exports.bookings = void 0;
-const bookingData_1 = require("../data/bookingData");
-const bookings_model_1 = require("../models/bookings.model");
-exports.bookings = bookingData_1.bookingData;
-function getAllBookings() {
+exports.roomsService = exports.rooms = void 0;
+const roomsData_1 = require("../data/roomsData");
+exports.rooms = roomsData_1.roomsData;
+function getAllRooms() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield bookings_model_1.BookingsModel.find();
+        const result = yield exports.rooms;
         return result;
     });
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield exports.bookings.find(data => data.id === id.toString());
-        if (booking === undefined || id.length === 0)
+        const room = yield exports.rooms.find(data => data.id === id.toString());
+        if (room === undefined || id.length === 0)
             throw new Error('El id no existe');
-        return booking;
+        return room;
     });
 }
-function createBooking(booking) {
+function createRoom(room) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield bookings_model_1.BookingsModel.create(booking);
-        return result;
+        return room;
     });
 }
-function updateBooking(id, updateData) {
+function updateRoom(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
@@ -44,13 +42,13 @@ function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
-        return 'Booking eliminado';
+        return 'Room eliminada';
     });
 }
-exports.bookingService = {
-    getAllBookings,
+exports.roomsService = {
+    getAllRooms,
     getById,
-    createBooking,
-    updateBooking,
+    createRoom,
+    updateRoom,
     delete: _delete,
 };

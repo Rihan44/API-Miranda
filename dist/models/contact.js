@@ -9,31 +9,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookingService = exports.bookings = void 0;
-const bookingData_1 = require("../data/bookingData");
-const bookings_model_1 = require("../models/bookings.model");
-exports.bookings = bookingData_1.bookingData;
-function getAllBookings() {
+exports.contactService = exports.contacts = void 0;
+const contactData_1 = require("../data/contactData");
+exports.contacts = contactData_1.contactData;
+function getAllContact() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield bookings_model_1.BookingsModel.find();
+        const result = yield exports.contacts;
         return result;
     });
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield exports.bookings.find(data => data.id === id.toString());
-        if (booking === undefined || id.length === 0)
+        const contact = yield exports.contacts.find(data => data.id === id.toString());
+        if (contact === undefined)
             throw new Error('El id no existe');
-        return booking;
+        return contact;
     });
 }
-function createBooking(booking) {
+function createContact(contact) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield bookings_model_1.BookingsModel.create(booking);
-        return result;
+        return contact;
     });
 }
-function updateBooking(id, updateData) {
+function updateContact(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
@@ -44,13 +42,13 @@ function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
-        return 'Booking eliminado';
+        return 'Contact eliminado';
     });
 }
-exports.bookingService = {
-    getAllBookings,
+exports.contactService = {
+    getAllContact,
     getById,
-    createBooking,
-    updateBooking,
+    createContact,
+    updateContact,
     delete: _delete,
 };
