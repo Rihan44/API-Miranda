@@ -1,5 +1,5 @@
 export interface IBookings {
-    id?: string | number | undefined,
+    id?: string | number,
     guest: string,
     phone_number: string,
     order_date: string,
@@ -8,7 +8,7 @@ export interface IBookings {
     special_request: string,
     roomID?: string,
     room_type: string, 
-    room_number: string,
+    room_number: number,
     status: string, 
-    price: string,
+    price: number,
 }

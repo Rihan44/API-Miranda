@@ -4,9 +4,9 @@ import { IRooms } from "../interfaces/Irooms";
 const roomsSchema = new Schema<IRooms>({
     room_photo: {type: String},
     room_type: {type: String},
-    room_number: {type: String},
+    room_number: {type: Number},
     amenities: {type: []},
-    price: {type: String},
+    price: {type: Number},
     offer_price: {type: Boolean},
     discount: {type: Number},
     status: {type: String},

@@ -20,24 +20,25 @@ const rooms_model_1 = require("../models/rooms.model");
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
 const rooms = [];
-const amenities = [
-    "1/3 Bed Space",
-    "24-Hour Guard",
-    "Free Wifi",
-    "Air Conditioner",
-    "Television",
-    "Towels",
-    "Mini Bar",
-    "Coffee Set",
-    "Bathtub",
-    "Jacuzzi",
-    "Nice Views"
-];
+// const amenities = [
+//     "1/3 Bed Space",
+//     "24-Hour Guard",
+//     "Free Wifi",
+//     "Air Conditioner",
+//     "Television",
+//     "Towels",
+//     "Mini Bar",
+//     "Coffee Set",
+//     "Bathtub",
+//     "Jacuzzi",
+//     "Nice Views"
+// ]
 const roomType = ["Double Superior", "Single", "Deluxe", "Suite", "Imperial", "Double"];
 function createRooms() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < NUM_ROOMS; i++) {
             const roomInput = {
+                // "_id": faker.string.uuid(),
                 "room_photo": "https://example.com/room1.jpg",
                 "room_type": roomType[faker_1.faker.number.int({ min: 0, max: 5 })],
                 "room_number": faker_1.faker.number.int({ min: 1, max: 599 }),
@@ -63,11 +64,14 @@ function createRooms() {
         }
     });
 }
-createRooms();
-console.log(rooms);
+createRooms()
+    .then(() => {
+    createBookings();
+});
 function createBookings() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < NUM_BOOKINGS; i++) {
+            const randomRoomIndex = Math.floor(Math.random() * 11);
             const bookingsInput = {
                 "guest": "Angel",
                 "phone_number": "+1 123-456-7890",
@@ -75,7 +79,7 @@ function createBookings() {
                 "check_in": "2023-10-05",
                 "check_out": "2023-10-10",
                 "special_request": "Please provide extra towels.",
-                "roomID": rooms[faker_1.faker.number.int({ min: 0, max: 10 })].id,
+                "roomID": rooms[randomRoomIndex]._id,
                 "room_type": "Deluxe",
                 "room_number": 49,
                 "status": "check_in",
@@ -85,4 +89,3 @@ function createBookings() {
         }
     });
 }
-createBookings();

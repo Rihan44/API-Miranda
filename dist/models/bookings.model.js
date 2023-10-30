@@ -34,8 +34,8 @@ const bookingsSchema = new mongoose_1.Schema({
     special_request: { type: String },
     roomID: { type: String },
     room_type: { type: String },
-    room_number: { type: String },
+    room_number: { type: Number },
     status: { type: String },
-    price: { type: String },
+    price: { type: Number },
 });
 exports.BookingsModel = mongoose_1.default.model('bookings', bookingsSchema);
