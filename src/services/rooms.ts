@@ -1,8 +1,5 @@
-import {roomsData} from "../data/roomsData";
 import { IRooms } from "../interfaces/Irooms";
 import { RoomsModel } from "../models/rooms.model";
-
-export const rooms = roomsData as IRooms[];
 
 async function getAllRooms() {
     const result = await RoomsModel.find();
@@ -27,6 +24,7 @@ async function updateRoom(id: string, updateData: Partial<IRooms>) {
 }
 
 async function _delete(id: string) {
+    if(!id) throw new Error('No existe el id');
     await RoomsModel.findByIdAndRemove(id);
     return 'Room eliminada';
 }

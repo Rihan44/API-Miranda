@@ -9,18 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.contactService = exports.contacts = void 0;
-const contactData_1 = require("../data/contactData");
-exports.contacts = contactData_1.contactData;
+exports.contactService = void 0;
+const messages_model_1 = require("../models/messages.model");
 function getAllContact() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield exports.contacts;
+        const result = yield messages_model_1.MessageModel.find();
         return result;
     });
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const contact = yield exports.contacts.find(data => data.id === id.toString());
+        const contact = yield messages_model_1.MessageModel.findById(id).exec();
         if (contact === undefined)
             throw new Error('El id no existe');
         return contact;
@@ -28,13 +27,15 @@ function getById(id) {
 }
 function createContact(contact) {
     return __awaiter(this, void 0, void 0, function* () {
-        return contact;
+        const result = yield messages_model_1.MessageModel.create(contact);
+        return result;
     });
 }
 function updateContact(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
+        yield messages_model_1.MessageModel.findByIdAndUpdate(id, updateData);
         return updateData;
     });
 }
@@ -42,6 +43,7 @@ function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
+        yield messages_model_1.MessageModel.findByIdAndRemove(id);
         return 'Contact eliminado';
     });
 }

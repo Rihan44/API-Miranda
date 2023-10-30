@@ -9,18 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usersServices = exports.users = void 0;
-const usersData_1 = require("../data/usersData");
-exports.users = usersData_1.usersData;
+exports.usersServices = void 0;
+const users_model_1 = require("../models/users.model");
 function getAllUsers() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield usersData_1.usersData;
+        const result = yield users_model_1.UsersModel.find();
         return result;
     });
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = yield usersData_1.usersData.find(data => data.id === id.toString());
+        const user = yield users_model_1.UsersModel.findById(id).exec();
         if (user === undefined)
             throw new Error('El id no existe');
         return user;
@@ -28,13 +27,15 @@ function getById(id) {
 }
 function createUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        return user;
+        const result = yield users_model_1.UsersModel.create(user);
+        return result;
     });
 }
 function updateUser(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
+        yield users_model_1.UsersModel.findByIdAndUpdate(id, updateData);
         return updateData;
     });
 }
@@ -42,6 +43,7 @@ function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
+        yield users_model_1.UsersModel.findByIdAndRemove(id);
         return 'User eliminado';
     });
 }

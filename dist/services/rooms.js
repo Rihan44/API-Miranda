@@ -9,10 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roomsService = exports.rooms = void 0;
-const roomsData_1 = require("../data/roomsData");
+exports.roomsService = void 0;
 const rooms_model_1 = require("../models/rooms.model");
-exports.rooms = roomsData_1.roomsData;
 function getAllRooms() {
     return __awaiter(this, void 0, void 0, function* () {
         const result = yield rooms_model_1.RoomsModel.find();
@@ -43,6 +41,8 @@ function updateRoom(id, updateData) {
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (!id)
+            throw new Error('No existe el id');
         yield rooms_model_1.RoomsModel.findByIdAndRemove(id);
         return 'Room eliminada';
     });
