@@ -6,7 +6,7 @@ ConectionMongo().catch(err => console.log(err));
 async function ConectionMongo(){
     const urlMongo: string = process.env.MONGO_SERVER || '';
     await connect(urlMongo, {
-        dbName: 'api-miranda'
+        dbName: process.env.MONGO_DB || 'api-miranda'
     });
     console.log('Conectado a Mongo correctamente');
 } 

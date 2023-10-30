@@ -16,7 +16,7 @@ function ConectionMongo() {
     return __awaiter(this, void 0, void 0, function* () {
         const urlMongo = process.env.MONGO_SERVER || '';
         yield (0, mongoose_1.connect)(urlMongo, {
-            dbName: 'api-miranda'
+            dbName: process.env.MONGO_DB || 'api-miranda'
         });
         console.log('Conectado a Mongo correctamente');
     });

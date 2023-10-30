@@ -9,10 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookingService = exports.bookings = void 0;
-const bookingData_1 = require("../data/bookingData");
+exports.bookingService = void 0;
 const bookings_model_1 = require("../models/bookings.model");
-exports.bookings = bookingData_1.bookingData;
 function getAllBookings() {
     return __awaiter(this, void 0, void 0, function* () {
         const result = yield bookings_model_1.BookingsModel.find();
@@ -21,9 +19,7 @@ function getAllBookings() {
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield exports.bookings.find(data => data.id === id.toString());
-        if (booking === undefined || id.length === 0)
-            throw new Error('El id no existe');
+        const booking = yield bookings_model_1.BookingsModel.findById(id).exec();
         return booking;
     });
 }
@@ -37,13 +33,13 @@ function updateBooking(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
+        yield bookings_model_1.BookingsModel.findByIdAndUpdate(id, updateData);
         return updateData;
     });
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!id)
-            throw new Error('No existe el id');
+        yield bookings_model_1.BookingsModel.findByIdAndRemove(id);
         return 'Booking eliminado';
     });
 }

@@ -1,8 +1,5 @@
-import {bookingData} from "../data/bookingData";
 import { IBookings } from "../interfaces/Ibookings";
 import { BookingsModel } from "../models/bookings.model";
-
-export const bookings = bookingData as IBookings[];
 
 async function getAllBookings() {
     const result = await BookingsModel.find();
@@ -10,8 +7,7 @@ async function getAllBookings() {
 }
 
 async function getById(id: string) {
-    const booking = await bookings.find(data => data.id === id.toString());
-	if (booking === undefined || id.length === 0) throw new Error('El id no existe')
+    const booking = await BookingsModel.findById(id).exec();
     return booking;
 }
 
@@ -22,11 +18,12 @@ async function createBooking(booking: IBookings) {
 
 async function updateBooking(id: string, updateData: Partial<IBookings>) {
     if(!id) throw new Error('No existe el id')
+    await BookingsModel.findByIdAndUpdate(id, updateData);
     return updateData;
 }
 
 async function _delete(id: string) {
-    if(!id) throw new Error('No existe el id')
+    await BookingsModel.findByIdAndRemove(id);
     return 'Booking eliminado';
 }
 
