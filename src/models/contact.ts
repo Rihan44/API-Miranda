@@ -1,5 +1,5 @@
 import { contactData } from "../data/contactData";
-import { IContact } from "../models/Icontact";
+import { IContact } from "../interfaces/Icontact";
 
 export const contacts = contactData as IContact[];
 

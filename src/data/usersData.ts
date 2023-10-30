@@ -1,4 +1,4 @@
-import { IUsers } from "../models/Iusers";
+import { IUsers } from "../interfaces/Iusers";
 
 export const usersData: IUsers[] = [
     {

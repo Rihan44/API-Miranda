@@ -1,4 +1,4 @@
-import {IBookings} from '../models/Ibookings';
+import {IBookings} from '../interfaces/Ibookings';
 
 export const bookingData: IBookings[]= [
     {

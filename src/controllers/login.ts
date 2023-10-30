@@ -1,4 +1,4 @@
-import authService from "../services/login";
+import authService from "../models/login";
 import { NextFunction, Request, Response, Router } from "express";
 
 export const loginController = Router();

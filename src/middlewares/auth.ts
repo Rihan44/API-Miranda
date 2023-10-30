@@ -1,5 +1,5 @@
-import { IRequestHeader } from '../models/IRequestHeaders';
-import authService from '../services/login'
+import { IRequestHeader } from '../interfaces/IRequestHeaders';
+import authService from '../models/login'
 import { NextFunction, Request, Response } from 'express'
 
 export function authMiddleware(req: Request & {headers: Partial<IRequestHeader>}, res: Response, next: NextFunction) {

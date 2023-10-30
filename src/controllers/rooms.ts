@@ -1,6 +1,6 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import { roomsService } from '../services/rooms';
-import { IRooms } from '../models/Irooms';
+import { roomsService } from '../models/rooms';
+import { IRooms } from '../interfaces/Irooms';
 
 export const roomController = Router();
 

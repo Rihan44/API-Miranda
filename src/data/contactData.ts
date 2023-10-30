@@ -1,4 +1,4 @@
-import { IContact } from '../models/Icontact.js';
+import { IContact } from '../interfaces/Icontact.js';
 
 export const contactData: IContact[] = [
     {

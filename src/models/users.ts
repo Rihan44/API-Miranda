@@ -1,5 +1,5 @@
 import { usersData } from "../data/usersData";
-import { IUsers } from "../models/Iusers";
+import { IUsers } from "../interfaces/Iusers";
 
 export const users = usersData as IUsers[];
 

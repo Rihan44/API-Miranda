@@ -1,6 +1,6 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import { IUsers } from '../models/Iusers';
-import { usersServices } from '../services/users';
+import { IUsers } from '../interfaces/Iusers';
+import { usersServices } from '../models/users';
 
 export const usersController = Router();
 

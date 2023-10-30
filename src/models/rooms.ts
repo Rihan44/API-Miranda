@@ -1,5 +1,5 @@
 import {roomsData} from "../data/roomsData";
-import { IRooms } from "../models/Irooms";
+import { IRooms } from "../interfaces/Irooms";
 
 export const rooms = roomsData as IRooms[];
 

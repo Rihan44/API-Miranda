@@ -1,4 +1,4 @@
-import { IRooms } from "../models/Irooms";
+import { IRooms } from "../interfaces/Irooms";
 
 export const roomsData: IRooms[] = [
 	{
