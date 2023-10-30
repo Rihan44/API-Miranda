@@ -17,6 +17,7 @@ const faker_1 = require("@faker-js/faker");
 const conection_1 = __importDefault(require("./conection"));
 const rooms_model_1 = require("../models/rooms.model");
 const users_model_1 = require("../models/users.model");
+const messages_model_1 = require("../models/messages.model");
 (0, conection_1.default)();
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
@@ -87,33 +88,36 @@ function createUsers() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < NUM_USERS; i++) {
             const usersInput = {
-                "name": "John Smith",
-                "email": "john.smith@example.com",
-                "photo": "https://example.com/photo1.jpg",
-                "employee_position": "Manager",
-                "phone_number": "+1234567890",
-                "hire_date": "2023-01-15",
-                "job_description": "General hotel management, staff supervision, strategic decision-making.",
-                "status": false,
-                "password_hash": "a1b2c3d4e5f6g7h8i9j0"
+                "name": faker_1.faker.person.fullName(),
+                "email": faker_1.faker.internet.email(),
+                "photo": faker_1.faker.image.url(),
+                "employee_position": faker_1.faker.person.jobArea(),
+                "phone_number": faker_1.faker.phone.number(),
+                "hire_date": faker_1.faker.date.recent(),
+                "job_description": faker_1.faker.person.jobDescriptor(),
+                "status": faker_1.faker.datatype.boolean(),
+                "password_hash": faker_1.faker.internet.password()
             };
             yield users_model_1.UsersModel.create(usersInput);
         }
     });
 }
 createUsers();
-// async function createMessages() {
-for (let i = 0; i < NUM_MESSAGES; i++) {
-    const bookingsInput = {
-    //     // "name": "John Doe",
-    //     // "email": "johndoe@example.com",
-    //     // "phone": "123-456-7890",
-    //     // "email_subject": "Hello",
-    //     // "email_description": "This is a sample email description.This is a sample email description.This is a sample email description.This is a sample email description.This is a sample email description.This is a sample email description.This is a sample email description.This is a sample email description.",
-    //     // "date": "2023-05-24",
-    //     // "dateTime":"12:03pm",
-    //     // "isArchived": false
-    };
-    await bookings_model_1.BookingsModel.create(bookingsInput);
+function createMessages() {
+    return __awaiter(this, void 0, void 0, function* () {
+        for (let i = 0; i < NUM_MESSAGES; i++) {
+            const messagesInput = {
+                "name": faker_1.faker.person.fullName(),
+                "email": faker_1.faker.internet.email(),
+                "phone": faker_1.faker.phone.number(),
+                "email_subject": faker_1.faker.word.verb(),
+                "email_description": faker_1.faker.lorem.words({ min: 10, max: 15 }),
+                "date": faker_1.faker.date.recent(),
+                "dateTime": faker_1.faker.date.anytime(),
+                "isArchived": faker_1.faker.datatype.boolean()
+            };
+            yield messages_model_1.MessageModel.create(messagesInput);
+        }
+    });
 }
-// }
+createMessages();

@@ -26,13 +26,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const messageSchema = new mongoose_1.Schema({
-    "name": { type: String },
-    "email": { type: String },
-    "phone": { type: String },
-    "email_subject": { type: String },
-    "email_description": { type: String },
-    "date": { type: String },
-    "dateTime": { type: String },
-    "isArchived": { type: Boolean }
+    name: { type: String },
+    email: { type: String },
+    phone: { type: String },
+    email_subject: { type: String },
+    email_description: { type: String },
+    date: { type: String },
+    dateTime: { type: String },
+    isArchived: { type: Boolean }
 });
 exports.MessageModel = mongoose_1.default.model('messages', messageSchema);
