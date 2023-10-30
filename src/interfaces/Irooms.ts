@@ -1,10 +1,10 @@
 export interface IRooms {
-    id?: string | number,
+    id?: string | number | undefined,
     room_photo?: string,
     room_type: string,
-    room_number: number | string,
+    room_number: string,
     amenities: string[],
-    price: number | string,
+    price: string,
     offer_price: boolean,
     discount: number,
     status: string
