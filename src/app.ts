@@ -1,4 +1,4 @@
-import ConectionMongo from './util/conection';
+import ConectionMongo from './utils/conection';
 import express, {Express, Request, Response, NextFunction} from 'express';
 import {authMiddleware} from './middlewares/auth';
 import cors from 'cors';
