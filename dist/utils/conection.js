@@ -14,8 +14,9 @@ require("dotenv/config");
 ConectionMongo().catch(err => console.log(err));
 function ConectionMongo() {
     return __awaiter(this, void 0, void 0, function* () {
-        const urlMongo = process.env.MONGO_SERVER || '';
-        yield (0, mongoose_1.connect)(urlMongo, {
+        // const urlMongo: string = process.env.MONGO_SERVER || '';
+        const urlAtlas = process.env.MONGO_ATLAS || '';
+        yield (0, mongoose_1.connect)(urlAtlas, {
             dbName: process.env.MONGO_DB || 'api-miranda'
         });
         console.log('Conectado a Mongo correctamente');
