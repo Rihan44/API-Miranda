@@ -117,3 +117,5 @@ async function createMessages() {
     await createUsers();
     await createMessages();
 })();
+
+process.exit();
