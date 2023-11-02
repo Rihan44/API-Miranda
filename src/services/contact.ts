@@ -25,8 +25,8 @@ async function updateContact(id: string, updateData: Partial<IContact>) {
 
 async function _delete(id: string) {
     if(!id) throw new Error('No existe el id');
-    await MessageModel.findByIdAndRemove(id);
-    return 'Contact eliminado';
+    await MessageModel.findByIdAndDelete(id);
+    return;
 }
 
 export const contactService = {

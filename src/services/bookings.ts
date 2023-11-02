@@ -23,8 +23,9 @@ async function updateBooking(id: string, updateData: Partial<IBookings>) {
 }
 
 async function _delete(id: string) {
-    await BookingsModel.findByIdAndRemove(id);
-    return 'Booking eliminado';
+    if(!id) throw new Error('No existe el id');
+    await BookingsModel.findByIdAndDelete(id);
+    return;
 }
 
 export const bookingService = {
