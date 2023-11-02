@@ -15,6 +15,7 @@ const NUM_MESSAGES = 10;
 const rooms: any = [];
 
 const roomType = ["Double Superior", "Single", "Deluxe", "Suite", "Imperial", "Double"];
+const checks = ['check_in', 'check_out'];
 
 async function createRooms() {
 
@@ -49,13 +50,12 @@ async function createRooms() {
     }
 }
 
-createRooms()
-    .then(() => {
-        createBookings();
-    })
-    .catch((e) => console.error(e));
+// createRooms()
+//     .then(() => {
+//         createBookings();
+//     })
+//     .catch((e) => console.error(e));
 
-const checks = ['check_in', 'check_out'];
 
 async function createBookings() {
     for (let i = 0; i < NUM_BOOKINGS; i++) {
@@ -94,7 +94,6 @@ async function createUsers() {
     }
 }
 
-createUsers();
 
 async function createMessages() {
     for (let i = 0; i < NUM_MESSAGES; i++) {
@@ -112,5 +111,9 @@ async function createMessages() {
     }
 }
 
-createMessages();
-
+(async () => {
+    await createRooms();
+    await createBookings();
+    await createUsers();
+    await createMessages();
+})();

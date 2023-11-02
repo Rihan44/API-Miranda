@@ -25,8 +25,8 @@ async function updateRoom(id: string, updateData: Partial<IRooms>) {
 
 async function _delete(id: string) {
     if(!id) throw new Error('No existe el id');
-    await RoomsModel.findByIdAndRemove(id);
-    return 'Room eliminada';
+    await RoomsModel.findByIdAndDelete(id);
+    return;
 }
 
 export const roomsService = {
