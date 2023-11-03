@@ -9,49 +9,48 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roomsService = void 0;
-const rooms_model_1 = require("../models/rooms.model");
-function getAllRooms() {
+exports.usersServices = void 0;
+const users_model_1 = require("../models/users.model");
+function getAllUsers() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield rooms_model_1.RoomsModel.find();
+        const result = yield users_model_1.UsersModel.find();
         return result;
     });
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const room = yield rooms_model_1.RoomsModel.findById(id).exec();
-        if (room === undefined || id.length === 0)
+        const user = yield users_model_1.UsersModel.findById(id).exec();
+        if (user === undefined)
             throw new Error('El id no existe');
-        return room;
+        return user;
     });
 }
-function createRoom(room) {
+function createUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield rooms_model_1.RoomsModel.create(room);
+        const result = yield users_model_1.UsersModel.create(user);
         return result;
     });
 }
-function updateRoom(id, updateData) {
+function updateUser(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
-            throw new Error('Falta el id');
-        yield rooms_model_1.RoomsModel.findByIdAndUpdate(id, updateData);
+            throw new Error('No existe el id');
+        yield users_model_1.UsersModel.findByIdAndUpdate(id, updateData);
         return updateData;
     });
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        /* TODO TIRAR UN ERROR 410  */
         if (!id)
-            throw new Error('Falta el id');
-        yield rooms_model_1.RoomsModel.findByIdAndDelete(id);
-        return;
+            throw new Error('No existe el id');
+        yield users_model_1.UsersModel.findByIdAndRemove(id);
+        return 'User eliminado';
     });
 }
-exports.roomsService = {
-    getAllRooms,
+exports.usersServices = {
+    getAllUsers,
     getById,
-    createRoom,
-    updateRoom,
+    createUser,
+    updateUser,
     delete: _delete,
 };

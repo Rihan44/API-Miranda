@@ -9,49 +9,48 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roomsService = void 0;
-const rooms_model_1 = require("../models/rooms.model");
-function getAllRooms() {
+exports.contactService = void 0;
+const messages_model_1 = require("../models/messages.model");
+function getAllContact() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield rooms_model_1.RoomsModel.find();
+        const result = yield messages_model_1.MessageModel.find();
         return result;
     });
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const room = yield rooms_model_1.RoomsModel.findById(id).exec();
-        if (room === undefined || id.length === 0)
+        const contact = yield messages_model_1.MessageModel.findById(id).exec();
+        if (contact === undefined)
             throw new Error('El id no existe');
-        return room;
+        return contact;
     });
 }
-function createRoom(room) {
+function createContact(contact) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield rooms_model_1.RoomsModel.create(room);
+        const result = yield messages_model_1.MessageModel.create(contact);
         return result;
     });
 }
-function updateRoom(id, updateData) {
+function updateContact(id, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
-            throw new Error('Falta el id');
-        yield rooms_model_1.RoomsModel.findByIdAndUpdate(id, updateData);
+            throw new Error('No existe el id');
+        yield messages_model_1.MessageModel.findByIdAndUpdate(id, updateData);
         return updateData;
     });
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        /* TODO TIRAR UN ERROR 410  */
         if (!id)
-            throw new Error('Falta el id');
-        yield rooms_model_1.RoomsModel.findByIdAndDelete(id);
+            throw new Error('No existe el id');
+        yield messages_model_1.MessageModel.findByIdAndDelete(id);
         return;
     });
 }
-exports.roomsService = {
-    getAllRooms,
+exports.contactService = {
+    getAllContact,
     getById,
-    createRoom,
-    updateRoom,
+    createContact,
+    updateContact,
     delete: _delete,
 };
