@@ -39,8 +39,10 @@ function updateBooking(id, updateData) {
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield bookings_model_1.BookingsModel.findByIdAndRemove(id);
-        return 'Booking eliminado';
+        if (!id)
+            throw new Error('No existe el id');
+        yield bookings_model_1.BookingsModel.findByIdAndDelete(id);
+        return;
     });
 }
 exports.bookingService = {

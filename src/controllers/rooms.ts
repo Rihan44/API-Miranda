@@ -6,8 +6,8 @@ export const roomController = Router();
 
 roomController.get('/', async(_req: Request, res: Response, next: NextFunction) => {
     try {
-        const result = await roomsService.getAllRooms();
-        res.json({result, success: true});
+        const rooms = await roomsService.getAllRooms();
+        res.json({rooms, success: true});
     } catch(error) {
         next(error);
     }
@@ -16,8 +16,8 @@ roomController.get('/', async(_req: Request, res: Response, next: NextFunction) 
 roomController.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try{
         const id = req.params.id;
-        const result =  await roomsService.getById(id);
-        res.json({result, success: true});
+        const rooms =  await roomsService.getById(id);
+        res.json({rooms});
     } catch(error) {
         next(error);
     }   
@@ -26,8 +26,8 @@ roomController.get('/:id', async(req: Request, res: Response, next: NextFunction
 roomController.post('/', async(req: Request, res: Response, next: NextFunction) => {
     try {
         const roomCreated: IRooms = req.body;
-        const result = await roomsService.createRoom(roomCreated);
-        res.json({result, success: true})
+        const rooms = await roomsService.createRoom(roomCreated);
+        res.json({rooms})
     } catch (error) {
         next(error);
     }
@@ -35,8 +35,8 @@ roomController.post('/', async(req: Request, res: Response, next: NextFunction) 
 
 roomController.put('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const roomUpdated = await roomsService.updateRoom(req.params.id, req.body);
-        res.json({roomUpdated, success: true});
+        const room = await roomsService.updateRoom(req.params.id, req.body);
+        res.json({room});
     } catch (error) {
         next(error);
     }
@@ -45,8 +45,8 @@ roomController.put('/:id', async(req: Request, res: Response, next: NextFunction
 roomController.delete('/:id', async(req: Request, res: Response, next: NextFunction) => { 
     try {
         const id = req.params.id;
-        const result = await roomsService.delete(id);
-        res.json({result, success: true});
+        const room = await roomsService.delete(id);
+        res.json({room, success: true});
     } catch(error) {
         next(error);
     }

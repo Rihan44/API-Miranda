@@ -50,16 +50,9 @@ async function createRooms() {
     }
 }
 
-// createRooms()
-//     .then(() => {
-//         createBookings();
-//     })
-//     .catch((e) => console.error(e));
-
-
 async function createBookings() {
     for (let i = 0; i < NUM_BOOKINGS; i++) {
-        const randomRoomIndex = Math.floor(Math.random() * 11);
+        const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS + 1);
         const bookingsInput = {
             "guest": faker.person.fullName(),
             "phone_number": faker.phone.number(),
@@ -93,7 +86,6 @@ async function createUsers() {
         await UsersModel.create(usersInput);
     }
 }
-
 
 async function createMessages() {
     for (let i = 0; i < NUM_MESSAGES; i++) {

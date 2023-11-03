@@ -43,8 +43,8 @@ function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
-        yield messages_model_1.MessageModel.findByIdAndRemove(id);
-        return 'Contact eliminado';
+        yield messages_model_1.MessageModel.findByIdAndDelete(id);
+        return;
     });
 }
 exports.contactService = {

@@ -25,6 +25,7 @@ const NUM_USERS = 10;
 const NUM_MESSAGES = 10;
 const rooms = [];
 const roomType = ["Double Superior", "Single", "Deluxe", "Suite", "Imperial", "Double"];
+const checks = ['check_in', 'check_out'];
 function createRooms() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < NUM_ROOMS; i++) {
@@ -56,12 +57,11 @@ function createRooms() {
         }
     });
 }
-createRooms()
-    .then(() => {
-    createBookings();
-})
-    .catch((e) => console.error(e));
-const checks = ['check_in', 'check_out'];
+// createRooms()
+//     .then(() => {
+//         createBookings();
+//     })
+//     .catch((e) => console.error(e));
 function createBookings() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < NUM_BOOKINGS; i++) {
@@ -101,7 +101,6 @@ function createUsers() {
         }
     });
 }
-createUsers();
 function createMessages() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < NUM_MESSAGES; i++) {
@@ -119,4 +118,10 @@ function createMessages() {
         }
     });
 }
-createMessages();
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield createRooms();
+    yield createBookings();
+    yield createUsers();
+    yield createMessages();
+}))();
+process.exit();

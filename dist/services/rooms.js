@@ -43,8 +43,8 @@ function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!id)
             throw new Error('No existe el id');
-        yield rooms_model_1.RoomsModel.findByIdAndRemove(id);
-        return 'Room eliminada';
+        yield rooms_model_1.RoomsModel.findByIdAndDelete(id);
+        return;
     });
 }
 exports.roomsService = {

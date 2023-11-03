@@ -18,13 +18,14 @@ async function createRoom(room: IRooms) {
 }
 
 async function updateRoom(id: string, updateData: Partial<IRooms>) {
-    if(!id) throw new Error('No existe el id')
+    if(!id) throw new Error('Falta el id')
     await RoomsModel.findByIdAndUpdate(id, updateData);
     return updateData;
 }
 
 async function _delete(id: string) {
-    if(!id) throw new Error('No existe el id');
+    /* TODO TIRAR UN ERROR 410  */
+    if(!id) throw new Error('Falta el id');
     await RoomsModel.findByIdAndDelete(id);
     return;
 }
