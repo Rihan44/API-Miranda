@@ -1,31 +1,20 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const mongodb_1 = require("mongodb");
 require("dotenv/config");
 ConectionMongo().catch(err => console.log(err));
-function ConectionMongo() {
-    return __awaiter(this, void 0, void 0, function* () {
-        // const urlMongo: string = process.env.MONGO_SERVER || '';
-        const urlAtlas = process.env.MONGO_ATLAS || '';
-        yield (0, mongoose_1.connect)(urlAtlas, {
-            dbName: process.env.MONGO_DB || 'api-miranda',
-            serverApi: {
-                version: mongodb_1.ServerApiVersion.v1,
-                strict: true,
-                deprecationErrors: true
-            }
-        });
-        console.log('Conectado a Mongo correctamente');
+async function ConectionMongo() {
+    // const urlMongo: string = process.env.MONGO_SERVER || '';
+    const urlAtlas = process.env.MONGO_ATLAS || '';
+    await (0, mongoose_1.connect)(urlAtlas, {
+        dbName: process.env.MONGO_DB || 'api-miranda',
+        serverApi: {
+            version: mongodb_1.ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true
+        }
     });
+    console.log('Conectado a Mongo correctamente');
 }
 exports.default = ConectionMongo;
