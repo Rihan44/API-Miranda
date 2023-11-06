@@ -1,7 +1,7 @@
 import { IBookings } from "../interfaces/Ibookings";
-import ContectionSQL from "../utils/conection";
+import ConnectionSQL from "../utils/conection";
 
-const connection = ContectionSQL();
+const connection = ConnectionSQL();
 
 async function fetchAll() {
     const pool = await connection;

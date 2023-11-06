@@ -1,4 +1,4 @@
-import ContectionSQL from './utils/conection';
+import ConnectionSQL from './utils/conection';
 import express, {Express, Request, Response, NextFunction} from 'express';
 import {authMiddleware} from './middlewares/auth';
 import cors from 'cors';
@@ -11,7 +11,7 @@ import { loginController } from './controllers/login';
 
 import publicJSON from './data/public.json';
 
-ContectionSQL();
+ConnectionSQL();
 
 export const app: Express = express();
 

@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import mysql from 'mysql2';
 
-async function ContectionSQL(){
+async function ConnectionSQL(){
     // create the connection
     const pool = mysql.createPool(
         {
@@ -17,5 +17,5 @@ async function ContectionSQL(){
     return promisePool;
 } 
 
-export default ContectionSQL;
+export default ConnectionSQL;
 

@@ -1,32 +1,32 @@
 import { IRooms } from "../interfaces/Irooms";
-import { RoomsModel } from "../models/rooms.model";
+import { createNewRoom, deleteRoom, getAll, getOne, updateTheRoom } from "../models/rooms.model";
 
 async function getAllRooms() {
-    const result = await RoomsModel.find();
+    const result = await getAll();
     return result;
 }
 
 async function getById(id: string) {
-    const room = await RoomsModel.findById(id).exec();
+    const room = await getOne(id);
 	if (room === undefined || id.length === 0) throw new Error('El id no existe')
     return room;
 }
 
 async function createRoom(room: IRooms) {
-    const result = await RoomsModel.create(room);
+    const result = await createNewRoom(room);
     return result;
 }
 
-async function updateRoom(id: string, updateData: Partial<IRooms>) {
+async function updateRoom(id: string, updateData: IRooms) {
     if(!id) throw new Error('Falta el id')
-    await RoomsModel.findByIdAndUpdate(id, updateData);
+    await updateTheRoom(id, updateData);
     return updateData;
 }
 
 async function _delete(id: string) {
     /* TODO TIRAR UN ERROR 410  */
     if(!id) throw new Error('Falta el id');
-    await RoomsModel.findByIdAndDelete(id);
+    await deleteRoom(id);
     return;
 }
 
