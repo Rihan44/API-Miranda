@@ -13,8 +13,8 @@ async function getById(id) {
     return room;
 }
 async function createRoom(room) {
-    const result = await (0, rooms_model_1.createNewRoom)(room);
-    return result;
+    await (0, rooms_model_1.createNewRoom)(room);
+    return room;
 }
 async function updateRoom(id, updateData) {
     if (!id)

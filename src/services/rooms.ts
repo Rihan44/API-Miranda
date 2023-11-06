@@ -14,8 +14,8 @@ async function getById(id: string) {
 }
 
 async function createRoom(room: IRooms) {
-    const result = await createNewRoom(room);
-    return result;
+    await createNewRoom(room);
+    return room;
 }
 
 async function updateRoom(id: string, updateData: IRooms) {
