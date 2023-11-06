@@ -6,9 +6,9 @@ export interface IBookings {
     check_in:string,
     check_out:string,
     special_request: string,
-    roomID?: string,
     room_type: string, 
     room_number: number,
     status: string, 
     price: number,
+    room_id?: string,
 }

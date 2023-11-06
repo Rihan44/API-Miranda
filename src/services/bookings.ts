@@ -1,30 +1,30 @@
 import { IBookings } from "../interfaces/Ibookings";
-import { BookingsModel } from "../models/bookings.model";
+import {createNewBooking, deleteBooking, getAll, getOne, updateTheBooking } from "../models/bookings.model";
 
 async function getAllBookings() {
-    const result = await BookingsModel.find();
+    const result = await getAll();
     return result;
 }
 
 async function getById(id: string) {
-    const booking = await BookingsModel.findById(id).exec();
+    const booking = await getOne(id);
     return booking;
 }
 
 async function createBooking(booking: IBookings) {
-    const result = await BookingsModel.create(booking);
+    const result = await createNewBooking(booking);
     return result;
 }
 
-async function updateBooking(id: string, updateData: Partial<IBookings>) {
+async function updateBooking(id: string, updateData: IBookings) {
     if(!id) throw new Error('No existe el id')
-    await BookingsModel.findByIdAndUpdate(id, updateData);
+    await updateTheBooking(id, updateData);
     return updateData;
 }
 
 async function _delete(id: string) {
     if(!id) throw new Error('No existe el id');
-    await BookingsModel.findByIdAndDelete(id);
+    await deleteBooking(id);
     return;
 }
 

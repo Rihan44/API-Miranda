@@ -1,41 +1,44 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BookingsModel = void 0;
-const mongoose_1 = __importStar(require("mongoose"));
-const bookingsSchema = new mongoose_1.Schema({
-    guest: { type: String },
-    phone_number: { type: String },
-    order_date: { type: String },
-    check_in: { type: String },
-    check_out: { type: String },
-    special_request: { type: String },
-    roomID: { type: String },
-    room_type: { type: String },
-    room_number: { type: Number },
-    status: { type: String },
-    price: { type: Number },
-});
-exports.BookingsModel = mongoose_1.default.model('bookings', bookingsSchema);
+exports.updateTheBooking = exports.createNewBooking = exports.deleteBooking = exports.getOne = exports.getAll = void 0;
+const conection_1 = __importDefault(require("../utils/conection"));
+const connection = (0, conection_1.default)();
+async function fetchAll() {
+    const pool = await connection;
+    const [rows] = await pool.query("SELECT * FROM bookings");
+    return rows;
+}
+async function fetchOne(id) {
+    const pool = await connection;
+    const [rows] = await pool.query(`SELECT * FROM bookings WHERE id = ${id}`);
+    return rows;
+}
+async function create(bookingData) {
+    const pool = await connection;
+    const [rows] = await pool.query(`INTER INTO bookings (guest, phone_number, order_date, check_in, check_out, special_request, room_type
+        , room_number, status, price, room_id) VALUES (${bookingData.guest}, ${bookingData.phone_number}, ${bookingData.order_date}, 
+            ${bookingData.check_in}, ${bookingData.check_out}, ${bookingData.special_request}, ${bookingData.room_type}, 
+            ${bookingData.room_number}, ${bookingData.status}, ${bookingData.price}, ${bookingData.room_id})`);
+    return rows;
+}
+async function update(id, bookingData) {
+    const pool = await connection;
+    const [rows] = await pool.query(`UPDATE bookings SET guest ='${bookingData.guest}', phone_number = '${bookingData.phone_number}'
+    , order_date = '${bookingData.order_date}', check_in = '${bookingData.check_in}', check_out = '${bookingData.check_out}'
+    , special_request = '${bookingData.special_request}', room_type= '${bookingData.room_type}', room_number = '${bookingData.room_number}'
+    , status = '${bookingData.status}', price = '${bookingData.price}' WHERE id = ${id}`);
+    return rows;
+}
+async function deleteOne(id) {
+    const pool = await connection;
+    const [rows] = await pool.query(`DELETE * FROM bookings WHERE id = ${id}`);
+    return rows;
+}
+exports.getAll = fetchAll;
+exports.getOne = fetchOne;
+exports.deleteBooking = deleteOne;
+exports.createNewBooking = create;
+exports.updateTheBooking = update;

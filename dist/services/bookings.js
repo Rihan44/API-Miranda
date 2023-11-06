@@ -3,27 +3,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = void 0;
 const bookings_model_1 = require("../models/bookings.model");
 async function getAllBookings() {
-    const result = await bookings_model_1.BookingsModel.find();
+    const result = await (0, bookings_model_1.getAll)();
     return result;
 }
 async function getById(id) {
-    const booking = await bookings_model_1.BookingsModel.findById(id).exec();
+    const booking = await (0, bookings_model_1.getOne)(id);
     return booking;
 }
 async function createBooking(booking) {
-    const result = await bookings_model_1.BookingsModel.create(booking);
+    const result = await (0, bookings_model_1.createNewBooking)(booking);
     return result;
 }
 async function updateBooking(id, updateData) {
     if (!id)
         throw new Error('No existe el id');
-    await bookings_model_1.BookingsModel.findByIdAndUpdate(id, updateData);
+    await (0, bookings_model_1.updateTheBooking)(id, updateData);
     return updateData;
 }
 async function _delete(id) {
     if (!id)
         throw new Error('No existe el id');
-    await bookings_model_1.BookingsModel.findByIdAndDelete(id);
+    await (0, bookings_model_1.deleteBooking)(id);
     return;
 }
 exports.bookingService = {

@@ -1,23 +1,21 @@
-import {connect,} from 'mongoose';
-import {ServerApiVersion} from 'mongodb';
 import 'dotenv/config';
+import mysql from 'mysql2';
 
-ConectionMongo().catch(err => console.log(err));
-
-async function ConectionMongo(){
-    // const urlMongo: string = process.env.MONGO_SERVER || '';
-    const urlAtlas: string = process.env.MONGO_ATLAS || '';
-    await connect(urlAtlas, {
-        dbName: process.env.MONGO_DB || 'api-miranda',
-        serverApi: {
-            version: ServerApiVersion.v1,
-            strict: true,
-            deprecationErrors: true
+async function ContectionSQL(){
+    // create the connection
+    const pool = mysql.createPool(
+        {
+            host:process.env.SQL_SERVER, 
+            user: process.env.SQL_USER, 
+            password: process.env.SQL_PASSWORD, 
+            database: process.env.SQL_DATA_DB
         }
-    });
+    );
 
-    console.log('Conectado a Mongo correctamente');
+    console.log('Conectado a SQL correctamente');
+    const promisePool = pool.promise();
+    return promisePool;
 } 
 
-export default ConectionMongo;
+export default ContectionSQL;
 
