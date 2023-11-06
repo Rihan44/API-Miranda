@@ -3,6 +3,7 @@
     "target": "ESNEXT",
     "module": "commonjs",
     "outDir": "./dist",
+    "types": ["node"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
