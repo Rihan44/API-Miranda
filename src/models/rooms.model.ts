@@ -1,5 +1,5 @@
 import { IRooms } from "../interfaces/Irooms";
-import ConnectionSQL from "../utils/conection";
+import ConnectionSQL from "../utils/connection";
 
 const connection = ConnectionSQL();
 

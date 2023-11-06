@@ -1,5 +1,5 @@
 import { IBookings } from "../interfaces/Ibookings";
-import ConnectionSQL from "../utils/conection";
+import ConnectionSQL from "../utils/connection";
 
 const connection = ConnectionSQL();
 

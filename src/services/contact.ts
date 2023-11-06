@@ -1,31 +1,31 @@
 import { IContact } from "../interfaces/Icontact";
-import { MessageModel } from "../models/messages.model";
+import { createNewContact, deleteContact, getAll, getOne, updateTheContact } from "../models/messages.model";
 
 async function getAllContact() {
-    const result = await MessageModel.find();
+    const result = await getAll();
     return result;
 }
 
 async function getById(id: string) {
-    const contact = await MessageModel.findById(id).exec();
+    const contact = await getOne(id);
 	if (contact === undefined) throw new Error('El id no existe')
     return contact;
 }
 
 async function createContact(contact: IContact) {
-    const result = await MessageModel.create(contact);
+    const result = await createNewContact(contact);
     return result;
 }
 
-async function updateContact(id: string, updateData: Partial<IContact>) {
+async function updateContact(id: string, updateData: IContact) {
     if(!id) throw new Error('No existe el id');
-    await MessageModel.findByIdAndUpdate(id, updateData);
+    await updateTheContact(id, updateData);
     return updateData;
 }
 
 async function _delete(id: string) {
     if(!id) throw new Error('No existe el id');
-    await MessageModel.findByIdAndDelete(id);
+    await deleteContact(id);
     return;
 }
 

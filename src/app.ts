@@ -1,4 +1,4 @@
-import ConnectionSQL from './utils/conection';
+import ConnectionSQL from './utils/connection';
 import express, {Express, Request, Response, NextFunction} from 'express';
 import {authMiddleware} from './middlewares/auth';
 import cors from 'cors';

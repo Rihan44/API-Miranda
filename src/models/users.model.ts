@@ -1,5 +1,5 @@
 import { IUsers } from "../interfaces/Iusers";
-import ConnectionSQL from "../utils/conection";
+import ConnectionSQL from "../utils/connection";
 
 const connection = ConnectionSQL();
 

@@ -6,6 +6,6 @@ export interface IContact {
     email_subject: string,
     email_description: string,
     date: string, 
-    dateTime: string,
-    isArchived: boolean
+    date_time: string,
+    is_archived: boolean
 }

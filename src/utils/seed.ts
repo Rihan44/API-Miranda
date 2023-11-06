@@ -1,6 +1,6 @@
 import { BookingsModel } from "../models/bookings.model";
 import { faker } from '@faker-js/faker';
-import ConectionMongo from "./conection";
+import ConectionMongo from "./connection";
 import { RoomsModel } from "../models/rooms.model";
 import { UsersModel } from "../models/users.model";
 import { MessageModel } from "../models/messages.model";
