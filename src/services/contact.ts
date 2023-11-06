@@ -13,8 +13,8 @@ async function getById(id: string) {
 }
 
 async function createContact(contact: IContact) {
-    const result = await createNewContact(contact);
-    return result;
+    await createNewContact(contact);
+    return contact;
 }
 
 async function updateContact(id: string, updateData: IContact) {

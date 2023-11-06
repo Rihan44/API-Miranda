@@ -1,5 +1,5 @@
 import { IUsers } from "../interfaces/Iusers";
-import { createNewUser, deleteUser, getAll, getOne } from "../models/users.model";
+import { createNewUser, deleteUser, getAll, getOne, updateTheUser } from "../models/users.model";
 
 async function getAllUsers() {
     const result = await getAll();
@@ -19,14 +19,14 @@ async function createUser(user: IUsers) {
 
 async function updateUser(id: string, updateData: IUsers) {
     if(!id) throw new Error('No existe el id');
-    await updateUser(id, updateData);
+    await updateTheUser(id, updateData);
     return updateData;
 }
 
 async function _delete(id: string) {
     if(!id) throw new Error('No existe el id');
     await deleteUser(id);
-    return 'User eliminado';
+    return;
 }
 
 export const usersServices = {

@@ -33,6 +33,8 @@ async function createRooms() {
         const room = await createNewRoom(roomInput);
         rooms.push(room);
 
+        // TODO HACER LOS INNER JOIN DE AMENITIES Y DE PHOTO
+
         // connect.execute(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space, 24-Hour Guard, Free Wifi, Air Conditioner, Television, Towels, Mini Bar, Coffee Set, Bathtub, Jacuzzi, Nice Views')`);
 
         // connect.execute(`INSERT INTO room_to_amenity (room_id, amenity_id) VALUES(${i}, ${i})`);
@@ -54,6 +56,7 @@ async function createBookings() {
             "price": faker.number.int({ min: 30, max: 3000 }),
             "room_id": 1 + i,
         }
+
         await createNewBooking(bookingsInput);
     }
 }

@@ -4,6 +4,7 @@ import ConnectionSQL from "../utils/connection";
 const connection = ConnectionSQL();
 
 async function fetchAll() {
+    // TODO HACER EL INNER JOIN CON AMENITIES Y PHOTO
     const connect = await connection;
     const [rows] = await connect.execute("SELECT * FROM rooms");
     return rows;
@@ -35,7 +36,9 @@ async function update(id: string, roomData: IRooms) {
 
 async function deleteOne(id: string) {
     const connect = await connection;
-    const [rows] = await connect.execute(`DELETE * FROM rooms WHERE id = ${id}`);
+    await connect.execute(`DELETE FROM bookings WHERE room_id = ${id}`);
+    
+    const [rows] = await connect.execute(`DELETE FROM rooms WHERE id = ${id}`);
     return rows;
 }
 

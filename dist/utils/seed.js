@@ -32,6 +32,7 @@ async function createRooms() {
         const connect = await connection;
         const room = await (0, rooms_model_1.createNewRoom)(roomInput);
         rooms.push(room);
+        // TODO HACER LOS INNER JOIN DE AMENITIES Y DE PHOTO
         // connect.execute(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space, 24-Hour Guard, Free Wifi, Air Conditioner, Television, Towels, Mini Bar, Coffee Set, Bathtub, Jacuzzi, Nice Views')`);
         // connect.execute(`INSERT INTO room_to_amenity (room_id, amenity_id) VALUES(${i}, ${i})`);
     }

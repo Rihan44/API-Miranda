@@ -2,6 +2,7 @@ import { IRooms } from "../interfaces/Irooms";
 import { createNewRoom, deleteRoom, getAll, getOne, updateTheRoom } from "../models/rooms.model";
 
 async function getAllRooms() {
+    
     const result = await getAll();
     return result;
 }

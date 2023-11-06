@@ -7,6 +7,7 @@ exports.updateTheRoom = exports.createNewRoom = exports.deleteRoom = exports.get
 const connection_1 = __importDefault(require("../utils/connection"));
 const connection = (0, connection_1.default)();
 async function fetchAll() {
+    // TODO HACER EL INNER JOIN CON AMENITIES Y PHOTO
     const connect = await connection;
     const [rows] = await connect.execute("SELECT * FROM rooms");
     return rows;
@@ -32,7 +33,8 @@ async function update(id, roomData) {
 }
 async function deleteOne(id) {
     const connect = await connection;
-    const [rows] = await connect.execute(`DELETE * FROM rooms WHERE id = ${id}`);
+    await connect.execute(`DELETE FROM bookings WHERE room_id = ${id}`);
+    const [rows] = await connect.execute(`DELETE FROM rooms WHERE id = ${id}`);
     return rows;
 }
 exports.getAll = fetchAll;

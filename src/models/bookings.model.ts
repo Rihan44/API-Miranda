@@ -36,8 +36,12 @@ async function create(bookingData: IBookings) {
 
 async function update(id: string, bookingData: IBookings) {
     const connect = await connection;
+    const orderDate = new Date(bookingData.order_date);
+    const checkIn = new Date(bookingData.check_in);
+    const checkOut = new Date(bookingData.check_out);
+
     const [rows] = await connect.execute(`UPDATE bookings SET guest ='${bookingData.guest}', phone_number = '${bookingData.phone_number}'
-    , order_date = '${bookingData.order_date}', check_in = '${bookingData.check_in}', check_out = '${bookingData.check_out}'
+    , order_date = '${formatDateForMySQL(orderDate)}', check_in = '${formatDateForMySQL(checkIn)}', check_out = '${formatDateForMySQL(checkOut)}'
     , special_request = '${bookingData.special_request}', room_type= '${bookingData.room_type}', room_number = '${bookingData.room_number}'
     , status = '${bookingData.status}', price = '${bookingData.price}' WHERE id = ${id}`);
 
@@ -46,7 +50,8 @@ async function update(id: string, bookingData: IBookings) {
 
 async function deleteOne(id: string) {
     const connect = await connection;
-    const [rows] = await connect.execute(`DELETE * FROM bookings WHERE id = ${id}`);
+    console.log(id)
+    const [rows] = await connect.execute(`DELETE FROM bookings WHERE id = ${id}`);
     return rows;
 }
 

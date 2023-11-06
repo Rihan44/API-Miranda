@@ -29,14 +29,15 @@ async function create(userData) {
 }
 async function update(id, userData) {
     const connect = await connection;
+    const hireDate = new Date(userData.hire_date);
     const [rows] = await connect.execute(`UPDATE users SET name ='${userData.name}', email = '${userData.email}',
-    photo = '${userData.photo}', employee_position = '${userData.employee_position}', phone_number = '${userData.phone_number}', hire_date = '${userData.hire_date}'
-    , job_description = '${userData.job_description}', status = ${userData.status}, password_hash = ${userData.password_hash} WHERE id = ${id}`);
+    photo = '${userData.photo}', employee_position = '${userData.employee_position}', phone_number = '${userData.phone_number}', hire_date = '${formatDateForMySQL(hireDate)}'
+    , job_description = '${userData.job_description}', status = ${userData.status}, password_hash = "${userData.password_hash}" WHERE id = ${id}`);
     return rows;
 }
 async function deleteOne(id) {
     const connect = await connection;
-    const [rows] = await connect.execute(`DELETE * FROM users WHERE id = ${id}`);
+    const [rows] = await connect.execute(`DELETE FROM users WHERE id = ${id}`);
     return rows;
 }
 exports.getAll = fetchAll;

@@ -13,8 +13,8 @@ async function getById(id) {
     return contact;
 }
 async function createContact(contact) {
-    const result = await (0, messages_model_1.createNewContact)(contact);
-    return result;
+    await (0, messages_model_1.createNewContact)(contact);
+    return contact;
 }
 async function updateContact(id, updateData) {
     if (!id)

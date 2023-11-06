@@ -19,14 +19,14 @@ async function createUser(user) {
 async function updateUser(id, updateData) {
     if (!id)
         throw new Error('No existe el id');
-    await updateUser(id, updateData);
+    await (0, users_model_1.updateTheUser)(id, updateData);
     return updateData;
 }
 async function _delete(id) {
     if (!id)
         throw new Error('No existe el id');
     await (0, users_model_1.deleteUser)(id);
-    return 'User eliminado';
+    return;
 }
 exports.usersServices = {
     getAllUsers,
