@@ -12,8 +12,8 @@ async function getById(id: string) {
 }
 
 async function createBooking(booking: IBookings) {
-    const result = await createNewBooking(booking);
-    return result;
+    await createNewBooking(booking);
+    return booking;
 }
 
 async function updateBooking(id: string, updateData: IBookings) {

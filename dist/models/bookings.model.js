@@ -26,9 +26,12 @@ const formatDateForMySQL = (date) => {
 };
 async function create(bookingData) {
     const connect = await connection;
+    const orderDate = new Date(bookingData.order_date);
+    const checkIn = new Date(bookingData.check_in);
+    const checkOut = new Date(bookingData.check_out);
     const [rows] = await connect.execute(`INSERT INTO bookings (guest, phone_number, order_date, check_in, check_out, special_request, room_type
-        , room_number, status, price, room_id) VALUES ("${bookingData.guest}", '${bookingData.phone_number}', '${formatDateForMySQL(bookingData.order_date)}', 
-            '${formatDateForMySQL(bookingData.check_in)}', '${formatDateForMySQL(bookingData.check_out)}', '${bookingData.special_request}', '${bookingData.room_type}', 
+        , room_number, status, price, room_id) VALUES ("${bookingData.guest}", '${bookingData.phone_number}', '${formatDateForMySQL(orderDate)}', 
+            '${formatDateForMySQL(checkIn)}', '${formatDateForMySQL(checkOut)}', '${bookingData.special_request}', '${bookingData.room_type}', 
             '${bookingData.room_number}', '${bookingData.status}', ${bookingData.price}, ${bookingData.room_id})`);
     return rows;
 }

@@ -11,8 +11,8 @@ async function getById(id) {
     return booking;
 }
 async function createBooking(booking) {
-    const result = await (0, bookings_model_1.createNewBooking)(booking);
-    return result;
+    await (0, bookings_model_1.createNewBooking)(booking);
+    return booking;
 }
 async function updateBooking(id, updateData) {
     if (!id)
