@@ -1,31 +1,31 @@
 import { IUsers } from "../interfaces/Iusers";
-import { UsersModel } from "../models/users.model";
+import { createNewUser, deleteUser, getAll, getOne } from "../models/users.model";
 
 async function getAllUsers() {
-    const result = await UsersModel.find();
+    const result = await getAll();
     return result;
 }
 
 async function getById(id: string) {
-    const user = await UsersModel.findById(id).exec();
+    const user = await getOne(id);
 	if (user === undefined) throw new Error('El id no existe')
     return user;
 }
 
 async function createUser(user: IUsers) {
-    const result = await UsersModel.create(user);
+    const result = await createNewUser(user);
     return result;
 }
 
-async function updateUser(id: string, updateData: Partial<IUsers>) {
+async function updateUser(id: string, updateData: IUsers) {
     if(!id) throw new Error('No existe el id');
-    await UsersModel.findByIdAndUpdate(id, updateData);
+    await updateUser(id, updateData);
     return updateData;
 }
 
 async function _delete(id: string) {
     if(!id) throw new Error('No existe el id');
-    await UsersModel.findByIdAndRemove(id);
+    await deleteUser(id);
     return 'User eliminado';
 }
 
