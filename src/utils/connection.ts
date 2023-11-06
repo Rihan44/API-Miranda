@@ -1,20 +1,19 @@
 import 'dotenv/config';
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 
 async function ConnectionSQL(){
-    // create the connection
-    const pool = mysql.createPool(
+    const connection = mysql.createConnection(
         {
             host:process.env.SQL_SERVER, 
             user: process.env.SQL_USER, 
-            password: process.env.SQL_PASSWORD, 
-            database: process.env.SQL_DATA_DB
+            password: process.env.SQL_PASSWORD,
+            database: process.env.SQL_DATA_DB, 
+            port: 3307
         }
     );
 
     console.log('Conectado a SQL correctamente');
-    const promisePool = pool.promise();
-    return promisePool;
+    return connection;
 } 
 
 export default ConnectionSQL;

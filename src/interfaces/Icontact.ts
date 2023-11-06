@@ -5,7 +5,7 @@ export interface IContact {
     phone: string,
     email_subject: string,
     email_description: string,
-    date: string, 
-    date_time: string,
+    date: Date, 
+    date_time: Date,
     is_archived: boolean
 }

@@ -3,13 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bookings_model_1 = require("../models/bookings.model");
 const faker_1 = require("@faker-js/faker");
-const conection_1 = __importDefault(require("./conection"));
+const connection_1 = __importDefault(require("./connection"));
 const rooms_model_1 = require("../models/rooms.model");
+const bookings_model_1 = require("../models/bookings.model");
 const users_model_1 = require("../models/users.model");
 const messages_model_1 = require("../models/messages.model");
-(0, conection_1.default)();
+const connection = (0, connection_1.default)();
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
 const NUM_USERS = 10;
@@ -23,32 +23,21 @@ async function createRooms() {
             "room_photo": faker_1.faker.image.url(),
             "room_type": roomType[faker_1.faker.number.int({ min: 0, max: 5 })],
             "room_number": faker_1.faker.number.int({ min: 1, max: 599 }),
-            "amenities": [
-                "1/3 Bed Space",
-                "24-Hour Guard",
-                "Free Wifi",
-                "Air Conditioner",
-                "Television",
-                "Towels",
-                "Mini Bar",
-                "Coffee Set",
-                "Bathtub",
-                "Jacuzzi",
-                "Nice Views"
-            ],
             "price": faker_1.faker.number.int({ min: 30, max: 3000 }),
             "offer_price": faker_1.faker.datatype.boolean(),
             "discount": faker_1.faker.number.int({ min: 1, max: 100 }),
             "status": "available",
             "description": faker_1.faker.lorem.words({ min: 10, max: 15 })
         };
-        const room = await rooms_model_1.RoomsModel.create(roomInput);
+        const connect = await connection;
+        const room = await (0, rooms_model_1.createNewRoom)(roomInput);
         rooms.push(room);
+        // connect.execute(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space, 24-Hour Guard, Free Wifi, Air Conditioner, Television, Towels, Mini Bar, Coffee Set, Bathtub, Jacuzzi, Nice Views')`);
+        // connect.execute(`INSERT INTO room_to_amenity (room_id, amenity_id) VALUES(${i}, ${i})`);
     }
 }
 async function createBookings() {
     for (let i = 0; i < NUM_BOOKINGS; i++) {
-        const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS + 1);
         const bookingsInput = {
             "guest": faker_1.faker.person.fullName(),
             "phone_number": faker_1.faker.phone.number(),
@@ -56,13 +45,13 @@ async function createBookings() {
             "check_in": faker_1.faker.date.recent(),
             "check_out": faker_1.faker.date.future(),
             "special_request": faker_1.faker.lorem.text(),
-            "roomID": rooms[randomRoomIndex]._id.toString(),
             "room_type": roomType[faker_1.faker.number.int({ min: 0, max: 5 })],
             "room_number": faker_1.faker.number.int({ min: 1, max: 599 }),
             "status": checks[faker_1.faker.number.int({ min: 0, max: 1 })],
             "price": faker_1.faker.number.int({ min: 30, max: 3000 }),
+            "room_id": 1 + i,
         };
-        await bookings_model_1.BookingsModel.create(bookingsInput);
+        await (0, bookings_model_1.createNewBooking)(bookingsInput);
     }
 }
 async function createUsers() {
@@ -78,7 +67,7 @@ async function createUsers() {
             "status": faker_1.faker.datatype.boolean(),
             "password_hash": faker_1.faker.internet.password()
         };
-        await users_model_1.UsersModel.create(usersInput);
+        await (0, users_model_1.createNewUser)(usersInput);
     }
 }
 async function createMessages() {
@@ -90,10 +79,10 @@ async function createMessages() {
             "email_subject": faker_1.faker.word.verb(),
             "email_description": faker_1.faker.lorem.words({ min: 10, max: 15 }),
             "date": faker_1.faker.date.recent(),
-            "dateTime": faker_1.faker.date.anytime(),
-            "isArchived": faker_1.faker.datatype.boolean()
+            "date_time": faker_1.faker.date.anytime(),
+            "is_archived": faker_1.faker.datatype.boolean()
         };
-        await messages_model_1.MessageModel.create(messagesInput);
+        await (0, messages_model_1.createNewContact)(messagesInput);
     }
 }
 (async () => {
@@ -102,4 +91,3 @@ async function createMessages() {
     await createUsers();
     await createMessages();
 })();
-process.exit();

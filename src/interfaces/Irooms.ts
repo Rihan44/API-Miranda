@@ -3,7 +3,7 @@ export interface IRooms {
     room_photo?: string,
     room_type: string,
     room_number: number,
-    amenities: string[],
+    amenities?: string[],
     price: number,
     offer_price: boolean,
     discount: number,

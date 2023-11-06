@@ -1,11 +1,11 @@
-import { BookingsModel } from "../models/bookings.model";
 import { faker } from '@faker-js/faker';
-import ConectionMongo from "./connection";
-import { RoomsModel } from "../models/rooms.model";
-import { UsersModel } from "../models/users.model";
-import { MessageModel } from "../models/messages.model";
+import ConnectionSQL from "./connection";
+import { createNewRoom } from '../models/rooms.model';
+import { createNewBooking } from '../models/bookings.model';
+import { createNewUser } from '../models/users.model';
+import { createNewContact } from '../models/messages.model';
 
-ConectionMongo();
+const connection = ConnectionSQL();
 
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
@@ -18,41 +18,29 @@ const roomType = ["Double Superior", "Single", "Deluxe", "Suite", "Imperial", "D
 const checks = ['check_in', 'check_out'];
 
 async function createRooms() {
-
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomInput = {
             "room_photo": faker.image.url(),
             "room_type": roomType[faker.number.int({ min: 0, max: 5 })],
             "room_number": faker.number.int({ min: 1, max: 599 }),
-            "amenities": [
-                "1/3 Bed Space",
-                "24-Hour Guard",
-                "Free Wifi",
-                "Air Conditioner",
-                "Television",
-                "Towels",
-                "Mini Bar",
-                "Coffee Set",
-                "Bathtub",
-                "Jacuzzi",
-                "Nice Views"
-            ],
             "price": faker.number.int({ min: 30, max: 3000 }),
             "offer_price": faker.datatype.boolean(),
             "discount": faker.number.int({ min: 1, max: 100 }),
             "status": "available",
             "description": faker.lorem.words({ min: 10, max: 15 })
         }
-
-        const room: any = await RoomsModel.create(roomInput);
+        const connect = await connection;
+        const room = await createNewRoom(roomInput);
         rooms.push(room);
 
+        // connect.execute(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space, 24-Hour Guard, Free Wifi, Air Conditioner, Television, Towels, Mini Bar, Coffee Set, Bathtub, Jacuzzi, Nice Views')`);
+
+        // connect.execute(`INSERT INTO room_to_amenity (room_id, amenity_id) VALUES(${i}, ${i})`);
     }
 }
 
 async function createBookings() {
     for (let i = 0; i < NUM_BOOKINGS; i++) {
-        const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS + 1);
         const bookingsInput = {
             "guest": faker.person.fullName(),
             "phone_number": faker.phone.number(),
@@ -60,13 +48,13 @@ async function createBookings() {
             "check_in": faker.date.recent(),
             "check_out": faker.date.future(),
             "special_request": faker.lorem.text(),
-            "roomID": rooms[randomRoomIndex]._id.toString(),
             "room_type": roomType[faker.number.int({ min: 0, max: 5 })],
             "room_number": faker.number.int({ min: 1, max: 599 }),
             "status": checks[faker.number.int({ min: 0, max: 1 })],
             "price": faker.number.int({ min: 30, max: 3000 }),
+            "room_id": 1 + i,
         }
-        await BookingsModel.create(bookingsInput);
+        await createNewBooking(bookingsInput);
     }
 }
 
@@ -83,7 +71,7 @@ async function createUsers() {
             "status": faker.datatype.boolean(),
             "password_hash": faker.internet.password()
         }
-        await UsersModel.create(usersInput);
+        await createNewUser(usersInput);
     }
 }
 
@@ -96,10 +84,10 @@ async function createMessages() {
             "email_subject": faker.word.verb(),
             "email_description": faker.lorem.words({ min: 10, max: 15 }),
             "date": faker.date.recent(),
-            "dateTime": faker.date.anytime(),
-            "isArchived": faker.datatype.boolean()
+            "date_time": faker.date.anytime(),
+            "is_archived": faker.datatype.boolean()
         }
-        await MessageModel.create(messagesInput);
+        await createNewContact(messagesInput);
     }
 }
 
@@ -109,5 +97,3 @@ async function createMessages() {
     await createUsers();
     await createMessages();
 })();
-
-process.exit();

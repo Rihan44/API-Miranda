@@ -1,39 +1,46 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersModel = void 0;
-const mongoose_1 = __importStar(require("mongoose"));
-const usersSchema = new mongoose_1.Schema({
-    name: { type: String },
-    email: { type: String },
-    photo: { type: String },
-    employee_position: { type: String },
-    phone_number: { type: String },
-    hire_date: { type: String },
-    job_description: { type: String },
-    status: { type: Boolean },
-    password_hash: { type: String }
-});
-exports.UsersModel = mongoose_1.default.model('users', usersSchema);
+exports.updateTheUser = exports.createNewUser = exports.deleteUser = exports.getOne = exports.getAll = void 0;
+const connection_1 = __importDefault(require("../utils/connection"));
+const connection = (0, connection_1.default)();
+async function fetchAll() {
+    const connect = await connection;
+    const [rows] = await connect.execute("SELECT * FROM users");
+    return rows;
+}
+async function fetchOne(id) {
+    const connect = await connection;
+    const [rows] = await connect.execute(`SELECT * FROM users WHERE id = ${id}`);
+    return rows;
+}
+const formatDateForMySQL = (date) => {
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+};
+async function create(userData) {
+    const connect = await connection;
+    const [rows] = await connect.execute(`INSERT INTO users (name, email, photo, employee_position, phone_number, hire_date, job_description, 
+        status, password_hash) 
+    VALUES ('${userData.name}', '${userData.email}', '${userData.photo}', '${userData.employee_position}', '${userData.phone_number}',
+        '${formatDateForMySQL(userData.hire_date)}', '${userData.job_description}', ${userData.status}, '${userData.password_hash}')`);
+    return rows;
+}
+async function update(id, userData) {
+    const connect = await connection;
+    const [rows] = await connect.execute(`UPDATE users SET name ='${userData.name}', email = '${userData.email}',
+    photo = '${userData.photo}', employee_position = '${userData.employee_position}', phone_number = '${userData.phone_number}', hire_date = '${userData.hire_date}'
+    , job_description = '${userData.job_description}', status = ${userData.status}, password_hash = ${userData.password_hash} WHERE id = ${id}`);
+    return rows;
+}
+async function deleteOne(id) {
+    const connect = await connection;
+    const [rows] = await connect.execute(`DELETE * FROM users WHERE id = ${id}`);
+    return rows;
+}
+exports.getAll = fetchAll;
+exports.getOne = fetchOne;
+exports.deleteUser = deleteOne;
+exports.createNewUser = create;
+exports.updateTheUser = update;

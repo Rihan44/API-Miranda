@@ -4,30 +4,45 @@ import ConnectionSQL from "../utils/connection";
 const connection = ConnectionSQL();
 
 async function fetchAll() {
-    const pool = await connection;
-    const [rows] = await pool.query("SELECT * FROM contact");
+    const connect = await connection;
+    const [rows] = await connect.execute("SELECT * FROM contact");
     return rows;
 }
 
 async function fetchOne(id: string) {
-    const pool = await connection;
-    const [rows] = await pool.query(`SELECT * FROM contact WHERE id = ${id}`);
+    const connect = await connection;
+    const [rows] = await connect.execute(`SELECT * FROM contact WHERE id = ${id}`);
     return rows;
 }
 
+const formatDateForMySQL = (date: Date) => {
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+};
+
+const  formatDateTimeForMySQL = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 async function create(contactData: IContact) {
-    const pool = await connection;
-    const [rows] = await pool.query(`INTER INTO contact (name, email, phone, email_subject, email_description, date, date_time, 
+    const connect = await connection;
+    const [rows] = await connect.execute(`INSERT INTO contact (name, email, phone, email_subject, email_description, date, date_time, 
         is_archived) 
-    VALUES (${contactData.name}, ${contactData.email}, ${contactData.phone}, ${contactData.email_subject}, ${contactData.email_description}
-        , ${contactData.date}, ${contactData.date_time}, ${contactData.is_archived})`);
+    VALUES ("${contactData.name}", '${contactData.email}', '${contactData.phone}', '${contactData.email_subject}', '${contactData.email_description}',
+        '${formatDateForMySQL(contactData.date)}', '${formatDateTimeForMySQL(contactData.date_time)}', ${contactData.is_archived})`);
 
     return rows;
 }
 
 async function update(id: string, contactData: IContact) {
-    const pool = await connection;
-    const [rows] = await pool.query(`UPDATE contact SET name ='${contactData.name}', email = '${contactData.email}',
+    const connect = await connection;
+    const [rows] = await connect.execute(`UPDATE contact SET name ='${contactData.name}', email = '${contactData.email}',
     phone = '${contactData.phone}', email_subject = '${contactData.email_subject}', email_description = '${contactData.email_description}', date = '${contactData.date}'
     , date_time = '${contactData.date_time}', is_archived = ${contactData.is_archived} WHERE id = ${id}`);
 
@@ -35,8 +50,8 @@ async function update(id: string, contactData: IContact) {
 }
 
 async function deleteOne(id: string) {
-    const pool = await connection;
-    const [rows] = await pool.query(`DELETE * FROM contact WHERE id = ${id}`);
+    const connect = await connection;
+    const [rows] = await connect.execute(`DELETE * FROM contact WHERE id = ${id}`);
     return rows;
 }
 

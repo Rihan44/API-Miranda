@@ -1,39 +1,42 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RoomsModel = void 0;
-const mongoose_1 = __importStar(require("mongoose"));
-const roomsSchema = new mongoose_1.Schema({
-    room_photo: { type: String },
-    room_type: { type: String },
-    room_number: { type: Number },
-    amenities: { type: [] },
-    price: { type: Number },
-    offer_price: { type: Boolean },
-    discount: { type: Number },
-    status: { type: String },
-    description: { type: String }
-});
-exports.RoomsModel = mongoose_1.default.model('rooms', roomsSchema);
+exports.updateTheRoom = exports.createNewRoom = exports.deleteRoom = exports.getOne = exports.getAll = void 0;
+const connection_1 = __importDefault(require("../utils/connection"));
+const connection = (0, connection_1.default)();
+async function fetchAll() {
+    const connect = await connection;
+    const [rows] = await connect.execute("SELECT * FROM rooms");
+    return rows;
+}
+async function fetchOne(id) {
+    const connect = await connection;
+    const [rows] = await connect.execute(`SELECT * FROM rooms WHERE id = ${id}`);
+    return rows;
+}
+async function create(roomData) {
+    const connect = await connection;
+    const [rows] = await connect.execute(`INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) 
+    VALUES ('${roomData.room_type}', ${roomData.room_number}, ${roomData.price}, ${roomData.offer_price}, ${roomData.discount},
+        '${roomData.status}', '${roomData.description}')`);
+    return rows;
+}
+async function update(id, roomData) {
+    const connect = await connection;
+    const [rows] = await connect.execute(`UPDATE rooms SET room_type ='${roomData.room_type}', room_number = '${roomData.room_number}',
+    price = '${roomData.price}', offer_price = '${roomData.offer_price}', discount = '${roomData.discount}', status = '${roomData.status}'
+    , description = '${roomData.description}' WHERE id = ${id}`);
+    return rows;
+}
+async function deleteOne(id) {
+    const connect = await connection;
+    const [rows] = await connect.execute(`DELETE * FROM rooms WHERE id = ${id}`);
+    return rows;
+}
+exports.getAll = fetchAll;
+exports.getOne = fetchOne;
+exports.deleteRoom = deleteOne;
+exports.createNewRoom = create;
+exports.updateTheRoom = update;
