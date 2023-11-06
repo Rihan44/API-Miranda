@@ -13,8 +13,8 @@ async function getById(id: string) {
 }
 
 async function createUser(user: IUsers) {
-    const result = await createNewUser(user);
-    return result;
+    await createNewUser(user);
+    return user;
 }
 
 async function updateUser(id: string, updateData: IUsers) {

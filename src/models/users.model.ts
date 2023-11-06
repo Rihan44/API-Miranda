@@ -21,10 +21,12 @@ const formatDateForMySQL = (date: Date) => {
 
 async function create(userData: IUsers) {
     const connect = await connection;
+    const hireDate = new Date(userData.hire_date);
+
     const [rows] = await connect.execute(`INSERT INTO users (name, email, photo, employee_position, phone_number, hire_date, job_description, 
         status, password_hash) 
     VALUES ('${userData.name}', '${userData.email}', '${userData.photo}', '${userData.employee_position}', '${userData.phone_number}',
-        '${formatDateForMySQL(userData.hire_date)}', '${userData.job_description}', ${userData.status}, '${userData.password_hash}')`);
+        '${formatDateForMySQL(hireDate)}', '${userData.job_description}', ${userData.status}, '${userData.password_hash}')`);
 
     return rows;
 }

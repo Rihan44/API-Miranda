@@ -13,8 +13,8 @@ async function getById(id) {
     return user;
 }
 async function createUser(user) {
-    const result = await (0, users_model_1.createNewUser)(user);
-    return result;
+    await (0, users_model_1.createNewUser)(user);
+    return user;
 }
 async function updateUser(id, updateData) {
     if (!id)
