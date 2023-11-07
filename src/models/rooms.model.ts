@@ -4,16 +4,36 @@ import ConnectionSQL from "../utils/connection";
 const connection = ConnectionSQL();
 
 async function fetchAll() {
-    // TODO HACER EL INNER JOIN CON AMENITIES Y PHOTO
     const connect = await connection;
-    const [rows] = await connect.execute("SELECT * FROM rooms");
-    // 'SELECT r.*, GROUP_CONCAT(DISTINCT p.photos) AS all_photos, GROUP_CONCAT(a.amenities) AS all_amenities FROM room r LEFT JOIN photo p ON r.id = p.room_id LEFT JOIN amenities_has_room ahr ON r.id = ahr.room_id LEFT JOIN amenity a ON ahr.amenity_id = a.id GROUP BY r.id;')
+    const [rows] = await connect.execute(`
+    SELECT
+      r.*,
+      GROUP_CONCAT(DISTINCT rp.room_photo_url) AS all_photos,
+      COALESCE(GROUP_CONCAT(DISTINCT a.amenity_name), '') AS all_amenities
+    FROM rooms r
+    LEFT JOIN amenity_to_room atr ON r.id = atr.room_id
+    LEFT JOIN amenities a ON (atr.amenity_id = a.id AND atr.room_id = r.id)
+    LEFT JOIN room_photos rp ON r.id = rp.id
+    GROUP BY r.id;
+  `);
     return rows;
 }
 
 async function fetchOne(id: string) {
     const connect = await connection;
-    const [rows] = await connect.execute(`SELECT * FROM rooms WHERE id = ${id}`);
+    const [rows] = await connect.execute(   `
+    SELECT
+      r.*,
+      GROUP_CONCAT(DISTINCT rp.room_photo_url) AS all_photos,
+      COALESCE(GROUP_CONCAT(DISTINCT a.amenity_name), '') AS all_amenities
+    FROM rooms r
+    LEFT JOIN amenity_to_room atr ON r.id = atr.room_id
+    LEFT JOIN amenities a ON (atr.amenity_id = a.id AND atr.room_id = r.id)
+    LEFT JOIN room_photos rp ON r.id = rp.id WHERE r.id = ${id}
+    GROUP BY r.id;
+  `
+    );
+
     return rows;
 }
 
@@ -38,6 +58,7 @@ async function update(id: string, roomData: IRooms) {
 async function deleteOne(id: string) {
     const connect = await connection;
     await connect.execute(`DELETE FROM bookings WHERE room_id = ${id}`);
+    await connect.execute(`DELETE FROM amenity_to_room WHERE room_id = ${id}`);
     
     const [rows] = await connect.execute(`DELETE FROM rooms WHERE id = ${id}`);
     return rows;

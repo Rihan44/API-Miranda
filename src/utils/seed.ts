@@ -77,6 +77,7 @@ async function createRooms() {
 
 async function createAmenitiesToRoom() {
     const connect = await connection;
+    
     await connect.execute(`
     CREATE TABLE IF NOT EXISTS amenity_to_room (
         room_id INT,
@@ -87,7 +88,10 @@ async function createAmenitiesToRoom() {
     );
 
     for (let i = 0; i < NUM_ROOMS; i++) {
-        await connect.execute(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${1 + i}, ${1 + i})`);
+        const roomID = Math.floor(Math.random() * NUM_ROOMS) + 1;
+        const amenityID = Math.floor(Math.random() * NUM_ROOMS) + 1;
+
+        await connect.execute(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${roomID}, ${amenityID})`);
     }
 }
 
@@ -198,9 +202,9 @@ async function createMessages() {
 }
 
 (async () => {
-    // await createRooms();
-    // await createBookings();
-    // await createUsers();
-    // await createMessages();
+    await createRooms();
+    await createBookings();
+    await createUsers();
+    await createMessages();
     await createAmenitiesToRoom();
 })();

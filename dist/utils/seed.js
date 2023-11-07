@@ -72,7 +72,9 @@ async function createAmenitiesToRoom() {
         FOREIGN KEY (amenity_id) REFERENCES amenities(id)
     )`);
     for (let i = 0; i < NUM_ROOMS; i++) {
-        await connect.execute(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${1 + i}, ${1 + i})`);
+        const roomID = Math.floor(Math.random() * NUM_ROOMS) + 1;
+        const amenityID = Math.floor(Math.random() * NUM_ROOMS) + 1;
+        await connect.execute(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${roomID}, ${amenityID})`);
     }
 }
 async function createBookings() {
@@ -169,9 +171,9 @@ async function createMessages() {
     }
 }
 (async () => {
-    // await createRooms();
-    // await createBookings();
-    // await createUsers();
-    // await createMessages();
+    await createRooms();
+    await createBookings();
+    await createUsers();
+    await createMessages();
     await createAmenitiesToRoom();
 })();
