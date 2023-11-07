@@ -10,6 +10,7 @@ async function fetchAll() {
     // TODO HACER EL INNER JOIN CON AMENITIES Y PHOTO
     const connect = await connection;
     const [rows] = await connect.execute("SELECT * FROM rooms");
+    // 'SELECT r.*, GROUP_CONCAT(DISTINCT p.photos) AS all_photos, GROUP_CONCAT(a.amenities) AS all_amenities FROM room r LEFT JOIN photo p ON r.id = p.room_id LEFT JOIN amenities_has_room ahr ON r.id = ahr.room_id LEFT JOIN amenity a ON ahr.amenity_id = a.id GROUP BY r.id;')
     return rows;
 }
 async function fetchOne(id) {

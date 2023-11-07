@@ -18,6 +18,34 @@ const rooms = [];
 const roomType = ["Double Superior", "Single", "Deluxe", "Suite", "Imperial", "Double"];
 const checks = ['check_in', 'check_out'];
 async function createRooms() {
+    const connect = await connection;
+    await connect.execute(`
+        CREATE TABLE IF NOT EXISTS rooms (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            room_type VARCHAR(255),
+            room_number VARCHAR(255),
+            price DOUBLE,
+            offer_price BOOLEAN,
+            discount INT,
+            status VARCHAR(255),
+            description LONGTEXT
+        )`);
+    await connect.execute(`
+        CREATE TABLE IF NOT EXISTS room_photos (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            room_photo_url VARCHAR(255)
+        )`);
+    await connect.execute(`
+        CREATE TABLE IF NOT EXISTS amenities (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            amenity_name VARCHAR(255)
+        )`);
+    await connect.execute(`
+        CREATE TABLE IF NOT EXISTS room_photos (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            room_photo_url VARCHAR(255)
+        )`);
+    await connect.execute(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space'), ('24-Hour Guard'), ('Free Wifi'), ('Air Conditioner'), ('Television'), ('Towels'), ('Mini Bar'), ('Coffee Set'), ('Bathtub'), ('Jacuzzi'), ('Nice Views')`);
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomInput = {
             "room_photo": faker_1.faker.image.url(),
@@ -29,23 +57,50 @@ async function createRooms() {
             "status": "available",
             "description": faker_1.faker.lorem.words({ min: 10, max: 15 })
         };
-        const connect = await connection;
         const room = await (0, rooms_model_1.createNewRoom)(roomInput);
         rooms.push(room);
-        // TODO HACER LOS INNER JOIN DE AMENITIES Y DE PHOTO
-        // connect.execute(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space, 24-Hour Guard, Free Wifi, Air Conditioner, Television, Towels, Mini Bar, Coffee Set, Bathtub, Jacuzzi, Nice Views')`);
-        // connect.execute(`INSERT INTO room_to_amenity (room_id, amenity_id) VALUES(${i}, ${i})`);
+        await connect.execute(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
+    }
+}
+async function createAmenitiesToRoom() {
+    const connect = await connection;
+    await connect.execute(`
+    CREATE TABLE IF NOT EXISTS amenity_to_room (
+        room_id INT,
+        amenity_id INT,
+        FOREIGN KEY (room_id) REFERENCES rooms(id),
+        FOREIGN KEY (amenity_id) REFERENCES amenities(id)
+    )`);
+    for (let i = 0; i < NUM_ROOMS; i++) {
+        await connect.execute(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${1 + i}, ${1 + i})`);
     }
 }
 async function createBookings() {
+    const connect = await connection;
+    await connect.execute(`
+        CREATE TABLE IF NOT EXISTS bookings (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            guest VARCHAR(255),
+            phone_number VARCHAR(255),
+            order_date DATE,
+            check_in DATE,
+            check_out DATE,
+            special_request TEXT,
+            room_type VARCHAR(255),
+            room_number VARCHAR(255),
+            status VARCHAR(255),
+            price DOUBLE,
+            room_id INT,
+            FOREIGN KEY (room_id) REFERENCES rooms(id)
+        )`);
     for (let i = 0; i < NUM_BOOKINGS; i++) {
         const bookingsInput = {
             "guest": faker_1.faker.person.fullName(),
-            "phone_number": faker_1.faker.phone.number(),
+            "phone_number": faker_1.faker.phone.number('501-###-###'),
             "order_date": faker_1.faker.date.anytime(),
             "check_in": faker_1.faker.date.recent(),
             "check_out": faker_1.faker.date.future(),
-            "special_request": faker_1.faker.lorem.text(),
+            "special_request": faker_1.faker.lorem.words({ min: 5, max: 20 }),
             "room_type": roomType[faker_1.faker.number.int({ min: 0, max: 5 })],
             "room_number": faker_1.faker.number.int({ min: 1, max: 599 }),
             "status": checks[faker_1.faker.number.int({ min: 0, max: 1 })],
@@ -56,6 +111,20 @@ async function createBookings() {
     }
 }
 async function createUsers() {
+    const connect = await connection;
+    await connect.execute(`
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            email VARCHAR(255) UNIQUE,
+            photo VARCHAR(255),
+            employee_position VARCHAR(255),
+            phone_number VARCHAR(255),
+            hire_date DATE,
+            job_description LONGTEXT,
+            status BOOLEAN,
+            password_hash VARBINARY(60)
+          )`);
     for (let i = 0; i < NUM_USERS; i++) {
         const usersInput = {
             "name": faker_1.faker.person.fullName(),
@@ -72,6 +141,19 @@ async function createUsers() {
     }
 }
 async function createMessages() {
+    const connect = await connection;
+    await connect.execute(`
+        CREATE TABLE IF NOT EXISTS contact (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            email VARCHAR(255),
+            phone VARCHAR(255),
+            email_subject VARCHAR(255),
+            email_description LONGTEXT,
+            date DATE,
+            date_time DATETIME,
+            is_archived BOOLEAN
+          )`);
     for (let i = 0; i < NUM_MESSAGES; i++) {
         const messagesInput = {
             "name": faker_1.faker.person.fullName(),
@@ -87,8 +169,9 @@ async function createMessages() {
     }
 }
 (async () => {
-    await createRooms();
-    await createBookings();
-    await createUsers();
-    await createMessages();
+    // await createRooms();
+    // await createBookings();
+    // await createUsers();
+    // await createMessages();
+    await createAmenitiesToRoom();
 })();
