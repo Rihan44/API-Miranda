@@ -1,78 +1,18 @@
-import { IRooms } from "../interfaces/Irooms";
-import {queryExecuter} from "../utils/connection";
+import Joi from 'joi';
 
-async function fetchAll() {
-    const query = `
-      SELECT
-        r.*,
-        GROUP_CONCAT(DISTINCT rp.room_photo_url) AS all_photos,
-        COALESCE(GROUP_CONCAT(DISTINCT a.amenity_name), 'Free Wifi, TV') AS all_amenities
-      FROM rooms r
-      LEFT JOIN amenity_to_room atr ON r.id = atr.room_id
-      LEFT JOIN amenities a ON (atr.amenity_id = a.id AND atr.room_id = r.id)
-      LEFT JOIN room_photos rp ON r.id = rp.id
-      GROUP BY r.id`;
+export const RoomSchema = Joi.object({
+    room_photo: Joi.string(),
+    room_type: Joi.string(),
+    price: Joi.number(),
+    offer_price: Joi.boolean(),
+    discount: Joi.number(),
+    status: Joi.string(),
+    description: Joi.string(),
+})
+.with('username', 'birth_year')
+.xor('password', 'access_token')
+.with('password', 'repeat_password');
 
-    const row = queryExecuter(query);
-    return row;
-}
+RoomSchema.validate({});
 
-async function fetchOne(id: string) {
-    const query = `
-    SELECT
-      r.*,
-      GROUP_CONCAT(DISTINCT rp.room_photo_url) AS all_photos,
-      COALESCE(GROUP_CONCAT(DISTINCT a.amenity_name), 'Free Wifi, TV') AS all_amenities
-    FROM rooms r
-    LEFT JOIN amenity_to_room atr ON r.id = atr.room_id
-    LEFT JOIN amenities a ON (atr.amenity_id = a.id AND atr.room_id = r.id)
-    LEFT JOIN room_photos rp ON r.id = rp.id WHERE r.id = ?
-    GROUP BY r.id`;
 
-    const row = queryExecuter(query, [id]);
-    return row;
-}
-
-async function create(roomData: IRooms) {
-
-    const data = [
-      roomData.room_type,
-      roomData.room_number,
-      roomData.price,
-      roomData.offer_price,
-      roomData.discount,
-      roomData.status,
-      roomData.description,
-    ];
-
-    const query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';  
-
-    const row = queryExecuter(query, data);
-    return row;
-}
-
-// async function update(id: string, roomData: IRooms) {
-//   // TODO HACERLO CON ?
-
-//     const [rows] = await connection.promise().query(`UPDATE rooms SET room_type ='${roomData.room_type}', room_number = '${roomData.room_number}',
-//     price = '${roomData.price}', offer_price = '${roomData.offer_price}', discount = '${roomData.discount}', status = '${roomData.status}'
-//     , description = '${roomData.description}' WHERE id = ${id}`);
-
-//     return rows;
-// }
-
-// async function deleteOne(id: string) {
-//   // TODO HACERLO CON ?
-
-//     await connection.promise().query(`DELETE FROM bookings WHERE room_id = ${id}`);
-//     await connection.promise().query(`DELETE FROM amenity_to_room WHERE room_id = ${id}`);
-    
-//     const [rows] = await connection.promise().query(`DELETE FROM rooms WHERE id = ${id}`);
-//     return rows;
-// }
-
-export const getAll = fetchAll;
-export const getOne = fetchOne;
-// export const deleteRoom = deleteOne;
-export const createNewRoom = create;
-// export const updateTheRoom = update;

@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const faker_1 = require("@faker-js/faker");
 const connection_1 = __importDefault(require("./connection"));
-const rooms_model_1 = require("../models/rooms.model");
 const bookings_model_1 = require("../models/bookings.model");
 const users_model_1 = require("../models/users.model");
 const messages_model_1 = require("../models/messages.model");
+const rooms_1 = require("../services/rooms");
 const connection = (0, connection_1.default)();
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
@@ -59,7 +59,7 @@ async function createRooms() {
             "status": "available",
             "description": faker_1.faker.lorem.words({ min: 10, max: 15 })
         };
-        const room = await (0, rooms_model_1.createNewRoom)(roomInput);
+        const room = await rooms_1.roomsService.createRoom(roomInput);
         rooms.push(room);
         await connect.execute(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
     }

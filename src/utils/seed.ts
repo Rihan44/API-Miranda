@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
 import ConnectionSQL from "./connection";
-import { createNewRoom } from '../models/rooms.model';
 import { createNewBooking } from '../models/bookings.model';
 import { createNewUser } from '../models/users.model';
 import { createNewContact } from '../models/messages.model';
+import { roomsService } from '../services/rooms';
 
 const connection = ConnectionSQL();
 
@@ -70,7 +70,7 @@ async function createRooms() {
             "status": "available",
             "description": faker.lorem.words({ min: 10, max: 15 })
         }
-        const room = await createNewRoom(roomInput);
+        const room = await roomsService.createRoom(roomInput);
         rooms.push(room);
 
         await connect.execute(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
