@@ -11,7 +11,7 @@ exports.RoomSchema = joi_1.default.object({
     room_number: joi_1.default.number(),
     price: joi_1.default.number(),
     offer_price: joi_1.default.boolean(),
-    discount: joi_1.default.number(),
+    discount: joi_1.default.number().max(100),
     status: joi_1.default.string(),
-    description: joi_1.default.string(),
+    description: joi_1.default.string().min(3).max(150),
 });
