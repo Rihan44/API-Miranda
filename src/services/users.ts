@@ -22,7 +22,7 @@ const formatDateForMySQL = (date: Date) => {
 
 async function createUser(user: IUsers) {
     const hire_date = new Date(user.hire_date);
-    const password_hash = hashPassword(user.password_hash);
+    // const password_hash = hashPassword(user.password_hash);
 
     const data = [
         user.name,
@@ -33,7 +33,7 @@ async function createUser(user: IUsers) {
         hire_date,
         user.job_description,
         user.status,
-        password_hash
+        user.password_hash
     ]
 
     query = `INSERT INTO users (name, email, photo, employee_position, phone_number, hire_date, job_description, status, password_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;

@@ -1,15 +1,11 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const faker_1 = require("@faker-js/faker");
-const connection_1 = __importDefault(require("./connection"));
+const connection_1 = require("./connection");
 const rooms_1 = require("../services/rooms");
 const bookings_1 = require("../services/bookings");
 const users_1 = require("../services/users");
 const contact_1 = require("../services/contact");
-const connection = (0, connection_1.default)();
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
 const NUM_USERS = 10;
@@ -18,8 +14,7 @@ const rooms = [];
 const roomType = ["Double Superior", "Single", "Deluxe", "Suite", "Imperial", "Double"];
 const checks = ['check_in', 'check_out'];
 async function createRooms() {
-    const connect = await connection;
-    await connect.execute(`
+    await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS rooms (
             id INT AUTO_INCREMENT PRIMARY KEY,
             room_type VARCHAR(255),
@@ -30,24 +25,24 @@ async function createRooms() {
             status VARCHAR(255),
             description LONGTEXT
         )`);
-    await connect.execute(`
+    await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS room_photos (
             id INT AUTO_INCREMENT PRIMARY KEY,
             room_photo_url VARCHAR(255)
         )`);
-    await connect.execute(`
+    await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS amenities (
             id INT AUTO_INCREMENT PRIMARY KEY,
             amenity_name VARCHAR(255)
         )`);
-    await connect.execute(`
+    await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS room_photos (
             id INT AUTO_INCREMENT PRIMARY KEY,
             room_id INT,
             room_photo_url VARCHAR(255),
             FOREIGN KEY (room_id) REFERENCES rooms(id)
         )`);
-    await connect.execute(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space'), ('24-Hour Guard'), ('Free Wifi'), ('Air Conditioner'), ('Television'), ('Towels'), ('Mini Bar'), ('Coffee Set'), ('Bathtub'), ('Jacuzzi'), ('Nice Views')`);
+    await (0, connection_1.queryExecuter)(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space'), ('24-Hour Guard'), ('Free Wifi'), ('Air Conditioner'), ('Television'), ('Towels'), ('Mini Bar'), ('Coffee Set'), ('Bathtub'), ('Jacuzzi'), ('Nice Views')`);
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomInput = {
             "room_photo": faker_1.faker.image.url(),
@@ -61,12 +56,11 @@ async function createRooms() {
         };
         const room = await rooms_1.roomsService.createRoom(roomInput);
         rooms.push(room);
-        await connect.execute(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
+        await (0, connection_1.queryExecuter)(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
     }
 }
 async function createAmenitiesToRoom() {
-    const connect = await connection;
-    await connect.execute(`
+    await (0, connection_1.queryExecuter)(`
     CREATE TABLE IF NOT EXISTS amenity_to_room (
         room_id INT,
         amenity_id INT,
@@ -76,12 +70,11 @@ async function createAmenitiesToRoom() {
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomID = Math.floor(Math.random() * NUM_ROOMS) + 1;
         const amenityID = Math.floor(Math.random() * NUM_ROOMS) + 1;
-        await connect.execute(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${roomID}, ${amenityID})`);
+        await (0, connection_1.queryExecuter)(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${roomID}, ${amenityID})`);
     }
 }
 async function createBookings() {
-    const connect = await connection;
-    await connect.execute(`
+    await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS bookings (
             id INT AUTO_INCREMENT PRIMARY KEY,
             guest VARCHAR(255),
@@ -112,8 +105,7 @@ async function createBookings() {
     }
 }
 async function createUsers() {
-    const connect = await connection;
-    await connect.execute(`
+    await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255),
@@ -124,7 +116,7 @@ async function createUsers() {
             hire_date DATE,
             job_description LONGTEXT,
             status BOOLEAN,
-            password_hash VARBINARY(60)
+            password_hash VARCHAR(255)
           )`);
     for (let i = 0; i < NUM_USERS; i++) {
         const usersInput = {
@@ -142,8 +134,7 @@ async function createUsers() {
     }
 }
 async function createMessages() {
-    const connect = await connection;
-    await connect.execute(`
+    await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS contact (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255),

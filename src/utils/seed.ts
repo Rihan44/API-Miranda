@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker';
-import ConnectionSQL from "./connection";
+import { queryExecuter } from "./connection";
 import { roomsService } from '../services/rooms';
 import { bookingService } from '../services/bookings';
 import { usersServices } from '../services/users';
 import { contactService } from '../services/contact';
+import { hashPassword } from './utils';
 
-const connection = ConnectionSQL();
 
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
@@ -18,9 +18,8 @@ const roomType = ["Double Superior", "Single", "Deluxe", "Suite", "Imperial", "D
 const checks = ['check_in', 'check_out'];
 
 async function createRooms() {
-    const connect = await connection;
 
-    await connect.execute(`
+    await queryExecuter(`
         CREATE TABLE IF NOT EXISTS rooms (
             id INT AUTO_INCREMENT PRIMARY KEY,
             room_type VARCHAR(255),
@@ -33,21 +32,21 @@ async function createRooms() {
         )`
     );
 
-    await connect.execute(`
+    await queryExecuter(`
         CREATE TABLE IF NOT EXISTS room_photos (
             id INT AUTO_INCREMENT PRIMARY KEY,
             room_photo_url VARCHAR(255)
         )`
     );
 
-    await connect.execute(`
+    await queryExecuter(`
         CREATE TABLE IF NOT EXISTS amenities (
             id INT AUTO_INCREMENT PRIMARY KEY,
             amenity_name VARCHAR(255)
         )`
     );
 
-    await connect.execute(`
+    await queryExecuter(`
         CREATE TABLE IF NOT EXISTS room_photos (
             id INT AUTO_INCREMENT PRIMARY KEY,
             room_id INT,
@@ -56,7 +55,7 @@ async function createRooms() {
         )`
     );
 
-    await connect.execute(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space'), ('24-Hour Guard'), ('Free Wifi'), ('Air Conditioner'), ('Television'), ('Towels'), ('Mini Bar'), ('Coffee Set'), ('Bathtub'), ('Jacuzzi'), ('Nice Views')`);
+    await queryExecuter(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space'), ('24-Hour Guard'), ('Free Wifi'), ('Air Conditioner'), ('Television'), ('Towels'), ('Mini Bar'), ('Coffee Set'), ('Bathtub'), ('Jacuzzi'), ('Nice Views')`);
 
     for (let i = 0; i < NUM_ROOMS; i++) {
 
@@ -73,14 +72,13 @@ async function createRooms() {
         const room = await roomsService.createRoom(roomInput);
         rooms.push(room);
 
-        await connect.execute(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
+        await queryExecuter(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
     }
 }
 
 async function createAmenitiesToRoom() {
-    const connect = await connection;
     
-    await connect.execute(`
+    await queryExecuter(`
     CREATE TABLE IF NOT EXISTS amenity_to_room (
         room_id INT,
         amenity_id INT,
@@ -92,14 +90,13 @@ async function createAmenitiesToRoom() {
         const roomID = Math.floor(Math.random() * NUM_ROOMS) + 1;
         const amenityID = Math.floor(Math.random() * NUM_ROOMS) + 1;
 
-        await connect.execute(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${roomID}, ${amenityID})`);
+        await queryExecuter(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${roomID}, ${amenityID})`);
     }
 }
 
 async function createBookings() {
-    const connect = await connection;
 
-    await connect.execute(`
+    await queryExecuter(`
         CREATE TABLE IF NOT EXISTS bookings (
             id INT AUTO_INCREMENT PRIMARY KEY,
             guest VARCHAR(255),
@@ -134,9 +131,8 @@ async function createBookings() {
 }
 
 async function createUsers() {
-    const connect = await connection;
 
-    await connect.execute(`
+    await queryExecuter(`
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255),
@@ -147,7 +143,7 @@ async function createUsers() {
             hire_date DATE,
             job_description LONGTEXT,
             status BOOLEAN,
-            password_hash VARBINARY(60)
+            password_hash VARCHAR(255)
           )`
     );
 
@@ -168,9 +164,8 @@ async function createUsers() {
 }
 
 async function createMessages() {
-    const connect = await connection;
 
-    await connect.execute(`
+    await queryExecuter(`
         CREATE TABLE IF NOT EXISTS contact (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255),
