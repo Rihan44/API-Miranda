@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingsController = void 0;
 const express_1 = require("express");
 const bookings_1 = require("../services/bookings");
+const validation_1 = require("../middlewares/validation");
+const bookings_model_1 = require("../models/bookings.model");
 exports.bookingsController = (0, express_1.Router)();
 exports.bookingsController.get('/', async (_req, res, next) => {
     try {
@@ -23,7 +25,7 @@ exports.bookingsController.get('/:id', async (req, res, next) => {
         next(error);
     }
 });
-exports.bookingsController.post('/', async (req, res, next) => {
+exports.bookingsController.post('/', (0, validation_1.authValidation)(bookings_model_1.BookingSchema), async (req, res, next) => {
     try {
         const bookingCreated = req.body;
         const result = await bookings_1.bookingService.createBooking(bookingCreated);

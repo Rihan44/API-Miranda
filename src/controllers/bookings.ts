@@ -1,6 +1,8 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import { bookingService } from '../services/bookings';
 import { IBookings } from '../interfaces/Ibookings';
+import { authValidation } from '../middlewares/validation';
+import { BookingSchema } from '../models/bookings.model';
 
 export const bookingsController = Router();
 
@@ -23,7 +25,7 @@ bookingsController.get('/:id', async(req: Request, res: Response, next: NextFunc
     }   
 });
 
-bookingsController.post('/', async(req: Request, res: Response, next: NextFunction) => {
+bookingsController.post('/', authValidation(BookingSchema), async(req: Request, res: Response, next: NextFunction) => {
     try {
         const bookingCreated: IBookings = req.body;
         const result = await bookingService.createBooking(bookingCreated);
