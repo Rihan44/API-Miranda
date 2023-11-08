@@ -50,7 +50,9 @@ async function createRooms() {
     await connect.execute(`
         CREATE TABLE IF NOT EXISTS room_photos (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            room_photo_url VARCHAR(255)
+            room_id INT,
+            room_photo_url VARCHAR(255),
+            FOREIGN KEY (room_id) REFERENCES rooms(id)
         )`
     );
 
@@ -70,8 +72,8 @@ async function createRooms() {
         }
         const room = await createNewRoom(roomInput);
         rooms.push(room);
-        await connect.execute(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
 
+        await connect.execute(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
     }
 }
 
@@ -84,8 +86,7 @@ async function createAmenitiesToRoom() {
         amenity_id INT,
         FOREIGN KEY (room_id) REFERENCES rooms(id),
         FOREIGN KEY (amenity_id) REFERENCES amenities(id)
-    )`
-    );
+    )`);
 
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomID = Math.floor(Math.random() * NUM_ROOMS) + 1;
@@ -107,9 +108,6 @@ async function createBookings() {
             check_in DATE,
             check_out DATE,
             special_request TEXT,
-            room_type VARCHAR(255),
-            room_number VARCHAR(255),
-            status VARCHAR(255),
             price DOUBLE,
             room_id INT,
             FOREIGN KEY (room_id) REFERENCES rooms(id)

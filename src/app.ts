@@ -28,7 +28,7 @@ app.use(authMiddleware);
 app.use('/bookings', bookingsController);
 app.use('/users', usersController);
 app.use('/rooms', roomController);
-app.use('/contacts', contactController);
+app.use('/contacts',contactController);
 
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     console.error(err);

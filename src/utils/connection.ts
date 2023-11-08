@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import mysql from 'mysql2/promise';
+import mysql from 'mysql2';
 
-async function ConnectionSQL(){
-    const connection = mysql.createConnection(
+const ConnectionSQL = () =>{
+    const pool = mysql.createPool(
         {
             host:process.env.SQL_SERVER, 
             user: process.env.SQL_USER, 
@@ -13,8 +13,14 @@ async function ConnectionSQL(){
     );
 
     console.log('Conectado a SQL correctamente');
-    return connection;
+    return pool;
 } 
 
+export const queryExecuter = async(query: string, param?: any) =>{
+    const [row] = await ConnectionSQL().promise().query(query, param);
+    return row;                                                                                                                                                                                                                                                                                                                                                                                                 
+}
+
 export default ConnectionSQL;
+
 

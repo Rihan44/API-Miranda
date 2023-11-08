@@ -43,7 +43,9 @@ async function createRooms() {
     await connect.execute(`
         CREATE TABLE IF NOT EXISTS room_photos (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            room_photo_url VARCHAR(255)
+            room_id INT,
+            room_photo_url VARCHAR(255),
+            FOREIGN KEY (room_id) REFERENCES rooms(id)
         )`);
     await connect.execute(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space'), ('24-Hour Guard'), ('Free Wifi'), ('Air Conditioner'), ('Television'), ('Towels'), ('Mini Bar'), ('Coffee Set'), ('Bathtub'), ('Jacuzzi'), ('Nice Views')`);
     for (let i = 0; i < NUM_ROOMS; i++) {
@@ -88,9 +90,6 @@ async function createBookings() {
             check_in DATE,
             check_out DATE,
             special_request TEXT,
-            room_type VARCHAR(255),
-            room_number VARCHAR(255),
-            status VARCHAR(255),
             price DOUBLE,
             room_id INT,
             FOREIGN KEY (room_id) REFERENCES rooms(id)
