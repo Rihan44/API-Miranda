@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
 import ConnectionSQL from "./connection";
-import { createNewContact } from '../models/messages.model';
 import { roomsService } from '../services/rooms';
 import { bookingService } from '../services/bookings';
 import { usersServices } from '../services/users';
+import { contactService } from '../services/contact';
 
 const connection = ConnectionSQL();
 
@@ -195,7 +195,7 @@ async function createMessages() {
             "date_time": faker.date.anytime(),
             "is_archived": faker.datatype.boolean()
         }
-        await createNewContact(messagesInput);
+        await contactService.createContact(messagesInput);
     }
 }
 

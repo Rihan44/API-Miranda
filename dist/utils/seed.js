@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const faker_1 = require("@faker-js/faker");
 const connection_1 = __importDefault(require("./connection"));
-const messages_model_1 = require("../models/messages.model");
 const rooms_1 = require("../services/rooms");
 const bookings_1 = require("../services/bookings");
 const users_1 = require("../services/users");
+const contact_1 = require("../services/contact");
 const connection = (0, connection_1.default)();
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
@@ -166,7 +166,7 @@ async function createMessages() {
             "date_time": faker_1.faker.date.anytime(),
             "is_archived": faker_1.faker.datatype.boolean()
         };
-        await (0, messages_model_1.createNewContact)(messagesInput);
+        await contact_1.contactService.createContact(messagesInput);
     }
 }
 (async () => {
