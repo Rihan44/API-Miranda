@@ -19,6 +19,7 @@ const ConnectionSQL = () => {
 };
 const queryExecuter = async (query, param) => {
     const [row] = await ConnectionSQL().promise().query(query, param);
+    ConnectionSQL().end();
     return row;
 };
 exports.queryExecuter = queryExecuter;

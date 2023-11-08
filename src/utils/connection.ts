@@ -18,6 +18,7 @@ const ConnectionSQL = () =>{
 
 export const queryExecuter = async(query: string, param?: any) =>{
     const [row] = await ConnectionSQL().promise().query(query, param);
+    ConnectionSQL().end();
     return row;                                                                                                                                                                                                                                                                                                                                                                                                 
 }
 

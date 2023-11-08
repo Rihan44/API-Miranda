@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
 import ConnectionSQL from "./connection";
-import { createNewUser } from '../models/users.model';
 import { createNewContact } from '../models/messages.model';
 import { roomsService } from '../services/rooms';
 import { bookingService } from '../services/bookings';
+import { usersServices } from '../services/users';
 
 const connection = ConnectionSQL();
 
@@ -163,7 +163,7 @@ async function createUsers() {
             "status": faker.datatype.boolean(),
             "password_hash": faker.internet.password()
         }
-        await createNewUser(usersInput);
+        await usersServices.createUser(usersInput);
     }
 }
 
