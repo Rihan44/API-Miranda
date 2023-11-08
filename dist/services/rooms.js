@@ -32,6 +32,7 @@ async function getById(id) {
     return row;
 }
 async function createRoom(room) {
+    // TODO CREAR LA FOTO Y AMENITY
     const data = [
         room.room_type,
         room.room_number,
@@ -41,7 +42,7 @@ async function createRoom(room) {
         room.status,
         room.description,
     ];
-    const query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';
     const row = (0, connection_1.queryExecuter)(query, data);
     return row;
 }

@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
 import ConnectionSQL from "./connection";
-import { createNewBooking } from '../models/bookings.model';
 import { createNewUser } from '../models/users.model';
 import { createNewContact } from '../models/messages.model';
 import { roomsService } from '../services/rooms';
+import { bookingService } from '../services/bookings';
 
 const connection = ConnectionSQL();
 
@@ -129,7 +129,7 @@ async function createBookings() {
             "room_id": 1 + i,
         }
 
-        await createNewBooking(bookingsInput);
+        await bookingService.createBooking(bookingsInput);
     }
 }
 

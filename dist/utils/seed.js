@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const faker_1 = require("@faker-js/faker");
 const connection_1 = __importDefault(require("./connection"));
-const bookings_model_1 = require("../models/bookings.model");
 const users_model_1 = require("../models/users.model");
 const messages_model_1 = require("../models/messages.model");
 const rooms_1 = require("../services/rooms");
+const bookings_1 = require("../services/bookings");
 const connection = (0, connection_1.default)();
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
@@ -108,7 +108,7 @@ async function createBookings() {
             "price": faker_1.faker.number.int({ min: 30, max: 3000 }),
             "room_id": 1 + i,
         };
-        await (0, bookings_model_1.createNewBooking)(bookingsInput);
+        await bookings_1.bookingService.createBooking(bookingsInput);
     }
 }
 async function createUsers() {

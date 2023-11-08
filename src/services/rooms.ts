@@ -1,7 +1,7 @@
 import { IRooms } from "../interfaces/Irooms";
 import {queryExecuter} from "../utils/connection";
 
-let query = '';
+let query: string = '';
 async function getAllRooms() {
     query = `
       SELECT
@@ -35,6 +35,7 @@ async function getById(id: string) {
 }
 
 async function createRoom(room: IRooms) {
+  // TODO CREAR LA FOTO Y AMENITY
     const data = [
         room.room_type,
         room.room_number,
@@ -45,7 +46,7 @@ async function createRoom(room: IRooms) {
         room.description,
       ];
   
-      const query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';  
+      query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';  
   
       const row = queryExecuter(query, data);
       return row;
