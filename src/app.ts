@@ -1,6 +1,6 @@
 import ConnectionSQL from './utils/connection';
 import express, {Express, Request, Response, NextFunction} from 'express';
-import {authMiddleware} from './middlewares/auth';
+import {authLogin} from './middlewares/auth';
 import cors from 'cors';
 
 import { bookingsController } from './controllers/bookings';
@@ -22,7 +22,7 @@ app.use(express.json())
 // public routes
 app.use('/info', (_req: Request, res: Response) =>res.json(publicJSON));
 app.use('/login', loginController)
-app.use(authMiddleware);
+app.use(authLogin);
 
 // private routes
 app.use('/bookings', bookingsController);

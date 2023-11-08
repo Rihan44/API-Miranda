@@ -22,7 +22,7 @@ exports.app.use(express_1.default.json());
 // public routes
 exports.app.use('/info', (_req, res) => res.json(public_json_1.default));
 exports.app.use('/login', login_1.loginController);
-exports.app.use(auth_1.authMiddleware);
+exports.app.use(auth_1.authLogin);
 // private routes
 exports.app.use('/bookings', bookings_1.bookingsController);
 exports.app.use('/users', users_1.usersController);

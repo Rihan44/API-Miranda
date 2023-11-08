@@ -1,6 +1,8 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import { IUsers } from '../interfaces/Iusers';
 import { usersServices } from '../services/users';
+import { authValidation } from '../middlewares/validation';
+import { UserSchema } from '../models/users.model';
 
 export const usersController = Router();
 
@@ -23,7 +25,7 @@ usersController.get('/:id', async(req: Request, res: Response, next: NextFunctio
     }   
 });
 
-usersController.post('/', async(req: Request, res: Response, next: NextFunction) => {
+usersController.post('/', authValidation(UserSchema), async(req: Request, res: Response, next: NextFunction) => {
     try {
         const createdUser: IUsers = req.body;
         const result = await usersServices.createUser(createdUser);
