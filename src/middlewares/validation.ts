@@ -1,12 +1,12 @@
 import {Request, Response, NextFunction} from 'express';
 import Joi from 'joi';
 
-export const generateValidation = (schema: Joi.ObjectSchema) => {
+export const authValidation = (schema: Joi.ObjectSchema) => {
     const validation = (req: Request, res: Response, next: NextFunction) => {
         const {error} = schema.validate(req.body, {abortEarly: false});
         if(error) {
             console.error('Validation error: ', error);
-            return res.status(400).json({})
+            return res.status(400).json({error: true, message: error.message})
         }
         next();
     }

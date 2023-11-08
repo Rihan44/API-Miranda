@@ -1,6 +1,8 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import { roomsService } from '../services/rooms';
 import { IRooms } from '../interfaces/Irooms';
+import { authValidation } from '../middlewares/validation';
+import { RoomSchema } from '../models/rooms.model';
 
 export const roomController = Router();
 
@@ -23,7 +25,7 @@ roomController.get('/:id', async(req: Request, res: Response, next: NextFunction
     }   
 });
 
-roomController.post('/', async(req: Request, res: Response, next: NextFunction) => {
+roomController.post('/', authValidation(RoomSchema), async(req: Request, res: Response, next: NextFunction) => {
     try {
         const roomCreated: IRooms = req.body;
         const rooms = await roomsService.createRoom(roomCreated);

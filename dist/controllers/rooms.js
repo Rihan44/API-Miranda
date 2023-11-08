@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.roomController = void 0;
 const express_1 = require("express");
 const rooms_1 = require("../services/rooms");
+const validation_1 = require("../middlewares/validation");
+const rooms_model_1 = require("../models/rooms.model");
 exports.roomController = (0, express_1.Router)();
 exports.roomController.get('/', async (_req, res, next) => {
     try {
@@ -23,7 +25,7 @@ exports.roomController.get('/:id', async (req, res, next) => {
         next(error);
     }
 });
-exports.roomController.post('/', async (req, res, next) => {
+exports.roomController.post('/', (0, validation_1.authValidation)(rooms_model_1.RoomSchema), async (req, res, next) => {
     try {
         const roomCreated = req.body;
         const rooms = await rooms_1.roomsService.createRoom(roomCreated);
