@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactController = void 0;
 const express_1 = require("express");
 const contact_1 = require("../services/contact");
+const validation_1 = require("../middlewares/validation");
+const contact_model_1 = require("../models/contact.model");
 exports.contactController = (0, express_1.Router)();
 exports.contactController.get('/', async (_req, res, next) => {
     try {
@@ -23,7 +25,7 @@ exports.contactController.get('/:id', async (req, res, next) => {
         next(error);
     }
 });
-exports.contactController.post('/', async (req, res, next) => {
+exports.contactController.post('/', (0, validation_1.authValidation)(contact_model_1.ContactSchema), async (req, res, next) => {
     try {
         const createdContact = req.body;
         const result = await contact_1.contactService.createContact(createdContact);

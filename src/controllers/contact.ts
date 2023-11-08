@@ -1,6 +1,8 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import { contactService } from '../services/contact';
 import { IContact } from '../interfaces/Icontact';
+import { authValidation } from '../middlewares/validation';
+import { ContactSchema } from '../models/contact.model';
 
 export const contactController = Router();
 
@@ -23,7 +25,7 @@ contactController.get('/:id', async(req: Request, res: Response, next: NextFunct
     }   
 });
 
-contactController.post('/', async(req: Request, res: Response, next: NextFunction) => {
+contactController.post('/', authValidation(ContactSchema), async(req: Request, res: Response, next: NextFunction) => {
     try {
         const createdContact: IContact = req.body;
         const result = await contactService.createContact(createdContact);
