@@ -145,7 +145,7 @@ async function createMessages() {
             date DATE,
             date_time DATETIME,
             is_archived BOOLEAN
-          )`);
+        )`);
     for (let i = 0; i < NUM_MESSAGES; i++) {
         const messagesInput = {
             "name": faker_1.faker.person.fullName(),

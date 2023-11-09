@@ -2,15 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactService = void 0;
 const connection_1 = require("../utils/connection");
-let query = '';
 async function getAllContact() {
-    query = 'SELECT * FROM contact';
-    const row = (0, connection_1.queryExecuter)(query);
+    const query = 'SELECT * FROM contact';
+    const row = await (0, connection_1.queryExecuter)(query);
     return row;
 }
 async function getById(id) {
-    query = 'SELECT * FROM contact WHERE id = ?';
-    const row = (0, connection_1.queryExecuter)(query, [id]);
+    const query = 'SELECT * FROM contact WHERE id = ?';
+    const row = await (0, connection_1.queryExecuter)(query, [id]);
     return row;
 }
 const formatDateForMySQL = (date) => {
@@ -38,9 +37,8 @@ async function createContact(contact) {
         formatDateTimeForMySQL(date_time),
         contact.is_archived
     ];
-    query = `INSERT INTO contact (name, email, phone, email_subject, email_description, date, date_time, is_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-    const row = (0, connection_1.queryExecuter)(query, data);
-    return row;
+    const query = `INSERT INTO contact (name, email, phone, email_subject, email_description, date, date_time, is_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    await (0, connection_1.queryExecuter)(query, data);
 }
 async function updateContact(id, updateData) {
     const date = new Date(updateData.date);
@@ -56,14 +54,12 @@ async function updateContact(id, updateData) {
         updateData.is_archived,
         id
     ];
-    query = `UPDATE contact SET name =?, email = ?,phone = ?, email_subject = ?, email_description = ?, date =? , date_time = ?, is_archived = ? WHERE id = ?`;
-    const row = (0, connection_1.queryExecuter)(query, dataUpdated);
-    return row;
+    const query = `UPDATE contact SET name =?, email = ?,phone = ?, email_subject = ?, email_description = ?, date =? , date_time = ?, is_archived = ? WHERE id = ?`;
+    await (0, connection_1.queryExecuter)(query, dataUpdated);
 }
 async function _delete(id) {
-    query = 'DELETE FROM contact WHERE id = ?';
-    const row = (0, connection_1.queryExecuter)(query, [id]);
-    return row;
+    const query = 'DELETE FROM contact WHERE id = ?';
+    await (0, connection_1.queryExecuter)(query, [id]);
 }
 exports.contactService = {
     getAllContact,

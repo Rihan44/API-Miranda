@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookingSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 exports.BookingSchema = joi_1.default.object({
-    guest: joi_1.default.string(),
-    phone_number: joi_1.default.string(),
-    order_date: joi_1.default.string(),
+    guest: joi_1.default.string().required(),
+    phone_number: joi_1.default.string().required(),
+    order_date: joi_1.default.string().required(),
     check_in: joi_1.default.string(),
     check_out: joi_1.default.string(),
     special_request: joi_1.default.string().min(3).max(100),
-    status: joi_1.default.string(),
-    price: joi_1.default.number(),
-    room_id: joi_1.default.number(),
+    status: joi_1.default.string().required(),
+    price: joi_1.default.number().required(),
+    room_id: joi_1.default.number().required(),
 });

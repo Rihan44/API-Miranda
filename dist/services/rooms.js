@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.roomsService = void 0;
 const connection_1 = require("../utils/connection");
-let query = '';
 async function getAllRooms() {
-    query = `
+    const query = `
       SELECT
         r.*,
         GROUP_CONCAT(DISTINCT rp.room_photo_url) AS all_photos,
@@ -14,11 +13,11 @@ async function getAllRooms() {
       LEFT JOIN amenities a ON (atr.amenity_id = a.id AND atr.room_id = r.id)
       LEFT JOIN room_photos rp ON r.id = rp.id
       GROUP BY r.id`;
-    const row = (0, connection_1.queryExecuter)(query);
+    const row = await (0, connection_1.queryExecuter)(query);
     return row;
 }
 async function getById(id) {
-    query = `
+    const query = `
     SELECT
       r.*,
       GROUP_CONCAT(DISTINCT rp.room_photo_url) AS all_photos,
@@ -28,11 +27,10 @@ async function getById(id) {
     LEFT JOIN amenities a ON (atr.amenity_id = a.id AND atr.room_id = r.id)
     LEFT JOIN room_photos rp ON r.id = rp.id WHERE r.id = ?
     GROUP BY r.id`;
-    const row = (0, connection_1.queryExecuter)(query, [id]);
+    const row = await (0, connection_1.queryExecuter)(query, [id]);
     return row;
 }
 async function createRoom(room) {
-    // TODO CREAR LA FOTO Y AMENITY
     const data = [
         room.room_type,
         room.room_number,
@@ -42,13 +40,22 @@ async function createRoom(room) {
         room.status,
         room.description,
     ];
-    query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    const row = (0, connection_1.queryExecuter)(query, data);
-    return row;
+    const query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    await (0, connection_1.queryExecuter)(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
+    const row = await (0, connection_1.queryExecuter)(query, data);
+    for (let i = 0; i < 5; i++) {
+        let amenityID = Math.floor(Math.random() * 11) + 1;
+        if (amenityID === amenityID) {
+            amenityID = Math.floor(Math.random() * 11) + 1;
+            await (0, connection_1.queryExecuter)(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${row.insertId}, ${amenityID})`);
+        }
+        else {
+            amenityID = Math.floor(Math.random() * 11) + 1;
+        }
+    }
 }
 async function updateRoom(id, updateData) {
-    // TODO HACERLO CON ?
-    query = `UPDATE rooms SET room_type =?, room_number = ?, price = ?, offer_price = ?, discount = ?, status = ?, description = ? WHERE id = ?`;
+    const query = `UPDATE rooms SET room_type =?, room_number = ?, price = ?, offer_price = ?, discount = ?, status = ?, description = ? WHERE id = ?`;
     const dataUpdated = [
         updateData.room_type,
         updateData.room_number,
@@ -59,17 +66,15 @@ async function updateRoom(id, updateData) {
         updateData.description,
         id
     ];
-    const row = (0, connection_1.queryExecuter)(query, dataUpdated);
-    return row;
+    await (0, connection_1.queryExecuter)(query, dataUpdated);
 }
 async function _delete(id) {
     const deleteBooking = 'DELETE FROM bookings WHERE room_id = ?';
-    (0, connection_1.queryExecuter)(deleteBooking, [id]);
+    await (0, connection_1.queryExecuter)(deleteBooking, [id]);
     const deleteAmenity = 'DELETE FROM amenity_to_room WHERE room_id = ?';
-    (0, connection_1.queryExecuter)(deleteAmenity, [id]);
-    query = 'DELETE FROM rooms WHERE id = ?';
-    const row = (0, connection_1.queryExecuter)(query, [id]);
-    return row;
+    await (0, connection_1.queryExecuter)(deleteAmenity, [id]);
+    const query = 'DELETE FROM rooms WHERE id = ?';
+    await (0, connection_1.queryExecuter)(query, [id]);
 }
 exports.roomsService = {
     getAllRooms,

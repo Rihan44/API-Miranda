@@ -2,17 +2,16 @@ import { IUsers } from "../interfaces/Iusers";
 import {queryExecuter} from "../utils/connection";
 import { hashPassword } from "../utils/utils";
 
-let query: string = '';
 
 async function getAllUsers() {
-    query = 'SELECT * FROM users';
-    const row = queryExecuter(query);
+    const query = 'SELECT * FROM users';
+    const row = await queryExecuter(query);
     return row;
 }
 
 async function getById(id: string) {
-    query = 'SELECT * FROM users WHERE id = =?';
-    const row = queryExecuter(query, [id]);
+    const query = 'SELECT * FROM users WHERE id = =?';
+    const row = await queryExecuter(query, [id]);
     return row;
 }
 
@@ -30,23 +29,22 @@ async function createUser(user: IUsers) {
         user.photo,
         user.employee_position,
         user.phone_number,
-        hire_date,
+        formatDateForMySQL(hire_date),
         user.job_description,
         user.status,
         password_hash
     ]
 
-    query = `INSERT INTO users (name, email, photo, employee_position, phone_number, hire_date, job_description, status, password_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO users (name, email, photo, employee_position, phone_number, hire_date, job_description, status, password_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    const row = queryExecuter(query, data);
-    return row;
+    await queryExecuter(query, data);
 }
 
 async function updateUser(id: string, updateData: IUsers) {
     const hire_date = new Date(updateData.hire_date);
     const password_hash = hashPassword(updateData.password_hash);
 
-    query = 'UPDATE users SET name = ?, email = ?,photo = ?, employee_position = ?, hire_date = ?, job_description = ?, status = ?, password_hash = ? WHERE id = ?';
+    const query = 'UPDATE users SET name = ?, email = ?,photo = ?, employee_position = ?, hire_date = ?, job_description = ?, status = ?, password_hash = ? WHERE id = ?';
 
     const dataUpdated = [
         updateData.name,
@@ -60,14 +58,12 @@ async function updateUser(id: string, updateData: IUsers) {
         id
     ]
 
-    const row = queryExecuter(query, dataUpdated);
-    return row;
+    await queryExecuter(query, dataUpdated);
 }
 
 async function _delete(id: string) {
-    query = 'DELETE FROM users WHERE id = ?';
-    const row = queryExecuter(query, [id]);
-    return row;
+    const query = 'DELETE FROM users WHERE id = ?';
+    await queryExecuter(query, [id]);
 }
 
 export const usersServices = {

@@ -1,9 +1,8 @@
 import { IRooms } from "../interfaces/Irooms";
 import {queryExecuter} from "../utils/connection";
 
-let query: string = '';
 async function getAllRooms() {
-    query = `
+    const query = `
       SELECT
         r.*,
         GROUP_CONCAT(DISTINCT rp.room_photo_url) AS all_photos,
@@ -14,12 +13,12 @@ async function getAllRooms() {
       LEFT JOIN room_photos rp ON r.id = rp.id
       GROUP BY r.id`;
 
-    const row = queryExecuter(query);
+    const row = await queryExecuter(query);
     return row;
 }
 
 async function getById(id: string) {
-    query = `
+  const query = `
     SELECT
       r.*,
       GROUP_CONCAT(DISTINCT rp.room_photo_url) AS all_photos,
@@ -30,12 +29,11 @@ async function getById(id: string) {
     LEFT JOIN room_photos rp ON r.id = rp.id WHERE r.id = ?
     GROUP BY r.id`;
 
-    const row = queryExecuter(query, [id]);
+    const row = await queryExecuter(query, [id]);
     return row;
 }
 
 async function createRoom(room: IRooms) {
-  // TODO CREAR LA FOTO Y AMENITY
     const data = [
         room.room_type,
         room.room_number,
@@ -44,18 +42,27 @@ async function createRoom(room: IRooms) {
         room.discount,
         room.status,
         room.description,
-      ];
+    ];
   
-      query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';  
-  
-      const row = queryExecuter(query, data);
-      return row;
+    const query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';  
+    await queryExecuter(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
+    
+    const row: any = await queryExecuter(query, data);
+
+    for(let i = 0;  i < 5; i++){
+      let amenityID = Math.floor(Math.random() * 11) + 1;
+      if(amenityID === amenityID) {
+        amenityID = Math.floor(Math.random() * 11) + 1;
+        await queryExecuter(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${row.insertId}, ${amenityID})`);
+      } else {
+        amenityID = Math.floor(Math.random() * 11) + 1;
+      }
+    }
 }
 
 async function updateRoom(id: string, updateData: IRooms) {
-      // TODO HACERLO CON ?
 
-    query = `UPDATE rooms SET room_type =?, room_number = ?, price = ?, offer_price = ?, discount = ?, status = ?, description = ? WHERE id = ?`;
+    const query = `UPDATE rooms SET room_type =?, room_number = ?, price = ?, offer_price = ?, discount = ?, status = ?, description = ? WHERE id = ?`;
     const dataUpdated = [
         updateData.room_type,
         updateData.room_number,
@@ -67,20 +74,17 @@ async function updateRoom(id: string, updateData: IRooms) {
         id
     ];
 
-    const row = queryExecuter(query, dataUpdated);
-    return row;
+    await queryExecuter(query, dataUpdated);
 }
-
 async function _delete(id: string) {
 
     const deleteBooking = 'DELETE FROM bookings WHERE room_id = ?';
-    queryExecuter(deleteBooking, [id]);
+    await queryExecuter(deleteBooking, [id]);
     const deleteAmenity = 'DELETE FROM amenity_to_room WHERE room_id = ?';
-    queryExecuter(deleteAmenity, [id]);
+    await queryExecuter(deleteAmenity, [id]);
     
-    query = 'DELETE FROM rooms WHERE id = ?';
-    const row = queryExecuter(query, [id]);
-    return row;
+    const query = 'DELETE FROM rooms WHERE id = ?';
+    await queryExecuter(query, [id]);
 }
 
 export const roomsService = {

@@ -1,17 +1,15 @@
 import { IContact } from "../interfaces/Icontact";
 import {queryExecuter} from "../utils/connection";
 
-let query: string = '';
-
 async function getAllContact() {
-    query = 'SELECT * FROM contact';
-    const row = queryExecuter(query);
+    const query = 'SELECT * FROM contact';
+    const row = await queryExecuter(query);
     return row;
 }
 
 async function getById(id: string) {
-    query = 'SELECT * FROM contact WHERE id = ?';
-    const row = queryExecuter(query, [id]);
+    const query = 'SELECT * FROM contact WHERE id = ?';
+    const row = await queryExecuter(query, [id]);
     return row;
 }
 
@@ -45,11 +43,9 @@ async function createContact(contact: IContact) {
         contact.is_archived
     ]
 
-    query = `INSERT INTO contact (name, email, phone, email_subject, email_description, date, date_time, is_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO contact (name, email, phone, email_subject, email_description, date, date_time, is_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
-
-    const row = queryExecuter(query, data);
-    return row;
+    await queryExecuter(query, data);
 }
 
 async function updateContact(id: string, updateData: IContact) {
@@ -68,16 +64,14 @@ async function updateContact(id: string, updateData: IContact) {
         id
     ]
 
-    query = `UPDATE contact SET name =?, email = ?,phone = ?, email_subject = ?, email_description = ?, date =? , date_time = ?, is_archived = ? WHERE id = ?`;
+    const query = `UPDATE contact SET name =?, email = ?,phone = ?, email_subject = ?, email_description = ?, date =? , date_time = ?, is_archived = ? WHERE id = ?`;
 
-    const row = queryExecuter(query, dataUpdated);
-    return row;
+    await queryExecuter(query, dataUpdated);
 }
 
 async function _delete(id: string) {
-    query = 'DELETE FROM contact WHERE id = ?'
-    const row = queryExecuter(query, [id]);
-    return row;
+    const query = 'DELETE FROM contact WHERE id = ?'
+    await queryExecuter(query, [id]);
 }
 
 export const contactService = {

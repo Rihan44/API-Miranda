@@ -3,15 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersServices = void 0;
 const connection_1 = require("../utils/connection");
 const utils_1 = require("../utils/utils");
-let query = '';
 async function getAllUsers() {
-    query = 'SELECT * FROM users';
-    const row = (0, connection_1.queryExecuter)(query);
+    const query = 'SELECT * FROM users';
+    const row = await (0, connection_1.queryExecuter)(query);
     return row;
 }
 async function getById(id) {
-    query = 'SELECT * FROM users WHERE id = =?';
-    const row = (0, connection_1.queryExecuter)(query, [id]);
+    const query = 'SELECT * FROM users WHERE id = =?';
+    const row = await (0, connection_1.queryExecuter)(query, [id]);
     return row;
 }
 const formatDateForMySQL = (date) => {
@@ -26,19 +25,18 @@ async function createUser(user) {
         user.photo,
         user.employee_position,
         user.phone_number,
-        hire_date,
+        formatDateForMySQL(hire_date),
         user.job_description,
         user.status,
         password_hash
     ];
-    query = `INSERT INTO users (name, email, photo, employee_position, phone_number, hire_date, job_description, status, password_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    const row = (0, connection_1.queryExecuter)(query, data);
-    return row;
+    const query = `INSERT INTO users (name, email, photo, employee_position, phone_number, hire_date, job_description, status, password_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    await (0, connection_1.queryExecuter)(query, data);
 }
 async function updateUser(id, updateData) {
     const hire_date = new Date(updateData.hire_date);
     const password_hash = (0, utils_1.hashPassword)(updateData.password_hash);
-    query = 'UPDATE users SET name = ?, email = ?,photo = ?, employee_position = ?, hire_date = ?, job_description = ?, status = ?, password_hash = ? WHERE id = ?';
+    const query = 'UPDATE users SET name = ?, email = ?,photo = ?, employee_position = ?, hire_date = ?, job_description = ?, status = ?, password_hash = ? WHERE id = ?';
     const dataUpdated = [
         updateData.name,
         updateData.email,
@@ -50,13 +48,11 @@ async function updateUser(id, updateData) {
         password_hash,
         id
     ];
-    const row = (0, connection_1.queryExecuter)(query, dataUpdated);
-    return row;
+    await (0, connection_1.queryExecuter)(query, dataUpdated);
 }
 async function _delete(id) {
-    query = 'DELETE FROM users WHERE id = ?';
-    const row = (0, connection_1.queryExecuter)(query, [id]);
-    return row;
+    const query = 'DELETE FROM users WHERE id = ?';
+    await (0, connection_1.queryExecuter)(query, [id]);
 }
 exports.usersServices = {
     getAllUsers,
