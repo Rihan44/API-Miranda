@@ -5,16 +5,18 @@ const connection_1 = require("../utils/connection");
 async function getAllBookings() {
     const query = `SELECT
         r.*, b.*,
-        GROUP_CONCAT(DISTINCT r.room_type) AS room_type,
-        GROUP_CONCAT(DISTINCT r.room_number) AS room_number,
-        GROUP_CONCAT(DISTINCT r.description) AS description,
-        GROUP_CONCAT(DISTINCT r.offer_price) AS offer_price,
-        COALESCE(GROUP_CONCAT(DISTINCT a.amenity_name), 'Free Wifi, TV') AS all_amenities
+            GROUP_CONCAT(DISTINCT r.room_type) AS room_type,
+            GROUP_CONCAT(DISTINCT r.room_number) AS room_number,
+            GROUP_CONCAT(DISTINCT r.description) AS description,
+            GROUP_CONCAT(DISTINCT r.offer_price) AS offer_price,
+            COALESCE(GROUP_CONCAT(DISTINCT rp.room_photo_url), 'https://tinyurl.com/RoomPhoto1') AS all_photos,
+            COALESCE(GROUP_CONCAT(DISTINCT a.amenity_name), 'Free Wifi, TV, Mini Bar') AS all_amenities
         FROM bookings b
         LEFT JOIN rooms r ON r.id = b.room_id
         LEFT JOIN amenity_to_room atr ON r.id = atr.room_id
         LEFT JOIN amenities a ON atr.amenity_id = a.id AND atr.room_id = r.id
-    GROUP BY b.id`;
+        LEFT JOIN room_photos rp ON r.id = rp.room_id
+        GROUP BY b.id`;
     const row = await (0, connection_1.queryExecuter)(query);
     return row;
 }
@@ -25,11 +27,13 @@ async function getById(id) {
         GROUP_CONCAT(DISTINCT r.room_number) AS room_number,
         GROUP_CONCAT(DISTINCT r.description) AS description,
         GROUP_CONCAT(DISTINCT r.offer_price) AS offer_price,
+        COALESCE(GROUP_CONCAT(DISTINCT rp.room_photo_url), 'https://tinyurl.com/RoomPhoto1') AS all_photos,
         COALESCE(GROUP_CONCAT(DISTINCT a.amenity_name), 'Free Wifi, TV') AS all_amenities
         FROM bookings b
         LEFT JOIN rooms r ON r.id = b.room_id
         LEFT JOIN amenity_to_room atr ON r.id = atr.room_id
         LEFT JOIN amenities a ON atr.amenity_id = a.id AND atr.room_id = r.id WHERE b.id = ?
+        LEFT JOIN room_photos rp ON r.id = rp.room_id
     GROUP BY b.id`;
     const row = await (0, connection_1.queryExecuter)(query, [id]);
     return row;

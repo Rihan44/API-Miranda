@@ -6,12 +6,12 @@ async function getAllRooms() {
     const query = `
       SELECT
         r.*,
-        GROUP_CONCAT(DISTINCT rp.room_photo_url) AS all_photos,
-        COALESCE(GROUP_CONCAT(DISTINCT a.amenity_name), 'Free Wifi, TV') AS all_amenities
+        COALESCE(GROUP_CONCAT(DISTINCT rp.room_photo_url), 'https://tinyurl.com/RoomPhoto1') AS all_photos,
+        COALESCE(GROUP_CONCAT(DISTINCT a.amenity_name), 'Free Wifi, TV, Mini Bar') AS all_amenities
       FROM rooms r
       LEFT JOIN amenity_to_room atr ON r.id = atr.room_id
       LEFT JOIN amenities a ON (atr.amenity_id = a.id AND atr.room_id = r.id)
-      LEFT JOIN room_photos rp ON r.id = rp.id
+      LEFT JOIN room_photos rp ON r.id = rp.room_id
       GROUP BY r.id`;
     const row = await (0, connection_1.queryExecuter)(query);
     return row;
@@ -25,7 +25,7 @@ async function getById(id) {
     FROM rooms r
     LEFT JOIN amenity_to_room atr ON r.id = atr.room_id
     LEFT JOIN amenities a ON (atr.amenity_id = a.id AND atr.room_id = r.id)
-    LEFT JOIN room_photos rp ON r.id = rp.id WHERE r.id = ?
+    LEFT JOIN room_photos rp ON r.id = rp.room_id WHERE r.id = ?
     GROUP BY r.id`;
     const row = await (0, connection_1.queryExecuter)(query, [id]);
     return row;
