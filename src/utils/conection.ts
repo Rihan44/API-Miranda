@@ -2,9 +2,9 @@ import {connect,} from 'mongoose';
 import {ServerApiVersion} from 'mongodb';
 import 'dotenv/config';
 
-ConectionMongo().catch(err => console.log(err));
+ConnectionMongo().catch(err => console.log(err));
 
-async function ConectionMongo(){
+async function ConnectionMongo(){
     // const urlMongo: string = process.env.MONGO_SERVER || '';
     const urlAtlas: string = process.env.MONGO_ATLAS || '';
     await connect(urlAtlas, {
@@ -19,5 +19,5 @@ async function ConectionMongo(){
     console.log('Conectado a Mongo correctamente');
 } 
 
-export default ConectionMongo;
+export default ConnectionMongo;
 
