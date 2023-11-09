@@ -10,8 +10,9 @@ CREATE TABLE IF NOT EXISTS rooms (
 )
 
 CREATE TABLE IF NOT EXISTS room_photos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    room_photo_url VARCHAR(255)
+    room_id INT,
+    room_photo_url VARCHAR(255),
+    FOREIGN KEY (room_id) REFERENCES rooms(id)
 )
 
 CREATE TABLE IF NOT EXISTS amenities (

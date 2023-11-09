@@ -41,7 +41,6 @@ async function createRoom(room) {
         room.description,
     ];
     const query = 'INSERT INTO rooms (room_type, room_number, price, offer_price, discount, status, description) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    await (0, connection_1.queryExecuter)(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
     const row = await (0, connection_1.queryExecuter)(query, data);
     for (let i = 0; i < 5; i++) {
         let amenityID = Math.floor(Math.random() * 11) + 1;

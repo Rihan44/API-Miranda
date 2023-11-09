@@ -34,8 +34,9 @@ async function createRooms() {
 
     await queryExecuter(`
         CREATE TABLE IF NOT EXISTS room_photos (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            room_photo_url VARCHAR(255)
+            room_id INT,
+            room_photo_url VARCHAR(255),
+            FOREIGN KEY (room_id) REFERENCES rooms(id)
         )`
     );
 
@@ -47,13 +48,12 @@ async function createRooms() {
     );
 
     await queryExecuter(`
-        CREATE TABLE IF NOT EXISTS room_photos (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            room_id INT,
-            room_photo_url VARCHAR(255),
-            FOREIGN KEY (room_id) REFERENCES rooms(id)
-        )`
-    );
+    CREATE TABLE IF NOT EXISTS amenity_to_room (
+        room_id INT,
+        amenity_id INT,
+        FOREIGN KEY (room_id) REFERENCES rooms(id),
+        FOREIGN KEY (amenity_id) REFERENCES amenities(id)
+    )`);
 
     await queryExecuter(`INSERT INTO amenities (amenity_name) VALUES('1/3 Bed Space'), ('24-Hour Guard'), ('Free Wifi'), ('Air Conditioner'), ('Television'), ('Towels'), ('Mini Bar'), ('Coffee Set'), ('Bathtub'), ('Jacuzzi'), ('Nice Views')`);
 
@@ -72,20 +72,19 @@ async function createRooms() {
         const room = await roomsService.createRoom(roomInput);
         rooms.push(room);
 
-        await queryExecuter(`INSERT INTO room_photos (room_photo_url) VALUES('https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2560')`);
+    }
+}
+
+async function createRoomPhotos(){
+    for(let i = 0;  i < NUM_ROOMS; i++){
+        const roomID = Math.floor(Math.random() * NUM_ROOMS) + 1;
+        await queryExecuter(`INSERT INTO room_photos (room_photo_url, room_id) VALUES('https://tinyurl.com/RoomPhoto1', ${roomID})`);
+        await queryExecuter(`INSERT INTO room_photos (room_photo_url, room_id) VALUES('https://tinyurl.com/TheRoomPhoto2', ${roomID})`);
+        await queryExecuter(`INSERT INTO room_photos (room_photo_url, room_id) VALUES('https://tinyurl.com/TheRoomPhoto3', ${roomID})`);
     }
 }
 
 async function createAmenitiesToRoom() {
-    
-    await queryExecuter(`
-    CREATE TABLE IF NOT EXISTS amenity_to_room (
-        room_id INT,
-        amenity_id INT,
-        FOREIGN KEY (room_id) REFERENCES rooms(id),
-        FOREIGN KEY (amenity_id) REFERENCES amenities(id)
-    )`);
-
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomID = Math.floor(Math.random() * NUM_ROOMS) + 1;
         const amenityID = Math.floor(Math.random() * NUM_ROOMS) + 1;
@@ -162,7 +161,6 @@ async function createUsers() {
         await usersServices.createUser(usersInput);
     }
 }
-
 async function createMessages() {
 
     await queryExecuter(`
@@ -200,4 +198,5 @@ async function createMessages() {
     await createUsers();
     await createMessages();
     await createAmenitiesToRoom();
+    await createRoomPhotos();
 })();
