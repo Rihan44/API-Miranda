@@ -49,7 +49,6 @@ async function createRooms() {
 async function createBookings() {
     for (let i = 0; i < NUM_BOOKINGS; i++) {
         const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS);
-        console.log(randomRoomIndex);
         const bookingsInput = {
             "guest": faker_1.faker.person.fullName(),
             "phone_number": faker_1.faker.phone.number(),

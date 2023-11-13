@@ -16,10 +16,12 @@ async function login(user: string, password: string, email: string) {
     }
     throw new Error('Error al logear');
 }
+
 function signJWT(payload: { user: string, email: string }) {
     const token = jwt.sign(payload, secret_key, {expiresIn: '10y'});
     return {payload, token};
 }
+
 function verifyJWT(token: string) {
     const payload = jwt.verify(token, secret_key);
     return payload;

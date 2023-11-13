@@ -7,7 +7,7 @@ ConnectionMongo().catch(err => console.log(err));
 async function ConnectionMongo(){
     const urlMongo: string = process.env.MONGO_SERVER || '';
     const urlAtlas: string = process.env.MONGO_ATLAS || '';
-    await connect(urlAtlas, {
+    await connect(urlMongo, {
         dbName: process.env.MONGO_DB || 'api-miranda',
         serverApi: {
             version: ServerApiVersion.v1,

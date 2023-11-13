@@ -16,8 +16,14 @@ ConnectionMongo();
 export const app: Express = express();
 
 // middlewares
-app.use(cors())
-app.use(express.json())
+app.use(cors({
+    origin: "*",
+    credentials: true,
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    allowedHeaders: "token",
+  }
+));
+app.use(express.json());
 
 // public routes
 app.use('/info', (_req: Request, res: Response) =>res.json(publicJSON));
