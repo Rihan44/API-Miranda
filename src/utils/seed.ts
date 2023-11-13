@@ -1,11 +1,11 @@
 import { BookingsModel } from "../models/bookings.model";
 import { faker } from '@faker-js/faker';
-import ConectionMongo from "./conection";
+import ConnectionMongo from "./conection";
 import { RoomsModel } from "../models/rooms.model";
 import { UsersModel } from "../models/users.model";
 import { MessageModel } from "../models/messages.model";
 
-ConectionMongo();
+ConnectionMongo();
 
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
@@ -38,7 +38,6 @@ async function createRooms() {
                 "Nice Views"
             ],
             "price": faker.number.int({ min: 30, max: 3000 }),
-            "offer_price": faker.datatype.boolean(),
             "discount": faker.number.int({ min: 1, max: 100 }),
             "status": "available",
             "description": faker.lorem.words({ min: 10, max: 15 })
@@ -48,11 +47,12 @@ async function createRooms() {
         rooms.push(room);
 
     }
-}
+};
 
 async function createBookings() {
     for (let i = 0; i < NUM_BOOKINGS; i++) {
-        const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS + 1);
+        const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS);
+        
         const bookingsInput = {
             "guest": faker.person.fullName(),
             "phone_number": faker.phone.number(),
@@ -68,7 +68,7 @@ async function createBookings() {
         }
         await BookingsModel.create(bookingsInput);
     }
-}
+};
 
 async function createUsers() {
     for (let i = 0; i < NUM_USERS; i++) {
@@ -85,7 +85,7 @@ async function createUsers() {
         }
         await UsersModel.create(usersInput);
     }
-}
+};
 
 async function createMessages() {
     for (let i = 0; i < NUM_MESSAGES; i++) {
@@ -101,7 +101,7 @@ async function createMessages() {
         }
         await MessageModel.create(messagesInput);
     }
-}
+};
 
 (async () => {
     await createRooms();
@@ -110,4 +110,4 @@ async function createMessages() {
     await createMessages();
 })();
 
-process.exit();
+// process.exit();

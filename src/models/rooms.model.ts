@@ -7,7 +7,6 @@ const roomsSchema = new Schema<IRooms>({
     room_number: {type: Number},
     amenities: {type: []},
     price: {type: Number},
-    offer_price: {type: Boolean},
     discount: {type: Number},
     status: {type: String},
     description: {type: String}

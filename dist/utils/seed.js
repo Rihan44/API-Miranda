@@ -37,7 +37,6 @@ async function createRooms() {
                 "Nice Views"
             ],
             "price": faker_1.faker.number.int({ min: 30, max: 3000 }),
-            "offer_price": faker_1.faker.datatype.boolean(),
             "discount": faker_1.faker.number.int({ min: 1, max: 100 }),
             "status": "available",
             "description": faker_1.faker.lorem.words({ min: 10, max: 15 })
@@ -46,9 +45,11 @@ async function createRooms() {
         rooms.push(room);
     }
 }
+;
 async function createBookings() {
     for (let i = 0; i < NUM_BOOKINGS; i++) {
-        const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS + 1);
+        const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS);
+        console.log(randomRoomIndex);
         const bookingsInput = {
             "guest": faker_1.faker.person.fullName(),
             "phone_number": faker_1.faker.phone.number(),
@@ -65,6 +66,7 @@ async function createBookings() {
         await bookings_model_1.BookingsModel.create(bookingsInput);
     }
 }
+;
 async function createUsers() {
     for (let i = 0; i < NUM_USERS; i++) {
         const usersInput = {
@@ -81,6 +83,7 @@ async function createUsers() {
         await users_model_1.UsersModel.create(usersInput);
     }
 }
+;
 async function createMessages() {
     for (let i = 0; i < NUM_MESSAGES; i++) {
         const messagesInput = {
@@ -96,10 +99,11 @@ async function createMessages() {
         await messages_model_1.MessageModel.create(messagesInput);
     }
 }
+;
 (async () => {
     await createRooms();
     await createBookings();
     await createUsers();
     await createMessages();
 })();
-process.exit();
+// process.exit();

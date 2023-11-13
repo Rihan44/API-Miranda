@@ -5,7 +5,6 @@ export interface IRooms {
     room_number: number,
     amenities: string[],
     price: number,
-    offer_price: boolean,
     discount: number,
     status: string
     description: string,
