@@ -17,7 +17,11 @@ const public_json_1 = __importDefault(require("./data/public.json"));
 (0, conection_1.default)();
 exports.app = (0, express_1.default)();
 // middlewares
-exports.app.use((0, cors_1.default)());
+exports.app.use((0, cors_1.default)({
+    origin: "*",
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type", "token"],
+}));
 exports.app.use(express_1.default.json());
 // public routes
 exports.app.use('/info', (_req, res) => res.json(public_json_1.default));

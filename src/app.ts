@@ -18,11 +18,9 @@ export const app: Express = express();
 // middlewares
 app.use(cors({
     origin: "*",
-    credentials: true,
     methods: ["GET", "PUT", "POST", "DELETE"],
-    allowedHeaders: "token",
-  }
-));
+    allowedHeaders: ["Content-Type", "token"],
+}));
 app.use(express.json());
 
 // public routes

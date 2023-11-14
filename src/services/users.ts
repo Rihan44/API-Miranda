@@ -25,7 +25,7 @@ async function updateUser(id: string, updateData: Partial<IUsers>) {
 
 async function _delete(id: string) {
     if(!id) throw new Error('No existe el id');
-    await UsersModel.findByIdAndRemove(id);
+    await UsersModel.findByIdAndDelete(id);
     return 'User eliminado';
 }
 

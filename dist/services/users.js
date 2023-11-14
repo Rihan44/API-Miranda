@@ -25,7 +25,7 @@ async function updateUser(id, updateData) {
 async function _delete(id) {
     if (!id)
         throw new Error('No existe el id');
-    await users_model_1.UsersModel.findByIdAndRemove(id);
+    await users_model_1.UsersModel.findByIdAndDelete(id);
     return 'User eliminado';
 }
 exports.usersServices = {
