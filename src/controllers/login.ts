@@ -9,7 +9,7 @@ loginController.post('/',async(req: Request, res: Response, next: NextFunction) 
       const email: string = req.body.email;
       const password: string = req.body.password;
 
-      const loged = await authService.login(user, password, email);
+      const loged = await authService.login(password, email);
       res.json(loged);
     } catch (error) {
       next(error)
