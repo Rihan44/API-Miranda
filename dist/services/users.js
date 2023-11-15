@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersServices = void 0;
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const users_model_1 = require("../models/users.model");
 async function getAllUsers() {
     const result = await users_model_1.UsersModel.find();
@@ -13,6 +17,7 @@ async function getById(id) {
     return user;
 }
 async function createUser(user) {
+    user.password_hash = bcryptjs_1.default.hashSync(user.password_hash || '', 10);
     const result = await users_model_1.UsersModel.create(user);
     return result;
 }

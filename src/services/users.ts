@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { IUsers } from "../interfaces/Iusers";
 import { UsersModel } from "../models/users.model";
 
@@ -13,6 +14,7 @@ async function getById(id: string) {
 }
 
 async function createUser(user: IUsers) {
+    user.password_hash = bcrypt.hashSync(user.password_hash || '', 10);
     const result = await UsersModel.create(user);
     return result;
 }

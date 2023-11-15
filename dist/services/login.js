@@ -5,20 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authService = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 require("dotenv/config");
 const users_model_1 = require("../models/users.model");
-const defaultUser = {
-    user: "ASdev",
-    email: "asmuela.dev@gmail.com",
-    password: 'ASdev12345'
-};
 const secret_key = process.env.SECRET_KEY || '';
 async function login(password, email) {
     const resultFindUser = await users_model_1.UsersModel.findOne({ email: email });
     if (!resultFindUser)
         throw new Error('User not found');
     const user = resultFindUser.name;
-    return signJWT({ user, email });
+    const userPhoto = resultFindUser.photo || '';
+    const passwordOk = await bcryptjs_1.default.compare(password, resultFindUser.password_hash || '');
+    if (!passwordOk)
+        throw new Error('Something went wrong. Email or Password Incorrect');
+    return signJWT({ user, email, userPhoto });
 }
 function signJWT(payload) {
     const token = jsonwebtoken_1.default.sign(payload, secret_key, { expiresIn: '10y' });
