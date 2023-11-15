@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import { UsersModel } from '../models/users.model';
 
 const defaultUser = {
     user: "ASdev",
@@ -9,12 +10,13 @@ const defaultUser = {
 
 const secret_key: string = process.env.SECRET_KEY || '';
 
-async function login(user: string, password: string, email: string) {
-    if(user === defaultUser.user && password === defaultUser.password) {
-        const result = signJWT({user, email}) 
-        return result;
-    }
-    throw new Error('Error al logear');
+async function login(password: string, email: string) {
+    const resultFindUser = await UsersModel.findOne({email: email});
+    
+    if(!resultFindUser) throw new Error('User not found');
+    const user: string = resultFindUser.name;
+     
+    return signJWT({user, email});
 }
 
 function signJWT(payload: { user: string, email: string }) {
