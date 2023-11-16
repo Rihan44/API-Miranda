@@ -24,6 +24,7 @@ async function createUser(user) {
 async function updateUser(id, updateData) {
     if (!id)
         throw new Error('No existe el id');
+    updateData.password_hash = bcryptjs_1.default.hashSync(updateData.password_hash || '', 10);
     await users_model_1.UsersModel.findByIdAndUpdate(id, updateData);
     return updateData;
 }
