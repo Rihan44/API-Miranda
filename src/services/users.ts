@@ -21,8 +21,13 @@ async function createUser(user: IUsers) {
 
 async function updateUser(id: string, updateData: Partial<IUsers>) {
     if(!id) throw new Error('No existe el id');
-    updateData.password_hash = bcrypt.hashSync(updateData.password_hash || '', 10);
-    await UsersModel.findByIdAndUpdate(id, updateData);
+    if(updateData.password_hash) {
+        updateData.password_hash = bcrypt.hashSync(updateData.password_hash || '', 10);
+    } else {
+        return false;
+    }
+    
+    await UsersModel.findByIdAndUpdate(id, updateData, {new: true});
     return updateData;
 }
 
