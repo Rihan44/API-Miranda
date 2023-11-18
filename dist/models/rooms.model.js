@@ -28,7 +28,7 @@ const mongoose_1 = __importStar(require("mongoose"));
 const roomsSchema = new mongoose_1.Schema({
     room_photo: { type: String },
     room_type: { type: String },
-    room_number: { type: Number },
+    room_number: { type: Number, unique: true },
     amenities: { type: [] },
     price: { type: Number },
     discount: { type: Number },
