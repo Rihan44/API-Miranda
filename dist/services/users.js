@@ -1,8 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersServices = void 0;
+<<<<<<< HEAD
 const connection_1 = require("../utils/connection");
 const utils_1 = require("../utils/utils");
+=======
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const users_model_1 = require("../models/users.model");
+>>>>>>> mongo
 async function getAllUsers() {
     const query = 'SELECT * FROM users';
     const row = await (0, connection_1.queryExecuter)(query);
@@ -17,6 +25,7 @@ const formatDateForMySQL = (date) => {
     return date.toISOString().slice(0, 19).replace('T', ' ');
 };
 async function createUser(user) {
+<<<<<<< HEAD
     const hire_date = new Date(user.hire_date);
     const password_hash = (0, utils_1.hashPassword)(user.password_hash);
     const data = [
@@ -53,6 +62,29 @@ async function updateUser(id, updateData) {
 async function _delete(id) {
     const query = 'DELETE FROM users WHERE id = ?';
     await (0, connection_1.queryExecuter)(query, [id]);
+=======
+    user.password_hash = bcryptjs_1.default.hashSync(user.password_hash || '', 10);
+    const result = await users_model_1.UsersModel.create(user);
+    return result;
+}
+async function updateUser(id, updateData) {
+    if (!id)
+        throw new Error('No existe el id');
+    if (updateData.password_hash) {
+        updateData.password_hash = bcryptjs_1.default.hashSync(updateData.password_hash || '', 10);
+    }
+    else {
+        return false;
+    }
+    await users_model_1.UsersModel.findByIdAndUpdate(id, updateData, { new: true });
+    return updateData;
+}
+async function _delete(id) {
+    if (!id)
+        throw new Error('No existe el id');
+    await users_model_1.UsersModel.findByIdAndDelete(id);
+    return 'User eliminado';
+>>>>>>> mongo
 }
 exports.usersServices = {
     getAllUsers,

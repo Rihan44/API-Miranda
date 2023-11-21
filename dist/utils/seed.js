@@ -51,7 +51,6 @@ async function createRooms() {
             "room_type": roomType[faker_1.faker.number.int({ min: 0, max: 5 })],
             "room_number": faker_1.faker.number.int({ min: 1, max: 599 }),
             "price": faker_1.faker.number.int({ min: 30, max: 3000 }),
-            "offer_price": faker_1.faker.datatype.boolean(),
             "discount": faker_1.faker.number.int({ min: 1, max: 100 }),
             "status": "available",
             "description": faker_1.faker.lorem.words({ min: 10, max: 15 })
@@ -60,6 +59,7 @@ async function createRooms() {
         rooms.push(room);
     }
 }
+<<<<<<< HEAD
 async function createRoomPhotos() {
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomID = Math.floor(Math.random() * NUM_ROOMS) + 1;
@@ -75,6 +75,9 @@ async function createAmenitiesToRoom() {
         await (0, connection_1.queryExecuter)(`INSERT INTO amenity_to_room (room_id, amenity_id) VALUES(${roomID}, ${amenityID})`);
     }
 }
+=======
+;
+>>>>>>> mongo
 async function createBookings() {
     await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS bookings (
@@ -90,6 +93,10 @@ async function createBookings() {
             FOREIGN KEY (room_id) REFERENCES rooms(id)
         )`);
     for (let i = 0; i < NUM_BOOKINGS; i++) {
+<<<<<<< HEAD
+=======
+        const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS);
+>>>>>>> mongo
         const bookingsInput = {
             "guest": faker_1.faker.person.fullName(),
             "phone_number": faker_1.faker.phone.number('501-###-###'),
@@ -106,6 +113,7 @@ async function createBookings() {
         await bookings_1.bookingService.createBooking(bookingsInput);
     }
 }
+;
 async function createUsers() {
     await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS users (
@@ -135,6 +143,7 @@ async function createUsers() {
         await users_1.usersServices.createUser(usersInput);
     }
 }
+;
 async function createMessages() {
     await (0, connection_1.queryExecuter)(`
         CREATE TABLE IF NOT EXISTS contact (
@@ -162,6 +171,7 @@ async function createMessages() {
         await contact_1.contactService.createContact(messagesInput);
     }
 }
+;
 (async () => {
     await createRooms();
     await createBookings();
@@ -170,3 +180,7 @@ async function createMessages() {
     await createAmenitiesToRoom();
     await createRoomPhotos();
 })();
+<<<<<<< HEAD
+=======
+// process.exit();
+>>>>>>> mongo

@@ -8,8 +8,8 @@ const rooms_model_1 = require("../models/rooms.model");
 exports.roomController = (0, express_1.Router)();
 exports.roomController.get('/', async (_req, res, next) => {
     try {
-        const rooms = await rooms_1.roomsService.getAllRooms();
-        res.json({ rooms, success: true });
+        const result = await rooms_1.roomsService.getAllRooms();
+        res.json({ result, success: true });
     }
     catch (error) {
         next(error);
@@ -18,8 +18,8 @@ exports.roomController.get('/', async (_req, res, next) => {
 exports.roomController.get('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
-        const rooms = await rooms_1.roomsService.getById(id);
-        res.json({ rooms });
+        const result = await rooms_1.roomsService.getById(id);
+        res.json({ result });
     }
     catch (error) {
         next(error);
@@ -28,8 +28,8 @@ exports.roomController.get('/:id', async (req, res, next) => {
 exports.roomController.post('/', (0, validation_1.authValidation)(rooms_model_1.RoomSchema), async (req, res, next) => {
     try {
         const roomCreated = req.body;
-        const rooms = await rooms_1.roomsService.createRoom(roomCreated);
-        res.json({ rooms });
+        const result = await rooms_1.roomsService.createRoom(roomCreated);
+        res.json({ result });
     }
     catch (error) {
         next(error);

@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { IUsers } from "../interfaces/Iusers";
 import {queryExecuter} from "../utils/connection";
 import { hashPassword } from "../utils/utils";
@@ -20,6 +21,7 @@ const formatDateForMySQL = (date: Date) => {
 };
 
 async function createUser(user: IUsers) {
+<<<<<<< HEAD
     const hire_date = new Date(user.hire_date);
     const password_hash = hashPassword(user.password_hash);
 
@@ -64,6 +66,29 @@ async function updateUser(id: string, updateData: IUsers) {
 async function _delete(id: string) {
     const query = 'DELETE FROM users WHERE id = ?';
     await queryExecuter(query, [id]);
+=======
+    user.password_hash = bcrypt.hashSync(user.password_hash || '', 10);
+    const result = await UsersModel.create(user);
+    return result;
+}
+
+async function updateUser(id: string, updateData: Partial<IUsers>) {
+    if(!id) throw new Error('No existe el id');
+    if(updateData.password_hash) {
+        updateData.password_hash = bcrypt.hashSync(updateData.password_hash || '', 10);
+    } else {
+        return false;
+    }
+    
+    await UsersModel.findByIdAndUpdate(id, updateData, {new: true});
+    return updateData;
+}
+
+async function _delete(id: string) {
+    if(!id) throw new Error('No existe el id');
+    await UsersModel.findByIdAndDelete(id);
+    return 'User eliminado';
+>>>>>>> mongo
 }
 
 export const usersServices = {

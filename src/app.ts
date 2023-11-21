@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import ConnectionSQL from './utils/connection';
+=======
+import ConnectionMongo from './utils/conection';
+>>>>>>> mongo
 import express, {Express, Request, Response, NextFunction} from 'express';
 import {authLogin} from './middlewares/auth';
 import cors from 'cors';
@@ -11,13 +15,21 @@ import { loginController } from './controllers/login';
 
 import publicJSON from './data/public.json';
 
+<<<<<<< HEAD
 ConnectionSQL();
+=======
+ConnectionMongo();
+>>>>>>> mongo
 
 export const app: Express = express();
 
 // middlewares
-app.use(cors())
-app.use(express.json())
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type", "token"],
+}));
+app.use(express.json());
 
 // public routes
 app.use('/info', (_req: Request, res: Response) =>res.json(publicJSON));

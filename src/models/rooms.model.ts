@@ -1,13 +1,16 @@
-import Joi from 'joi';
+import mongoose, { Schema } from "mongoose";
+import { IRooms } from "../interfaces/Irooms";
 
-export const RoomSchema = Joi.object({
-    room_photo: Joi.string(),
-    room_type: Joi.string().required(),
-    room_number: Joi.number().required(),
-    price: Joi.number().required(),
-    offer_price: Joi.boolean().required(),
-    discount: Joi.number().max(100).required(),
-    status: Joi.string().required(),
-    description: Joi.string().min(3).max(150).required(),
-})
+const roomsSchema = new Schema<IRooms>({
+    room_photo: {type: String},
+    room_type: {type: String},
+    room_number: {type: Number},
+    amenities: {type: []},
+    price: {type: Number},
+    offer_price: {type: Boolean},
+    discount: {type: Number},
+    status: {type: String},
+    description: {type: String}
+});
 
+export const RoomsModel = mongoose.model<IRooms>('rooms', roomsSchema);

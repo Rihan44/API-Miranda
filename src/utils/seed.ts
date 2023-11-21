@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+<<<<<<< HEAD
 import { queryExecuter } from "./connection";
 import { roomsService } from '../services/rooms';
 import { bookingService } from '../services/bookings';
@@ -6,6 +7,14 @@ import { usersServices } from '../services/users';
 import { contactService } from '../services/contact';
 import { hashPassword } from './utils';
 
+=======
+import ConnectionMongo from "./conection";
+import { RoomsModel } from "../models/rooms.model";
+import { UsersModel } from "../models/users.model";
+import { MessageModel } from "../models/messages.model";
+
+ConnectionMongo();
+>>>>>>> mongo
 
 const NUM_ROOMS = 10;
 const NUM_BOOKINGS = 10;
@@ -65,7 +74,6 @@ async function createRooms() {
             "room_type": roomType[faker.number.int({ min: 0, max: 5 })],
             "room_number": faker.number.int({ min: 1, max: 599 }),
             "price": faker.number.int({ min: 30, max: 3000 }),
-            "offer_price": faker.datatype.boolean(),
             "discount": faker.number.int({ min: 1, max: 100 }),
             "status": "available",
             "description": faker.lorem.words({ min: 10, max: 15 })
@@ -74,7 +82,7 @@ async function createRooms() {
         rooms.push(room);
 
     }
-}
+};
 
 async function createRoomPhotos(){
     for(let i = 0;  i < NUM_ROOMS; i++){
@@ -112,6 +120,11 @@ async function createBookings() {
     );
 
     for (let i = 0; i < NUM_BOOKINGS; i++) {
+<<<<<<< HEAD
+=======
+        const randomRoomIndex = Math.floor(Math.random() * NUM_ROOMS);
+        
+>>>>>>> mongo
         const bookingsInput = {
             "guest": faker.person.fullName(),
             "phone_number": faker.phone.number('501-###-###'),
@@ -128,7 +141,7 @@ async function createBookings() {
 
         await bookingService.createBooking(bookingsInput);
     }
-}
+};
 
 async function createUsers() {
 
@@ -161,7 +174,12 @@ async function createUsers() {
         }
         await usersServices.createUser(usersInput);
     }
+<<<<<<< HEAD
 }
+=======
+};
+
+>>>>>>> mongo
 async function createMessages() {
 
     await queryExecuter(`
@@ -191,7 +209,7 @@ async function createMessages() {
         }
         await contactService.createContact(messagesInput);
     }
-}
+};
 
 (async () => {
     await createRooms();
@@ -201,3 +219,8 @@ async function createMessages() {
     await createAmenitiesToRoom();
     await createRoomPhotos();
 })();
+<<<<<<< HEAD
+=======
+
+// process.exit();
+>>>>>>> mongo

@@ -8,8 +8,8 @@ export const roomController = Router();
 
 roomController.get('/', async(_req: Request, res: Response, next: NextFunction) => {
     try {
-        const rooms = await roomsService.getAllRooms();
-        res.json({rooms, success: true});
+        const result = await roomsService.getAllRooms();
+        res.json({result, success: true});
     } catch(error) {
         next(error);
     }
@@ -18,8 +18,8 @@ roomController.get('/', async(_req: Request, res: Response, next: NextFunction) 
 roomController.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try{
         const id = req.params.id;
-        const rooms =  await roomsService.getById(id);
-        res.json({rooms});
+        const result =  await roomsService.getById(id);
+        res.json({result});
     } catch(error) {
         next(error);
     }   
@@ -28,8 +28,8 @@ roomController.get('/:id', async(req: Request, res: Response, next: NextFunction
 roomController.post('/', authValidation(RoomSchema), async(req: Request, res: Response, next: NextFunction) => {
     try {
         const roomCreated: IRooms = req.body;
-        const rooms = await roomsService.createRoom(roomCreated);
-        res.json({rooms})
+        const result = await roomsService.createRoom(roomCreated);
+        res.json({result})
     } catch (error) {
         next(error);
     }

@@ -1,5 +1,9 @@
 .env
+<<<<<<< HEAD
 .env.json
+=======
+.env-json
+>>>>>>> mongo
 node_modules
 serverless.yml
 .serverless

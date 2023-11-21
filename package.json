@@ -1,8 +1,13 @@
 {
   "name": "API-SQL",
   "version": "1.0.0",
+<<<<<<< HEAD
   "description": "API with SQL",
   "main": "index.js",
+=======
+  "description": "",
+  "main": "/src/app.ts",
+>>>>>>> mongo
   "scripts": {
     "test": "jest",
     "start": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
@@ -14,6 +19,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "@types/bcryptjs": "^2.4.6",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -30,7 +37,11 @@
     "@types/express": "^4.17.20",
     "@types/faker": "^6.6.9",
     "@types/jsonwebtoken": "^9.0.4",
+<<<<<<< HEAD
     "@types/node": "^20.8.10",
+=======
+    "@types/mongodb": "^4.0.7",
+>>>>>>> mongo
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
