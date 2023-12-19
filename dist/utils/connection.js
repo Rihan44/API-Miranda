@@ -12,7 +12,7 @@ const ConnectionSQL = () => {
         user: process.env.SQL_USER,
         password: process.env.SQL_PASSWORD,
         database: process.env.SQL_DATA_DB,
-        port: 3307
+        port: 33061
     });
     console.log('Conectado a SQL correctamente');
     return pool;
