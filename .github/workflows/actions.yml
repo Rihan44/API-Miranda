@@ -22,8 +22,8 @@ jobs:
         run: npm ci
 
       - name: Change to Serverless directory
-        run: cd /serverless
-        
+        run: cd path/to/serverless/project
+
       - name: serverless deploy
         uses: serverless/github-action@v3.2
         with:
@@ -34,4 +34,3 @@ jobs:
           MONGO_DB: ${{ secrets.MONGO_DB }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
