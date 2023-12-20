@@ -3,7 +3,7 @@ name: Upload Api Dashboard
 on:
   push:
     branches:
-    - nodeSimple
+      - nodeSimple
 
 jobs:
   deploy:
@@ -17,10 +17,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          ATLAS_SERVER: ${{ secrets.ATLAS_SERVER }}
-          MONGO_DB: ${{ secrets.MONGO_DB }}
           
       - name: NPM clean install
         run: npm ci
@@ -32,4 +28,3 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
