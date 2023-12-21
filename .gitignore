@@ -5,5 +5,5 @@
 .env-json
 >>>>>>> mongo
 node_modules
-serverless.yml
-.serverless
+.vscode 
+.build
