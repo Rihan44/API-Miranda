@@ -17,6 +17,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: env.json
+        run: echo '{"SECRET_KEY":"${{ secrets.SECRET_KEY }}", "URL_API":"${{ secrets.ATLAS_SERVER }}", "DB_NAME":"${{ secrets.MONGO_DB }}"}' > .env.json
           
       - name: NPM clean install
         run: npm ci
