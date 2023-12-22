@@ -1,0 +1,37 @@
+name: Deploy APIMiranda
+
+on: [push]
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setting the env variables
+        env:
+          MONGO_DB: ${{ secrets.MONGO_DB }}
+
+        run: echo '{"SECRET_KEY":"${{ secrets.SECRET_KEY }}", "ATLAS_SERVER":"${{ secrets.ATLAS_SERVER }}", "MONGO_DB":"${{ secrets.MONGO_DB }}"}' > .env.json
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: NPM clean install
+        run: npm ci
+
+      - name: Serverless deploy
+        uses: serverless/github-action@v3.2.0
+
+        with:
+          args: deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
