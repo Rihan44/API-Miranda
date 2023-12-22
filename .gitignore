@@ -1,9 +1,5 @@
 .env
-<<<<<<< HEAD
-.env.json
-=======
 .env-json
->>>>>>> mongo
 node_modules
 .vscode 
 .build
